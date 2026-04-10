@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator beras</title>
+    <title>Kalkulator MBG Pro</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -517,7 +517,8 @@
     <div class="header-top">
         <div>
             <h1>🍚 MBG Pro Calculator</h1>
-            <p>Sistem Manajemen Beras MBG</p>
+            <p class="subtitle">Sistem Manajemen Beras MBG</p>
+            <p style="font-size: 11px; opacity: 0.7; margin-top: 4px;">by ToingDc 🍚</p>
         </div>
         <button class="dark-toggle" onclick="toggleDark()">🌙 Dark</button>
     </div>
@@ -640,17 +641,37 @@
         <!-- STEAMER INFO -->
         <div class="card" style="margin-top: 15px;">
             <h2>♨️ Info Steamer</h2>
-            <div class="stat-grid">
+<div class="input-group" style="margin-bottom: 12px;">
+    <label>🔥 Jumlah Steamer Aktif</label>
+    <select id="jumlahSteamer" onchange="calculate()">
+        <option value="1">1 Steamer</option>
+        <option value="2" selected>2 Steamer (Aktif Bersamaan)</option>
+        <option value="3">3 Steamer</option>
+        <option value="4">4 Steamer</option>
+    </select>
+    <p class="hint">💡 Semua steamer jalan bersamaan dalam 1 batch</p>
+</div>
+<div class="stat-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">🍳</div>
-                    <div class="stat-value" id="r-batchCount">0</div>
-                    <div class="stat-label">Batch Dibutuhkan</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-value" id="r-waktuMasak">0 menit</div>
-                    <div class="stat-label">Total Waktu Masak</div>
-                </div>
+    <div class="stat-icon">🍳</div>
+    <div class="stat-value" id="r-batchCount">0</div>
+    <div class="stat-label">Batch Dibutuhkan</div>
+</div>
+<div class="stat-card">
+    <div class="stat-icon">⏱️</div>
+    <div class="stat-value" id="r-waktuMasak">0 menit</div>
+    <div class="stat-label">Total Waktu Masak</div>
+</div>
+<div class="stat-card">
+    <div class="stat-icon">♨️</div>
+    <div class="stat-value" id="r-kapasitasTotal">0 kg</div>
+    <div class="stat-label">Kapasitas per Batch</div>
+</div>
+<div class="stat-card">
+    <div class="stat-icon">🔥</div>
+    <div class="stat-value" id="r-jumlahSteamer">2</div>
+    <div class="stat-label">Steamer Aktif</div>
+</div>
             </div>
             <div class="input-row">
                 <div class="input-group">
@@ -979,8 +1000,10 @@ function calculate() {
     const nasiTotal = total * rasio;
 
     // Steamer calculation
+    const jumlahSteamer = parseFloat(document.getElementById('jumlahSteamer').value) || 1;
     const berasPerSteamer = berasPerTray * jumlahTray;
-    const batchCount = Math.ceil(totalCeil / berasPerSteamer);
+    const kapasitasTotal = berasPerSteamer * jumlahSteamer;
+    const batchCount = Math.ceil(totalCeil / kapasitasTotal);
     const waktuMasak = batchCount * 45;
 
     // Update UI
@@ -993,6 +1016,8 @@ function calculate() {
     document.getElementById('r-total').textContent = totalCeil + ' kg';
     document.getElementById('r-batchCount').textContent = batchCount;
     document.getElementById('r-waktuMasak').textContent = waktuMasak + ' mnt';
+    document.getElementById('r-kapasitasTotal').textContent = kapasitasTotal + ' kg';
+    document.getElementById('r-jumlahSteamer').textContent = jumlahSteamer + ' unit';
     document.getElementById('b-kebutuhanBeras').textContent = totalCeil + ' kg';
 
     // Save result
