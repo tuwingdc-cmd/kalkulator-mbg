@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator MBG Pro</title>
+    <title>Kalkulator MBG Pro — SPPG Onyam</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         :root {
             --primary: #667eea;
             --secondary: #764ba2;
@@ -19,7 +19,7 @@
             --text-light: #888888;
             --border: #e0e0e0;
         }
-        
+
         .dark-mode {
             --bg: #1a1a2e;
             --card: #16213e;
@@ -27,7 +27,7 @@
             --text-light: #aaaaaa;
             --border: #333355;
         }
-        
+
         body {
             font-family: 'Segoe UI', sans-serif;
             background: var(--bg);
@@ -35,101 +35,87 @@
             transition: all 0.3s;
             padding-bottom: 80px;
         }
-        
+
         /* HEADER */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 20px;
+            padding: 20px 20px 10px;
             color: white;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        
-        .header h1 { font-size: 20px; }
-        .header p { font-size: 12px; opacity: 0.8; }
-        
+        .header h1 { font-size: 18px; }
+        .header p  { font-size: 11px; opacity: 0.8; }
+
         .dark-toggle {
             background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 8px 12px;
+            border: none; color: white;
+            padding: 7px 12px;
             border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
+            cursor: pointer; font-size: 13px;
         }
-        
-        /* TABS */
+
         .tabs {
             display: flex;
             overflow-x: auto;
             gap: 5px;
-            padding: 5px 0;
+            padding: 5px 0 8px;
             scrollbar-width: none;
         }
         .tabs::-webkit-scrollbar { display: none; }
-        
+
         .tab {
             background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
+            border: none; color: white;
+            padding: 7px 13px;
             border-radius: 20px;
             cursor: pointer;
             white-space: nowrap;
-            font-size: 13px;
+            font-size: 12px;
             transition: all 0.2s;
         }
-        
         .tab.active {
             background: white;
             color: var(--primary);
             font-weight: bold;
         }
-        
+
         /* CONTENT */
         .content {
             padding: 15px;
             max-width: 600px;
             margin: 0 auto;
         }
-        
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
+
         /* CARD */
         .card {
             background: var(--card);
             border-radius: 15px;
-            padding: 20px;
+            padding: 18px;
             margin-bottom: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             border: 1px solid var(--border);
         }
-        
         .card h2 {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--primary);
-            margin-bottom: 15px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
         }
+        .card h3 { font-size: 13px; color: var(--text-light); margin-bottom: 10px; }
 
-        .card h3 {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 12px;
-        }
-        
         /* INPUT */
         .input-row {
             display: grid;
@@ -137,68 +123,52 @@
             gap: 10px;
             margin-bottom: 12px;
         }
-        
-        .input-group {
-            margin-bottom: 12px;
-        }
-        
+        .input-group { margin-bottom: 12px; }
         .input-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-light);
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
-        
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 9px 11px;
             border: 2px solid var(--border);
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             background: var(--card);
             color: var(--text);
             transition: border-color 0.2s;
         }
-        
         .input-group input:focus,
         .input-group select:focus {
             outline: none;
             border-color: var(--primary);
         }
-        
-        .hint {
-            font-size: 11px;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-        
+        .hint { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+
         /* BUTTON */
         .btn {
-            padding: 12px 20px;
+            padding: 11px 18px;
             border: none;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
-        
         .btn:active { transform: scale(0.97); }
-        
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            width: 100%;
+            color: white; width: 100%;
             justify-content: center;
-            font-size: 16px;
-            padding: 14px;
+            font-size: 15px; padding: 13px;
         }
-        
         .btn-success { background: var(--success); color: white; }
         .btn-warning { background: var(--warning); color: white; }
         .btn-danger  { background: var(--danger);  color: white; }
@@ -207,453 +177,346 @@
             border: 2px solid var(--primary);
             color: var(--primary);
         }
-        
-        .btn-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 6px;
-        }
-        
+        .btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .btn-sm  { padding: 6px 11px; font-size: 12px; border-radius: 6px; }
+
         /* RESULT BOX */
         .result-box {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 15px;
+            color: white; border-radius: 15px;
+            padding: 18px; margin-top: 15px;
         }
-        
         .result-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 7px 0;
             border-bottom: 1px solid rgba(255,255,255,0.15);
-            font-size: 14px;
+            font-size: 13px;
         }
-        
         .result-item:last-child { border-bottom: none; }
         .result-item .label { opacity: 0.9; }
         .result-item .value { font-weight: bold; }
-        
         .result-total {
             background: rgba(255,255,255,0.15);
             border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
+            padding: 14px; margin-top: 10px;
             text-align: center;
         }
-        
         .result-total .big-number {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: bold;
             color: #ffeb3b;
         }
-        
-        .result-total .big-label {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-        
-        /* BAHAN TABLE */
+        .result-total .big-label { font-size: 12px; opacity: 0.9; margin-top: 4px; }
+
+        /* TABLE */
         .bahan-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
         }
-        
         .bahan-table th {
             background: var(--primary);
             color: white;
-            padding: 10px 8px;
+            padding: 9px 7px;
             text-align: left;
         }
-        
         .bahan-table td {
-            padding: 10px 8px;
+            padding: 9px 7px;
             border-bottom: 1px solid var(--border);
             color: var(--text);
         }
-        
         .bahan-table tfoot td {
             background: var(--primary);
             color: white;
             font-weight: bold;
-            padding: 10px 8px;
+            padding: 9px 7px;
         }
-
         .bahan-table tr:last-child td { border-bottom: none; }
         .bahan-table tr:nth-child(even) td { background: rgba(102,126,234,0.05); }
-        
-        /* STOK CARD */
+
+        /* STOK */
         .stok-card {
             background: var(--card);
             border-radius: 12px;
-            padding: 15px;
+            padding: 14px;
             margin-bottom: 10px;
-            border-left: 4px solid var(--success);
             border: 1px solid var(--border);
             border-left: 4px solid var(--success);
         }
-        
         .stok-card.warning { border-left-color: var(--warning); }
         .stok-card.danger  { border-left-color: var(--danger);  }
-        
-        .stok-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        
-        .stok-name { font-weight: bold; font-size: 15px; }
-        
-        .stok-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            color: white;
-        }
-        
+        .stok-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .stok-name   { font-weight: bold; font-size: 14px; }
+        .stok-badge  { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: bold; color: white; }
         .badge-aman    { background: var(--success); }
         .badge-warning { background: var(--warning); }
         .badge-habis   { background: var(--danger);  }
-        
-        .stok-progress {
-            background: var(--border);
-            border-radius: 5px;
-            height: 8px;
-            margin: 8px 0;
-            overflow: hidden;
-        }
-        
-        .stok-bar {
-            height: 100%;
-            border-radius: 5px;
-            background: var(--success);
-            transition: width 0.5s;
-        }
-        
-        .stok-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
+        .stok-progress { background: var(--border); border-radius: 5px; height: 7px; margin: 7px 0; overflow: hidden; }
+        .stok-bar      { height: 100%; border-radius: 5px; transition: width 0.5s; }
+        .stok-info     { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-light); }
+
         /* RIWAYAT */
-        .riwayat-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-        }
-        
-        .riwayat-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .riwayat-date  { font-size: 12px; color: var(--text-light); }
-        .riwayat-total { font-weight: bold; color: var(--primary); font-size: 16px; }
-        .riwayat-detail { font-size: 13px; color: var(--text-light); }
+        .riwayat-card { background: var(--card); border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .riwayat-header { display: flex; justify-content: space-between; margin-bottom: 7px; }
+        .riwayat-date   { font-size: 11px; color: var(--text-light); }
+        .riwayat-total  { font-weight: bold; color: var(--primary); font-size: 15px; }
+        .riwayat-detail { font-size: 12px; color: var(--text-light); }
         .riwayat-actions { display: flex; gap: 5px; margin-top: 8px; }
-        
+
         /* BIAYA */
-        .biaya-total-box {
-            background: var(--success);
-            color: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-top: 15px;
-        }
-        
-        .biaya-total-box .amount { font-size: 28px; font-weight: bold; }
-        
+        .biaya-total-box { background: var(--success); color: white; border-radius: 12px; padding: 14px; text-align: center; margin-top: 15px; }
+        .biaya-total-box .amount { font-size: 26px; font-weight: bold; }
+
         /* TOAST */
         .toast {
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
+            position: fixed; bottom: 90px; left: 50%;
             transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 14px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
+            background: #333; color: white;
+            padding: 11px 22px; border-radius: 25px;
+            font-size: 13px; z-index: 1000;
+            opacity: 0; transition: opacity 0.3s;
+            white-space: nowrap; max-width: 90vw;
         }
         .toast.show { opacity: 1; }
-        
+
         /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 200;
-            align-items: flex-end;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; }
         .modal.show { display: flex; }
-        
-        .modal-content {
-            background: var(--card);
-            width: 100%;
-            border-radius: 20px 20px 0 0;
-            padding: 25px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .modal-title { font-size: 18px; font-weight: bold; }
-        
-        .btn-close {
-            background: var(--border);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 16px;
-            color: var(--text);
-        }
-        
-        .share-option {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            transition: background 0.2s;
-        }
+        .modal-content { background: var(--card); width: 100%; border-radius: 20px 20px 0 0; padding: 22px; max-height: 80vh; overflow-y: auto; }
+        .modal-header  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .modal-title   { font-size: 17px; font-weight: bold; }
+        .btn-close     { background: var(--border); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 15px; color: var(--text); }
+        .share-option  { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 9px; border: 1px solid var(--border); transition: background 0.2s; }
         .share-option:active { background: var(--bg); }
-        .share-icon  { font-size: 28px; }
-        .share-label { font-weight: 600; font-size: 15px; }
-        .share-desc  { font-size: 12px; color: var(--text-light); }
-        
-        /* DIVIDER */
-        .divider { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
-        
-        /* STAT GRID */
-        .stat-grid {
+        .share-icon  { font-size: 26px; }
+        .share-label { font-weight: 600; font-size: 14px; }
+        .share-desc  { font-size: 11px; color: var(--text-light); }
+
+        /* MISC */
+        .divider { border: none; border-top: 1px solid var(--border); margin: 13px 0; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .stat-card { background: var(--card); border-radius: 12px; padding: 14px; text-align: center; border: 1px solid var(--border); }
+        .stat-icon  { font-size: 22px; margin-bottom: 4px; }
+        .stat-value { font-size: 19px; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+        .empty-state { text-align: center; padding: 35px 20px; color: var(--text-light); }
+        .empty-state .icon { font-size: 44px; margin-bottom: 13px; }
+        .empty-state h3    { font-size: 15px; margin-bottom: 7px; color: var(--text); }
+        .empty-state p     { font-size: 13px; }
+        .info-box { background: rgba(102,126,234,0.1); border-radius: 10px; padding: 11px; font-size: 12px; color: var(--text); border-left: 4px solid var(--primary); margin-bottom: 12px; line-height: 1.6; }
+
+        /* INSENTIF */
+        .insentif-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+        .insentif-stat { background: var(--bg); border-radius: 10px; padding: 10px 6px; text-align: center; border: 1px solid var(--border); }
+        .insentif-stat .val { font-size: 16px; font-weight: bold; color: var(--primary); }
+        .insentif-stat .lbl { font-size: 10px; color: var(--text-light); margin-top: 3px; }
+        .divisi-card { background: var(--bg); border-radius: 11px; padding: 13px; margin-bottom: 9px; border: 1px solid var(--border); border-left: 4px solid var(--primary); }
+        .divisi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; flex-wrap: wrap; gap: 4px; }
+        .divisi-name  { font-weight: bold; font-size: 13px; }
+        .divisi-total { font-weight: bold; color: var(--success); font-size: 12px; }
+        .divisi-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+        .divisi-inputs input { width: 100%; padding: 7px 5px; border: 2px solid var(--border); border-radius: 6px; font-size: 11px; background: var(--card); color: var(--text); text-align: center; }
+        .divisi-inputs input:focus { outline: none; border-color: var(--primary); }
+        .divisi-inputs input[readonly] { background: var(--card); font-weight: bold; color: var(--primary); cursor: default; }
+        .mini-label { font-size: 10px; color: var(--text-light); text-align: center; margin-bottom: 3px; font-weight: 600; }
+        .insentif-grand-total { background: linear-gradient(135deg, #4caf50, #2e7d32); color: white; border-radius: 14px; padding: 18px; text-align: center; margin-top: 14px; }
+        .grand-amount { font-size: 28px; font-weight: bold; color: #ffeb3b; word-break: break-all; }
+        .grand-label  { font-size: 12px; opacity: 0.9; margin-bottom: 7px; }
+        .sync-banner  { background: linear-gradient(135deg, #ff9800, #f57c00); color: white; border-radius: 11px; padding: 13px; margin-bottom: 14px; font-size: 12px; line-height: 1.6; }
+        .sync-banner strong { display: block; margin-bottom: 4px; font-size: 13px; }
+        .sync-dot { display: inline-block; width: 7px; height: 7px; background: #ffeb3b; border-radius: 50%; margin-right: 5px; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+        .sppg-list-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+        .sppg-list-item:last-child { border-bottom: none; }
+        .sppg-kecamatan { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+
+        /* ===================== ABSENSI STYLES ===================== */
+        .absen-header-bar {
+            background: linear-gradient(135deg, #00897b, #00695c);
+            color: white;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .absen-header-bar h2 { color: white; font-size: 16px; margin-bottom: 12px; }
+        .absen-stat-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        
-        .stat-icon  { font-size: 24px; margin-bottom: 5px; }
-        .stat-value { font-size: 20px; font-weight: bold; color: var(--primary); }
-        .stat-label { font-size: 11px; color: var(--text-light); margin-top: 3px; }
-
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-light);
-        }
-        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
-        .empty-state h3 { font-size: 16px; margin-bottom: 8px; color: var(--text); }
-        .empty-state p  { font-size: 14px; }
-
-        /* ===================== INSENTIF STYLES ===================== */
-
-        .insentif-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .insentif-stat {
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 12px 8px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        .insentif-stat .val {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .insentif-stat .lbl {
-            font-size: 10px;
-            color: var(--text-light);
-            margin-top: 4px;
-        }
-
-        .divisi-card {
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--primary);
-        }
-
-        .divisi-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .divisi-name  { font-weight: bold; font-size: 14px; }
-        .divisi-total { font-weight: bold; color: var(--success); font-size: 13px; }
-
-        .divisi-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
+            margin-top: 10px;
         }
+        .absen-stat {
+            background: rgba(255,255,255,0.15);
+            border-radius: 9px;
+            padding: 9px 4px;
+            text-align: center;
+        }
+        .absen-stat .aval { font-size: 20px; font-weight: bold; }
+        .absen-stat .albl { font-size: 9px; opacity: 0.9; margin-top: 2px; }
 
-        .divisi-inputs input {
-            width: 100%;
-            padding: 8px 6px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
+        .relawan-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+        .relawan-card.hadir   { border-left: 4px solid #4caf50; }
+        .relawan-card.izin    { border-left: 4px solid #ff9800; }
+        .relawan-card.sakit   { border-left: 4px solid #e91e63; }
+        .relawan-card.alpha   { border-left: 4px solid #f44336; }
+
+        .relawan-no {
             font-size: 12px;
-            background: var(--card);
-            color: var(--text);
-            text-align: center;
-        }
-
-        .divisi-inputs input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .divisi-inputs input[readonly] {
-            background: var(--card);
             font-weight: bold;
-            color: var(--primary);
-            cursor: default;
-        }
-
-        .mini-label {
-            font-size: 10px;
             color: var(--text-light);
-            text-align: center;
-            margin-bottom: 4px;
+            min-width: 24px;
+        }
+        .relawan-info { flex: 1; min-width: 0; }
+        .relawan-nama {
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .relawan-meta {
+            display: flex;
+            gap: 6px;
+            margin-top: 3px;
+            flex-wrap: wrap;
+        }
+        .badge-divisi {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: rgba(102,126,234,0.15);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .badge-rekening-ok {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: rgba(76,175,80,0.15);
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        .badge-rekening-no {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: rgba(244,67,54,0.1);
+            color: #c62828;
             font-weight: 600;
         }
 
-        .insentif-grand-total {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
+        .absen-btns {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .absen-btn {
+            width: 34px;
+            height: 34px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            background: var(--bg);
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .absen-btn:active { transform: scale(0.9); }
+        .absen-btn.active-hadir  { background: #e8f5e9; border-color: #4caf50; }
+        .absen-btn.active-izin   { background: #fff3e0; border-color: #ff9800; }
+        .absen-btn.active-sakit  { background: #fce4ec; border-color: #e91e63; }
+        .absen-btn.active-alpha  { background: #ffebee; border-color: #f44336; }
+
+        .filter-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+            margin-bottom: 12px;
+        }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        .filter-chip {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text-light);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+        }
+        .filter-chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
             color: white;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 15px;
         }
 
-        .grand-amount {
-            font-size: 30px;
-            font-weight: bold;
-            color: #ffeb3b;
-            word-break: break-all;
-        }
-
-        .grand-label {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-
-        .sync-banner {
-            background: linear-gradient(135deg, #ff9800, #f57c00);
+        .rekening-banner {
+            background: linear-gradient(135deg, #7b1fa2, #4a148c);
             color: white;
             border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            line-height: 1.6;
+            padding: 14px;
+            margin-bottom: 14px;
         }
-
-        .sync-banner strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
+        .rekening-banner h3 { font-size: 14px; margin-bottom: 8px; }
+        .rekening-progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            height: 10px;
+            margin: 8px 0;
+            overflow: hidden;
         }
-
-        .sync-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
+        .rekening-progress-fill {
+            height: 100%;
+            border-radius: 5px;
             background: #ffeb3b;
-            border-radius: 50%;
-            margin-right: 6px;
-            animation: blink 1.5s infinite;
+            transition: width 0.5s;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.3; }
-        }
-
-        .info-box {
-            background: rgba(102,126,234,0.1);
+        .search-box {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
             border-radius: 10px;
-            padding: 12px;
-            font-size: 13px;
+            font-size: 14px;
+            background: var(--card);
             color: var(--text);
-            border-left: 4px solid var(--primary);
             margin-bottom: 12px;
-            line-height: 1.6;
         }
+        .search-box:focus { outline: none; border-color: var(--primary); }
 
-        .sppg-list-item {
+        .absen-legend {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
         }
-
-        .sppg-list-item:last-child { border-bottom: none; }
-
-        .sppg-kecamatan {
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
             font-size: 11px;
             color: var(--text-light);
-            margin-top: 2px;
+        }
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -663,8 +526,8 @@
 <div class="header">
     <div class="header-top">
         <div>
-            <h1>🍚 MBG Pro Calculator</h1>
-            <p>Sistem Manajemen Beras & Relawan MBG</p>
+            <h1>🍚 MBG Pro — SPPG Onyam</h1>
+            <p>Gunung Kaler, Kab. Tangerang</p>
         </div>
         <button class="dark-toggle" onclick="toggleDark()">🌙 Dark</button>
     </div>
@@ -675,6 +538,7 @@
         <button class="tab" onclick="showTab('stok', this)">📦 Stok</button>
         <button class="tab" onclick="showTab('riwayat', this)">📋 Riwayat</button>
         <button class="tab" onclick="showTab('insentif', this)">👷 Insentif</button>
+        <button class="tab" onclick="showTab('absensi', this)">📝 Absensi</button>
     </div>
 </div>
 
@@ -682,14 +546,11 @@
 
 <!-- ==================== TAB 1: KALKULATOR ==================== -->
 <div id="tab-kalkulator" class="tab-content active">
-
     <div class="card">
         <h2>📍 Informasi SPPG</h2>
         <div class="input-group">
             <label>Nama SPPG</label>
-            <input type="text" id="namaSSPG"
-                   placeholder="Contoh: SPPG Onyam Gunung Kaler"
-                   value="SPPG Onyam Gunung Kaler">
+            <input type="text" id="namaSSPG" value="SPPG Onyam Gunung Kaler">
         </div>
         <div class="input-row">
             <div class="input-group">
@@ -706,48 +567,40 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <h2>👶 Porsi Kecil (PK) — PAUD</h2>
         <div class="input-row">
             <div class="input-group">
                 <label>Jumlah Porsi</label>
-                <input type="number" id="porsiPK" placeholder="0" value="689"
-                       min="0" oninput="calculate()">
+                <input type="number" id="porsiPK" value="689" min="0" oninput="calculate()">
             </div>
             <div class="input-group">
                 <label>Nasi/Porsi (g)</label>
-                <input type="number" id="nasiPK" placeholder="125" value="125"
-                       min="0" oninput="calculate()">
+                <input type="number" id="nasiPK" value="125" min="0" oninput="calculate()">
             </div>
         </div>
         <p class="hint">🍚 125g nasi = ±52g beras mentah (rasio 2.4x)</p>
     </div>
-
     <div class="card">
         <h2>👨 Porsi Besar (PB) — SD/SMP/Dewasa</h2>
         <div class="input-row">
             <div class="input-group">
                 <label>Jumlah Porsi</label>
-                <input type="number" id="porsiPB" placeholder="0" value="1461"
-                       min="0" oninput="calculate()">
+                <input type="number" id="porsiPB" value="1461" min="0" oninput="calculate()">
             </div>
             <div class="input-group">
                 <label>Nasi/Porsi (g)</label>
-                <input type="number" id="nasiPB" placeholder="150" value="150"
-                       min="0" oninput="calculate()">
+                <input type="number" id="nasiPB" value="150" min="0" oninput="calculate()">
             </div>
         </div>
         <p class="hint">🍚 150g nasi = ±62.5g beras mentah (rasio 2.4x)</p>
     </div>
-
     <div class="card">
         <h2>⚙️ Pengaturan</h2>
         <div class="input-row">
             <div class="input-group">
                 <label>Buffer (%)</label>
-                <input type="number" id="buffer" value="10"
-                       min="0" max="30" oninput="calculate()">
+                <input type="number" id="buffer" value="10" min="0" max="30" oninput="calculate()">
             </div>
             <div class="input-group">
                 <label>Rasio Steamer</label>
@@ -759,41 +612,19 @@
             </div>
         </div>
     </div>
-
-    <!-- RESULT -->
-    <div class="result-box" id="resultBox">
-        <div class="result-item">
-            <span class="label">Total Porsi</span>
-            <span class="value" id="r-totalPorsi">0</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Beras PK</span>
-            <span class="value" id="r-berasPK">0 kg</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Beras PB</span>
-            <span class="value" id="r-berasPB">0 kg</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Subtotal</span>
-            <span class="value" id="r-subtotal">0 kg</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Buffer</span>
-            <span class="value" id="r-buffer">0 kg</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Nasi Dihasilkan</span>
-            <span class="value" id="r-nasi">0 kg</span>
-        </div>
+    <div class="result-box">
+        <div class="result-item"><span class="label">Total Porsi</span><span class="value" id="r-totalPorsi">0</span></div>
+        <div class="result-item"><span class="label">Beras PK</span><span class="value" id="r-berasPK">0 kg</span></div>
+        <div class="result-item"><span class="label">Beras PB</span><span class="value" id="r-berasPB">0 kg</span></div>
+        <div class="result-item"><span class="label">Subtotal</span><span class="value" id="r-subtotal">0 kg</span></div>
+        <div class="result-item"><span class="label">Buffer</span><span class="value" id="r-buffer">0 kg</span></div>
+        <div class="result-item"><span class="label">Nasi Dihasilkan</span><span class="value" id="r-nasi">0 kg</span></div>
         <div class="result-total">
             <div class="big-number" id="r-total">0 kg</div>
             <div class="big-label">⬆️ TOTAL BERAS DIBUTUHKAN</div>
         </div>
     </div>
-
-    <!-- STEAMER INFO -->
-    <div class="card" style="margin-top:15px;">
+    <div class="card" style="margin-top:14px;">
         <h2>♨️ Info Steamer</h2>
         <div class="stat-grid">
             <div class="stat-card">
@@ -818,7 +649,6 @@
             </div>
         </div>
     </div>
-
     <div class="btn-row">
         <button class="btn btn-primary" onclick="simpanRiwayat()">💾 Simpan Riwayat</button>
     </div>
@@ -828,63 +658,40 @@
     </div>
 </div>
 
-<!-- ==================== TAB 2: BAHAN LAIN ==================== -->
+<!-- ==================== TAB 2: BAHAN ==================== -->
 <div id="tab-bahan" class="tab-content">
-
     <div class="card">
         <h2>🥗 Kebutuhan Bahan Makanan</h2>
-        <p class="hint" style="margin-bottom:15px;">Total porsi otomatis dari Tab Kalkulator.</p>
+        <p class="hint" style="margin-bottom:12px;">Total porsi otomatis dari Tab Kalkulator.</p>
         <table class="bahan-table">
-            <thead>
-                <tr>
-                    <th>Bahan</th>
-                    <th>g/porsi</th>
-                    <th>Faktor</th>
-                    <th>Total (kg)</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Bahan</th><th>g/porsi</th><th>Faktor</th><th>Total (kg)</th></tr></thead>
             <tbody id="bahanTableBody"></tbody>
         </table>
     </div>
-
     <div class="card">
         <h2>➕ Tambah Bahan Custom</h2>
         <div class="input-row">
-            <div class="input-group">
-                <label>Nama Bahan</label>
-                <input type="text" id="customBahanName" placeholder="Contoh: Ayam">
-            </div>
-            <div class="input-group">
-                <label>Gram/Porsi</label>
-                <input type="number" id="customBahanGram" placeholder="Contoh: 80" min="0">
-            </div>
+            <div class="input-group"><label>Nama Bahan</label><input type="text" id="customBahanName" placeholder="Contoh: Ayam"></div>
+            <div class="input-group"><label>Gram/Porsi</label><input type="number" id="customBahanGram" placeholder="Contoh: 80" min="0"></div>
         </div>
         <div class="input-row">
             <div class="input-group">
                 <label>Faktor Susut</label>
                 <select id="customBahanFaktor">
-                    <option value="1.0">1.0x (Tidak susut)</option>
-                    <option value="1.1">1.1x (Susut 10%)</option>
-                    <option value="1.2">1.2x (Susut 20%)</option>
-                    <option value="1.3">1.3x (Susut 30%)</option>
+                    <option value="1.0">1.0x</option>
+                    <option value="1.1">1.1x</option>
+                    <option value="1.2">1.2x</option>
+                    <option value="1.3">1.3x</option>
                 </select>
             </div>
-            <div class="input-group">
-                <label>Harga/kg (Rp)</label>
-                <input type="number" id="customBahanHarga" placeholder="Opsional" min="0">
-            </div>
+            <div class="input-group"><label>Harga/kg (Rp)</label><input type="number" id="customBahanHarga" placeholder="Opsional" min="0"></div>
         </div>
         <button class="btn btn-primary" onclick="tambahBahan()">➕ Tambah Bahan</button>
     </div>
-
     <div class="card">
-        <h2>📊 Ringkasan Semua Bahan</h2>
+        <h2>📊 Ringkasan</h2>
         <div id="ringkasanBahan">
-            <div class="empty-state">
-                <div class="icon">🥗</div>
-                <h3>Belum ada data bahan</h3>
-                <p>Isi jumlah porsi di tab Kalkulator</p>
-            </div>
+            <div class="empty-state"><div class="icon">🥗</div><h3>Belum ada data</h3><p>Isi porsi di tab Kalkulator</p></div>
         </div>
     </div>
 </div>
@@ -893,51 +700,31 @@
 <div id="tab-biaya" class="tab-content">
     <div class="card">
         <h2>💰 Kalkulator Biaya</h2>
-
         <div class="input-group">
             <label>Harga Beras per kg (Rp)</label>
-            <input type="number" id="hargaBeras" placeholder="Contoh: 14000"
-                   value="14000" min="0" oninput="hitungBiaya()">
+            <input type="number" id="hargaBeras" value="14000" min="0" oninput="hitungBiaya()">
         </div>
-
         <div class="info-box">
-            <strong>Kebutuhan Beras:</strong>
-            <span id="b-kebutuhanBeras">0 kg</span>
-            &nbsp;|&nbsp;
-            <strong>Subtotal Beras:</strong>
-            <span id="b-subtotalBeras">Rp 0</span>
+            Kebutuhan Beras: <strong id="b-kebutuhanBeras">0 kg</strong> &nbsp;|&nbsp;
+            Subtotal Beras: <strong id="b-subtotalBeras">Rp 0</strong>
         </div>
-
         <hr class="divider">
         <h3>🥗 Biaya Bahan Lain</h3>
-
-        <table class="bahan-table" id="biayaTable">
-            <thead>
-                <tr>
-                    <th>Bahan</th>
-                    <th>Qty (kg)</th>
-                    <th>Harga/kg</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
+        <table class="bahan-table">
+            <thead><tr><th>Bahan</th><th>Qty</th><th>Harga/kg</th><th>Total</th></tr></thead>
             <tbody id="biayaTableBody"></tbody>
         </table>
-
         <div class="biaya-total-box">
-            <p style="font-size:13px;opacity:0.9;">💰 TOTAL BIAYA BELANJA</p>
+            <p style="font-size:12px;opacity:0.9;">💰 TOTAL BIAYA</p>
             <div class="amount" id="biayaTotal">Rp 0</div>
-            <p style="font-size:12px;opacity:0.8;margin-top:5px;">
-                Per porsi: <strong id="biayaPerPorsi">Rp 0</strong>
-            </p>
+            <p style="font-size:11px;opacity:0.8;margin-top:4px;">Per porsi: <strong id="biayaPerPorsi">Rp 0</strong></p>
         </div>
     </div>
-
     <div class="card">
         <h2>💵 Simulasi Budget</h2>
         <div class="input-group">
             <label>Budget Tersedia (Rp)</label>
-            <input type="number" id="budgetTersedia"
-                   placeholder="Contoh: 5000000" min="0" oninput="cekBudget()">
+            <input type="number" id="budgetTersedia" placeholder="Contoh: 5000000" min="0" oninput="cekBudget()">
         </div>
         <div id="budgetResult"></div>
     </div>
@@ -946,163 +733,76 @@
 <!-- ==================== TAB 4: STOK ==================== -->
 <div id="tab-stok" class="tab-content">
     <div class="card">
-        <h2>📦 Update Stok Bahan</h2>
+        <h2>📦 Update Stok</h2>
         <div class="input-row">
             <div class="input-group">
                 <label>Nama Bahan</label>
                 <select id="stokBahanSelect">
-                    <option>Beras</option>
-                    <option>Ayam</option>
-                    <option>Sayur</option>
-                    <option>Telur</option>
-                    <option>Tahu</option>
-                    <option>Tempe</option>
-                    <option>Minyak</option>
-                    <option>Bawang</option>
-                    <option>Buah</option>
+                    <option>Beras</option><option>Ayam</option><option>Sayur</option>
+                    <option>Telur</option><option>Tahu</option><option>Tempe</option>
+                    <option>Minyak</option><option>Bawang</option><option>Buah</option>
                 </select>
             </div>
-            <div class="input-group">
-                <label>Stok (kg)</label>
-                <input type="number" id="stokJumlah" placeholder="Masukkan stok" min="0">
-            </div>
+            <div class="input-group"><label>Stok (kg)</label><input type="number" id="stokJumlah" placeholder="Masukkan stok" min="0"></div>
         </div>
         <div class="input-row">
-            <div class="input-group">
-                <label>Minimum Stok (kg)</label>
-                <input type="number" id="stokMinimum" placeholder="Batas warning" min="0">
-            </div>
-            <div class="input-group">
-                <label>Stok Maksimum (kg)</label>
-                <input type="number" id="stokMaksimum" placeholder="Kapasitas" min="0">
-            </div>
+            <div class="input-group"><label>Minimum Stok (kg)</label><input type="number" id="stokMinimum" placeholder="Batas warning" min="0"></div>
+            <div class="input-group"><label>Stok Maksimum (kg)</label><input type="number" id="stokMaksimum" placeholder="Kapasitas" min="0"></div>
         </div>
         <button class="btn btn-primary" onclick="updateStok()">📦 Update Stok</button>
     </div>
-
     <div id="stokList">
-        <div class="empty-state">
-            <div class="icon">📦</div>
-            <h3>Belum ada data stok</h3>
-            <p>Tambahkan stok bahan di atas</p>
-        </div>
+        <div class="empty-state"><div class="icon">📦</div><h3>Belum ada data stok</h3><p>Tambahkan di atas</p></div>
     </div>
 </div>
 
 <!-- ==================== TAB 5: RIWAYAT ==================== -->
 <div id="tab-riwayat" class="tab-content">
-    <div class="card" style="padding:15px;">
+    <div class="card" style="padding:14px;">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-            <h2 style="margin-bottom:0;">📋 Riwayat Perhitungan</h2>
+            <h2 style="margin-bottom:0;">📋 Riwayat</h2>
             <button class="btn btn-danger btn-sm" onclick="hapusSemuaRiwayat()">🗑️ Hapus Semua</button>
         </div>
     </div>
     <div id="riwayatList">
-        <div class="empty-state">
-            <div class="icon">📋</div>
-            <h3>Belum ada riwayat</h3>
-            <p>Simpan perhitungan di Tab Kalkulator</p>
-        </div>
+        <div class="empty-state"><div class="icon">📋</div><h3>Belum ada riwayat</h3><p>Simpan di Tab Kalkulator</p></div>
     </div>
 </div>
 
-<!-- ==================== TAB 6: INSENTIF RELAWAN ==================== -->
+<!-- ==================== TAB 6: INSENTIF ==================== -->
 <div id="tab-insentif" class="tab-content">
-
-    <!-- STATUS BANNER -->
     <div class="sync-banner">
         <strong><span class="sync-dot"></span>Status Data BGN — Kab. Tangerang</strong>
-        BGN belum menyediakan API publik. Data SPPG diinput manual berdasarkan
-        data Dindik & Pemkab Tangerang.<br>
+        BGN belum menyediakan API publik. Data diinput manual.<br>
         Terakhir diperbarui: <span id="syncTime">—</span>
-        <div class="btn-row" style="margin-top:10px;">
-            <button class="btn btn-sm"
-                    style="background:rgba(255,255,255,0.25);color:white;font-size:12px;"
-                    onclick="syncManual()">🔄 Tandai Sudah Diperbarui</button>
+        <div class="btn-row" style="margin-top:9px;">
+            <button class="btn btn-sm" style="background:rgba(255,255,255,0.25);color:white;font-size:11px;" onclick="syncManual()">🔄 Tandai Diperbarui</button>
         </div>
     </div>
-
-    <!-- STATISTIK SPPG -->
     <div class="card">
         <h2>📍 Data SPPG Kab. Tangerang</h2>
         <div class="insentif-summary">
-            <div class="insentif-stat">
-                <div class="val">170</div>
-                <div class="lbl">SPPG Aktif</div>
-            </div>
-            <div class="insentif-stat">
-                <div class="val" id="stat-totalRelawan">—</div>
-                <div class="lbl">Relawan SPPG Ini</div>
-            </div>
-            <div class="insentif-stat">
-                <div class="val">61.786</div>
-                <div class="lbl">Penerima Manfaat</div>
-            </div>
+            <div class="insentif-stat"><div class="val">170</div><div class="lbl">SPPG Aktif</div></div>
+            <div class="insentif-stat"><div class="val" id="stat-totalRelawan">—</div><div class="lbl">Relawan SPPG Ini</div></div>
+            <div class="insentif-stat"><div class="val">61.786</div><div class="lbl">Penerima</div></div>
         </div>
-
         <div class="input-group">
             <label>Pilih SPPG</label>
             <select id="insentifSPPG">
-                <option value="">— Pilih SPPG —</option>
-                <optgroup label="Kecamatan Panongan">
-                    <option>Yayasan Latanza — Panongan</option>
-                    <option>Yayasan Hidayatullah Hikmah — Panongan</option>
-                </optgroup>
-                <optgroup label="Kecamatan Cisoka">
-                    <option>Yayasan Carity — Cisoka</option>
-                </optgroup>
-                <optgroup label="Kecamatan Pasar Kemis">
-                    <option>Yayasan Al-Munawir — Pasar Kemis</option>
-                </optgroup>
-                <optgroup label="Kecamatan Tigaraksa">
-                    <option>Yayasan Mualaf Indonesia Timur — Tigaraksa</option>
-                    <option>Yayasan Amal Salam Pancasila — Tigaraksa</option>
-                    <option>Yayasan Al-Munawir Cendhikia — Tigaraksa</option>
-                    <option>Yayasan Tribalti Cerdas — Kodim Tigaraksa</option>
-                    <option>Yayasan Amal Salam Pancasila — Jambe</option>
-                </optgroup>
-                <optgroup label="Kecamatan Balaraja">
-                    <option>Yayasan Nurul Huda — Balaraja</option>
-                </optgroup>
-                <optgroup label="Kecamatan Cikupa">
-                    <option>Yayasan Pendidikan Islam Al-Hikmah — Cikupa</option>
-                </optgroup>
-                <optgroup label="Kecamatan Curug">
-                    <option>Yayasan Puspa Indah Mitra — Curug</option>
-                </optgroup>
-                <optgroup label="Kecamatan Kemiri">
-                    <option>Yayasan Latanza Sejahtera — Kemiri</option>
-                </optgroup>
-                <optgroup label="Kecamatan Jayanti">
-                    <option>Ponpes Al-Badar — Jayanti</option>
-                </optgroup>
-                <optgroup label="Kecamatan Pakuhaji">
-                    <option>Yayasan Mualaf Indonesia Timur — Pakuhaji</option>
-                </optgroup>
-                <optgroup label="Lainnya">
-                    <option>SPPG Onyam Gunung Kaler</option>
-                    <option>SPPG Lainnya (Input Manual)</option>
-                </optgroup>
+                <option>SPPG Onyam Gunung Kaler</option>
+                <option>Yayasan Latanza — Panongan</option>
+                <option>Yayasan Carity — Cisoka</option>
+                <option>Yayasan Al-Munawir — Pasar Kemis</option>
+                <option>Yayasan Nurul Huda — Balaraja</option>
+                <option>SPPG Lainnya</option>
             </select>
         </div>
-
-        <div class="info-box">
-            📌 Data 170 SPPG &amp; 61.786 penerima manfaat bersumber dari Dindik
-            Kab. Tangerang dan Pemkab Tangerang 2025.
-            Besaran insentif di bawah adalah <strong>contoh</strong> —
-            sesuaikan dengan kebijakan masing-masing yayasan/SPPG.
-        </div>
+        <div class="info-box">📌 Besaran insentif di bawah adalah <strong>contoh</strong> — sesuaikan dengan kebijakan SPPG masing-masing.</div>
     </div>
-
-    <!-- PENGATURAN PERIODE -->
     <div class="card">
         <h2>⚙️ Pengaturan Periode</h2>
         <div class="input-row">
-            <div class="input-group">
-                <label>Hari Kerja / Bulan</label>
-                <input type="number" id="hariKerja" value="26"
-                       min="1" max="31" oninput="hitungInsentif()">
-            </div>
+            <div class="input-group"><label>Hari Kerja / Bulan</label><input type="number" id="hariKerja" value="26" min="1" max="31" oninput="hitungInsentif()"></div>
             <div class="input-group">
                 <label>Jumlah Shift / Hari</label>
                 <select id="shiftPerHari" onchange="hitungInsentif()">
@@ -1113,62 +813,138 @@
             </div>
         </div>
     </div>
-
-    <!-- DIVISI RELAWAN -->
     <div class="card">
         <h2>👷 Insentif Per Divisi</h2>
-        <p class="hint" style="margin-bottom:15px;">
-            Isi jumlah relawan &amp; insentif harian. Total dihitung otomatis.
-        </p>
+        <p class="hint" style="margin-bottom:13px;">Isi jumlah relawan & insentif harian. Total dihitung otomatis.</p>
         <div id="divisiList"></div>
-
-        <!-- GRAND TOTAL -->
         <div class="insentif-grand-total">
-            <div class="grand-label">💰 TOTAL INSENTIF SELURUH DIVISI / BULAN</div>
+            <div class="grand-label">💰 TOTAL INSENTIF / BULAN</div>
             <div class="grand-amount" id="grandTotalInsentif">Rp 0</div>
-            <div style="font-size:12px;opacity:0.8;margin-top:8px;">
+            <div style="font-size:11px;opacity:0.8;margin-top:7px;">
                 Per hari: <strong id="grandPerHari">Rp 0</strong> &nbsp;|&nbsp;
-                Total relawan: <strong id="grandTotalRelawan">0</strong> orang
+                Total: <strong id="grandTotalRelawan">0</strong> orang
             </div>
         </div>
     </div>
-
-    <!-- REKAP TABEL -->
     <div class="card">
         <h2>📊 Rekap Insentif</h2>
         <table class="bahan-table">
-            <thead>
-                <tr>
-                    <th>Divisi</th>
-                    <th>Orang</th>
-                    <th>/Hari</th>
-                    <th>/Bulan</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Divisi</th><th>Orang</th><th>/Hari</th><th>/Bulan</th></tr></thead>
             <tbody id="rekapInsentifBody"></tbody>
-            <tfoot>
-                <tr>
-                    <td>TOTAL</td>
-                    <td id="rekap-totalOrang">0</td>
-                    <td id="rekap-totalHarian">0</td>
-                    <td id="rekap-totalBulanan">0</td>
-                </tr>
-            </tfoot>
+            <tfoot><tr><td>TOTAL</td><td id="rekap-totalOrang">0</td><td id="rekap-totalHarian">0</td><td id="rekap-totalBulanan">0</td></tr></tfoot>
         </table>
-
-        <div class="btn-row" style="margin-top:15px;">
+        <div class="btn-row" style="margin-top:13px;">
             <button class="btn btn-success" style="flex:1" onclick="shareInsentif()">📤 WA</button>
             <button class="btn btn-outline"  style="flex:1" onclick="copyInsentif()">📋 Copy</button>
             <button class="btn btn-warning"  style="flex:1" onclick="downloadInsentifCSV()">📊 CSV</button>
             <button class="btn btn-primary"  style="flex:1;padding:10px;" onclick="printInsentif()">🖨️ Print</button>
         </div>
     </div>
+</div>
 
-    <!-- DAFTAR SPPG KAB TANGERANG -->
-    <div class="card">
-        <h2>🗺️ SPPG Kab. Tangerang (Referensi)</h2>
-        <div id="sppgReferensiList"></div>
+<!-- ==================== TAB 7: ABSENSI ==================== -->
+<div id="tab-absensi" class="tab-content">
+
+    <!-- HEADER STATISTIK -->
+    <div class="absen-header-bar">
+        <h2>📝 Absensi Relawan SPPG Onyam</h2>
+        <div class="input-row" style="margin-bottom:8px;">
+            <div class="input-group" style="margin-bottom:0;">
+                <label style="color:rgba(255,255,255,0.8);">Tanggal Absen</label>
+                <input type="date" id="absenTanggal" style="font-size:13px;padding:8px;">
+            </div>
+            <div class="input-group" style="margin-bottom:0;">
+                <label style="color:rgba(255,255,255,0.8);">Shift</label>
+                <select id="absenShift" style="font-size:13px;padding:8px;">
+                    <option>Pagi</option>
+                    <option>Siang</option>
+                    <option>Sore</option>
+                </select>
+            </div>
+        </div>
+        <div class="absen-stat-grid">
+            <div class="absen-stat">
+                <div class="aval" id="as-total" style="color:#ffeb3b;">50</div>
+                <div class="albl">Total</div>
+            </div>
+            <div class="absen-stat">
+                <div class="aval" id="as-hadir" style="color:#a5d6a7;">0</div>
+                <div class="albl">✅ Hadir</div>
+            </div>
+            <div class="absen-stat">
+                <div class="aval" id="as-izin" style="color:#ffe082;">0</div>
+                <div class="albl">🟡 Izin</div>
+            </div>
+            <div class="absen-stat">
+                <div class="aval" id="as-alpha" style="color:#ef9a9a;">0</div>
+                <div class="albl">❌ Alfa</div>
+            </div>
+        </div>
     </div>
+
+    <!-- STATUS REKENING -->
+    <div class="rekening-banner">
+        <h3>🏦 Status Pengisian Rekening</h3>
+        <div style="display:flex;justify-content:space-between;font-size:12px;opacity:0.9;">
+            <span>Sudah isi: <strong id="rek-sudah">49</strong> orang</span>
+            <span>Belum: <strong id="rek-belum">1</strong> orang</span>
+        </div>
+        <div class="rekening-progress-bar">
+            <div class="rekening-progress-fill" id="rek-bar" style="width:98%;"></div>
+        </div>
+        <div style="font-size:11px;opacity:0.8;">98% relawan sudah mengisi link rekening</div>
+    </div>
+
+    <!-- KONTROL -->
+    <div class="card" style="padding:14px;">
+        <input type="text" class="search-box" id="searchRelawan"
+               placeholder="🔍 Cari nama relawan..."
+               oninput="filterRelawan()">
+
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-chip active" onclick="setFilter('semua', this)">Semua (50)</button>
+            <button class="filter-chip" onclick="setFilter('Keamanan', this)">🛡️ Keamanan</button>
+            <button class="filter-chip" onclick="setFilter('Persiapan', this)">🔪 Persiapan</button>
+            <button class="filter-chip" onclick="setFilter('Pengolahan', this)">👨‍🍳 Pengolahan</button>
+            <button class="filter-chip" onclick="setFilter('Pemorsian', this)">🍱 Pemorsian</button>
+            <button class="filter-chip" onclick="setFilter('Cuci Ompreng', this)">🧽 Cuci Ompreng</button>
+            <button class="filter-chip" onclick="setFilter('Driver', this)">🚗 Driver</button>
+            <button class="filter-chip" onclick="setFilter('Bersih-Bersih', this)">🧹 Bersih</button>
+            <button class="filter-chip" onclick="setFilter('Akuntan', this)">📒 Akuntan</button>
+            <button class="filter-chip" onclick="setFilter('Ahli Gizi', this)">🩺 Ahli Gizi</button>
+        </div>
+
+        <div class="absen-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#4caf50;"></div>Hadir</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ff9800;"></div>Izin</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#e91e63;"></div>Sakit</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f44336;"></div>Alfa</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4caf50;opacity:0.3;"></div>✅ Rek</div>
+        </div>
+
+        <div class="btn-row" style="margin-bottom:4px;">
+            <button class="btn btn-success btn-sm" onclick="hadirSemua()">✅ Hadir Semua</button>
+            <button class="btn btn-outline btn-sm" onclick="resetAbsen()">🔄 Reset</button>
+        </div>
+    </div>
+
+    <!-- DAFTAR RELAWAN -->
+    <div id="relawanList"></div>
+
+    <!-- AKSI -->
+    <div class="card">
+        <h2>📤 Export Absensi</h2>
+        <div class="btn-row">
+            <button class="btn btn-success" style="flex:1" onclick="shareAbsensi()">📤 WA</button>
+            <button class="btn btn-outline"  style="flex:1" onclick="copyAbsensi()">📋 Copy</button>
+            <button class="btn btn-warning"  style="flex:1" onclick="downloadAbsenCSV()">📊 CSV</button>
+            <button class="btn btn-primary"  style="flex:1;padding:10px;" onclick="printAbsensi()">🖨️ Print</button>
+        </div>
+        <div class="btn-row" style="margin-top:6px;">
+            <button class="btn btn-primary" onclick="simpanAbsensi()">💾 Simpan Absensi Hari Ini</button>
+        </div>
+    </div>
+
 </div>
 
 </div><!-- /content -->
@@ -1183,106 +959,132 @@
             <div class="modal-title">📤 Share &amp; Export</div>
             <button class="btn-close" onclick="closeShare()">✕</button>
         </div>
-        <div class="share-option" onclick="shareWhatsApp()">
-            <span class="share-icon">💬</span>
-            <div>
-                <div class="share-label">WhatsApp</div>
-                <div class="share-desc">Kirim laporan beras via WhatsApp</div>
-            </div>
-        </div>
-        <div class="share-option" onclick="copyClipboard()">
-            <span class="share-icon">📋</span>
-            <div>
-                <div class="share-label">Copy ke Clipboard</div>
-                <div class="share-desc">Paste di mana saja</div>
-            </div>
-        </div>
-        <div class="share-option" onclick="downloadCSV()">
-            <span class="share-icon">📊</span>
-            <div>
-                <div class="share-label">Download CSV / Excel</div>
-                <div class="share-desc">Buka dengan Excel atau Google Sheets</div>
-            </div>
-        </div>
-        <div class="share-option" onclick="printPDF()">
-            <span class="share-icon">🖨️</span>
-            <div>
-                <div class="share-label">Print / PDF</div>
-                <div class="share-desc">Cetak atau simpan sebagai PDF</div>
-            </div>
-        </div>
+        <div class="share-option" onclick="shareWhatsApp()"><span class="share-icon">💬</span><div><div class="share-label">WhatsApp</div><div class="share-desc">Kirim laporan beras via WA</div></div></div>
+        <div class="share-option" onclick="copyClipboard()"><span class="share-icon">📋</span><div><div class="share-label">Copy Clipboard</div><div class="share-desc">Paste di mana saja</div></div></div>
+        <div class="share-option" onclick="downloadCSV()"><span class="share-icon">📊</span><div><div class="share-label">Download CSV</div><div class="share-desc">Buka dengan Excel / Google Sheets</div></div></div>
+        <div class="share-option" onclick="printPDF()"><span class="share-icon">🖨️</span><div><div class="share-label">Print / PDF</div><div class="share-desc">Cetak atau simpan PDF</div></div></div>
     </div>
 </div>
 
 <!-- ==================== JAVASCRIPT ==================== -->
 <script>
 // ============================================================
-// STATE & DATA
+// DATA UTAMA — RELAWAN SPPG ONYAM GUNUNG KALER
 // ============================================================
-let lastResult    = {};
-let customBahans  = JSON.parse(localStorage.getItem('customBahans'))  || [];
-let stokData      = JSON.parse(localStorage.getItem('stokData'))      || {};
-let riwayatData   = JSON.parse(localStorage.getItem('riwayatData'))   || [];
-let insentifData  = JSON.parse(localStorage.getItem('insentifData'))  || {};
+const dataRelawan = [
+    { no:1,  nama:'Satian',                      divisi:'Keamanan',     rekening:true  },
+    { no:2,  nama:'Sabika Amanah',               divisi:'Persiapan',    rekening:true  },
+    { no:3,  nama:'Karinah',                     divisi:'Persiapan',    rekening:true  },
+    { no:4,  nama:'Agus Yahri',                  divisi:'Pengolahan',   rekening:true  },
+    { no:5,  nama:'Siti Rokhmah',                divisi:'Persiapan',    rekening:true  },
+    { no:6,  nama:'Nari Susanti',                divisi:'Persiapan',    rekening:true  },
+    { no:7,  nama:'Yulianti',                    divisi:'Cuci Ompreng', rekening:true  },
+    { no:8,  nama:'Marsonah',                    divisi:'Pengolahan',   rekening:true  },
+    { no:9,  nama:'Jelita Amelia',               divisi:'Persiapan',    rekening:true  },
+    { no:10, nama:'Nurul Komariyah',             divisi:'Cuci Ompreng', rekening:true  },
+    { no:11, nama:'Nining Yuniawati',            divisi:'Cuci Ompreng', rekening:true  },
+    { no:12, nama:'Siti Soleha',                 divisi:'Persiapan',    rekening:true  },
+    { no:13, nama:'Mursinah',                    divisi:'Pengolahan',   rekening:true  },
+    { no:14, nama:'Sulkah',                      divisi:'Persiapan',    rekening:true  },
+    { no:15, nama:'Lisa',                        divisi:'Pengolahan',   rekening:true  },
+    { no:16, nama:'Maryati',                     divisi:'Pemorsian',    rekening:true  },
+    { no:17, nama:'Siti Nur Alyanti',            divisi:'Pemorsian',    rekening:true  },
+    { no:18, nama:'Nurasiyah',                   divisi:'Pengolahan',   rekening:true  },
+    { no:19, nama:'Toyibah',                     divisi:'Pengolahan',   rekening:true  },
+    { no:20, nama:'Sadiyah',                     divisi:'Persiapan',    rekening:true  },
+    { no:21, nama:'Jahro Chatur Ningsih',        divisi:'Persiapan',    rekening:true  },
+    { no:22, nama:'Nanang Wahyudin',             divisi:'Pemorsian',    rekening:true  },
+    { no:23, nama:'Suherni',                     divisi:'Cuci Ompreng', rekening:true  },
+    { no:24, nama:'Rustam',                      divisi:'Driver',       rekening:true  },
+    { no:25, nama:'Zakiyah Safara',              divisi:'Pemorsian',    rekening:true  },
+    { no:26, nama:'Muhamad Sahroni',             divisi:'Keamanan',     rekening:true  },
+    { no:27, nama:'Suntiyah',                    divisi:'Pengolahan',   rekening:true  },
+    { no:28, nama:'Sunandar',                    divisi:'Pemorsian',    rekening:true  },
+    { no:29, nama:'Kamsin',                      divisi:'Cuci Ompreng', rekening:true  },
+    { no:30, nama:'Nopitasari',                  divisi:'Pengolahan',   rekening:true  },
+    { no:31, nama:'Arkani',                      divisi:'Cuci Ompreng', rekening:true  },
+    { no:32, nama:'Daman Huri',                  divisi:'Bersih-Bersih',rekening:true  },
+    { no:33, nama:'Agisni',                      divisi:'Pemorsian',    rekening:true  },
+    { no:34, nama:'Hapip',                       divisi:'Cuci Ompreng', rekening:true  },
+    { no:35, nama:'Dede Sumarna',                divisi:'Pemorsian',    rekening:true  },
+    { no:36, nama:'Rosita',                      divisi:'Cuci Ompreng', rekening:true  },
+    { no:37, nama:'Jamad',                       divisi:'Driver',       rekening:true  },
+    { no:38, nama:'Kalwani',                     divisi:'Persiapan',    rekening:true  },
+    { no:39, nama:'Muhamad Al Fadli',            divisi:'Persiapan',    rekening:true  },
+    { no:40, nama:'Muhammad Irfan Alfiansyah',   divisi:'Pemorsian',    rekening:true  },
+    { no:41, nama:'Suganda',                     divisi:'Pemorsian',    rekening:true  },
+    { no:42, nama:'Rohman',                      divisi:'Cuci Ompreng', rekening:true  },
+    { no:43, nama:'Titi Navila Dewi',            divisi:'Akuntan',      rekening:false },
+    { no:44, nama:'Ciliwung',                    divisi:'Pengolahan',   rekening:true  },
+    { no:45, nama:'Muhamad Tohir',               divisi:'Pengolahan',   rekening:true  },
+    { no:46, nama:'Muhammad Rahman',             divisi:'Driver',       rekening:true  },
+    { no:47, nama:'Junedi B. Salim',             divisi:'Kenek',        rekening:true  },
+    { no:48, nama:'Jenal',                       divisi:'Aslap',        rekening:false },
+    { no:49, nama:'Ahli Gizi',                   divisi:'Ahli Gizi',    rekening:false },
+    { no:50, nama:'Ka SPPG',                     divisi:'Ka SPPG',      rekening:false },
+];
 
-// Default bahan + harga default
+// ============================================================
+// STATE & STORAGE
+// ============================================================
+let lastResult   = {};
+let customBahans = JSON.parse(localStorage.getItem('customBahans'))  || [];
+let stokData     = JSON.parse(localStorage.getItem('stokData'))      || {};
+let riwayatData  = JSON.parse(localStorage.getItem('riwayatData'))   || [];
+let insentifData = JSON.parse(localStorage.getItem('insentifData'))  || {};
+let absensiDB    = JSON.parse(localStorage.getItem('absensiDB'))     || {};
+
+// Status absen aktif (sesi ini)
+let absenStatus = {}; // { no: 'hadir'|'izin'|'sakit'|'alpha' }
+let filterAktif = 'semua';
+
 const defaultBahans = [
-    { nama: '🐔 Ayam',   gram: 80,  faktor: 1.1, harga: 38000 },
-    { nama: '🥚 Telur',  gram: 50,  faktor: 1.0, harga: 25000 },
-    { nama: '🥬 Sayur',  gram: 100, faktor: 0.8, harga: 8000  },
-    { nama: '🍌 Buah',   gram: 100, faktor: 1.0, harga: 12000 },
-    { nama: '🫘 Tahu',   gram: 60,  faktor: 1.0, harga: 10000 },
-    { nama: '🟫 Tempe',  gram: 50,  faktor: 1.0, harga: 12000 },
-    { nama: '🫙 Minyak', gram: 10,  faktor: 1.0, harga: 18000 },
+    { nama:'🐔 Ayam',   gram:80,  faktor:1.1, harga:38000 },
+    { nama:'🥚 Telur',  gram:50,  faktor:1.0, harga:25000 },
+    { nama:'🥬 Sayur',  gram:100, faktor:0.8, harga:8000  },
+    { nama:'🍌 Buah',   gram:100, faktor:1.0, harga:12000 },
+    { nama:'🫘 Tahu',   gram:60,  faktor:1.0, harga:10000 },
+    { nama:'🟫 Tempe',  gram:50,  faktor:1.0, harga:12000 },
+    { nama:'🫙 Minyak', gram:10,  faktor:1.0, harga:18000 },
 ];
 
-// Divisi relawan SPPG
 const divisiRelawan = [
-    { id: 'kepala',     nama: '👨‍💼 Kepala SPPG',    defaultOrang: 1,  defaultInsentif: 150000 },
-    { id: 'akuntan',    nama: '📒 Akuntan',          defaultOrang: 1,  defaultInsentif: 100000 },
-    { id: 'ahligizi',   nama: '🩺 Ahli Gizi',        defaultOrang: 1,  defaultInsentif: 120000 },
-    { id: 'persiapan',  nama: '🔪 Tim Persiapan',    defaultOrang: 5,  defaultInsentif: 75000  },
-    { id: 'jurumasak',  nama: '👨‍🍳 Juru Masak',      defaultOrang: 3,  defaultInsentif: 100000 },
-    { id: 'pemorsian',  nama: '🍱 Tim Pemorsian',    defaultOrang: 8,  defaultInsentif: 75000  },
-    { id: 'pengemasan', nama: '📦 Tim Pengemasan',   defaultOrang: 5,  defaultInsentif: 75000  },
-    { id: 'distribusi', nama: '🚚 Tim Distribusi',   defaultOrang: 4,  defaultInsentif: 85000  },
-    { id: 'kebersihan', nama: '🧹 Tim Kebersihan',   defaultOrang: 2,  defaultInsentif: 70000  },
-    { id: 'keamanan',   nama: '🛡️ Keamanan',         defaultOrang: 1,  defaultInsentif: 80000  },
-];
-
-// Referensi SPPG Kab. Tangerang
-const sppgKabTangerang = [
-    { nama: 'Yayasan Latanza',                   kecamatan: 'Panongan'    },
-    { nama: 'Yayasan Carity',                    kecamatan: 'Cisoka'      },
-    { nama: 'Yayasan Al-Munawir',                kecamatan: 'Pasar Kemis' },
-    { nama: 'Yayasan Mualaf Indonesia Timur',    kecamatan: 'Tigaraksa'   },
-    { nama: 'Yayasan Amal Salam Pancasila',      kecamatan: 'Tigaraksa'   },
-    { nama: 'Yayasan Nurul Huda',                kecamatan: 'Balaraja'    },
-    { nama: 'Yayasan Hidayatullah Hikmah',       kecamatan: 'Panongan'    },
-    { nama: 'Yayasan Al-Munawir Cendhikia',      kecamatan: 'Tigaraksa'   },
-    { nama: 'Yayasan Pendidikan Islam Al-Hikmah',kecamatan: 'Cikupa'      },
-    { nama: 'Yayasan Latanza Sejahtera',         kecamatan: 'Kemiri'      },
-    { nama: 'Yayasan Puspa Indah Mitra',         kecamatan: 'Curug'       },
-    { nama: 'Yayasan Tribalti Cerdas',           kecamatan: 'Tigaraksa'   },
-    { nama: 'Yayasan Amal Salam Pancasila',      kecamatan: 'Jambe'       },
-    { nama: 'Ponpes Al-Badar',                   kecamatan: 'Jayanti'     },
-    { nama: 'Yayasan Mualaf Indonesia Timur',    kecamatan: 'Pakuhaji'    },
-    { nama: 'SPPG Onyam Gunung Kaler',           kecamatan: 'Gunung Kaler'},
+    { id:'kepala',     nama:'👨‍💼 Ka SPPG',       defaultOrang:1,  defaultInsentif:150000 },
+    { id:'akuntan',    nama:'📒 Akuntan',         defaultOrang:1,  defaultInsentif:100000 },
+    { id:'ahligizi',   nama:'🩺 Ahli Gizi',       defaultOrang:1,  defaultInsentif:120000 },
+    { id:'persiapan',  nama:'🔪 Persiapan',       defaultOrang:11, defaultInsentif:75000  },
+    { id:'pengolahan', nama:'👨‍🍳 Pengolahan',     defaultOrang:11, defaultInsentif:90000  },
+    { id:'pemorsian',  nama:'🍱 Pemorsian',       defaultOrang:9,  defaultInsentif:75000  },
+    { id:'cuciompr',   nama:'🧽 Cuci Ompreng',    defaultOrang:8,  defaultInsentif:70000  },
+    { id:'driver',     nama:'🚗 Driver',          defaultOrang:3,  defaultInsentif:100000 },
+    { id:'bersih',     nama:'🧹 Bersih-Bersih',   defaultOrang:1,  defaultInsentif:70000  },
+    { id:'keamanan',   nama:'🛡️ Keamanan',        defaultOrang:2,  defaultInsentif:80000  },
+    { id:'aslap',      nama:'⚡ Aslap',            defaultOrang:1,  defaultInsentif:75000  },
+    { id:'kenek',      nama:'🚚 Kenek',           defaultOrang:1,  defaultInsentif:75000  },
 ];
 
 // ============================================================
 // INIT
 // ============================================================
 window.onload = function () {
-    document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('tanggal').value    = today;
+    document.getElementById('absenTanggal').value = today;
+
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
         document.querySelector('.dark-toggle').textContent = '☀️ Light';
     }
+
+    // Load saved absen for today
+    const key = today + '_Pagi';
+    if (absensiDB[key]) absenStatus = absensiDB[key];
+
     calculate();
     renderStok();
     renderRiwayat();
-    renderSPPGReferensi();
+    renderRelawanList();
+    updateAbsenStats();
 };
 
 // ============================================================
@@ -1297,6 +1099,7 @@ function showTab(tabName, btn) {
     if (tabName === 'bahan')    renderBahanTable();
     if (tabName === 'biaya')  { hitungBiaya(); renderBiayaTable(); }
     if (tabName === 'insentif') initDivisiList();
+    if (tabName === 'absensi')  renderRelawanList();
 }
 
 // ============================================================
@@ -1319,451 +1122,257 @@ function calculate() {
     const total     = subtotal + bufferKg;
     const totalCeil = Math.ceil(total);
     const nasiTotal = total * rasio;
-
     const berasPerSteamer = berasPerTray * jumlahTray;
     const batchCount  = berasPerSteamer > 0 ? Math.ceil(totalCeil / berasPerSteamer) : 0;
     const waktuMasak  = batchCount * 45;
 
-    document.getElementById('r-totalPorsi').textContent = (porsiPK + porsiPB).toLocaleString('id') + ' porsi';
-    document.getElementById('r-berasPK').textContent    = berasPK.toFixed(2)  + ' kg';
-    document.getElementById('r-berasPB').textContent    = berasPB.toFixed(2)  + ' kg';
-    document.getElementById('r-subtotal').textContent   = subtotal.toFixed(2) + ' kg';
-    document.getElementById('r-buffer').textContent     = bufferKg.toFixed(2) + ' kg';
-    document.getElementById('r-nasi').textContent       = nasiTotal.toFixed(1)+ ' kg';
+    document.getElementById('r-totalPorsi').textContent = (porsiPK+porsiPB).toLocaleString('id') + ' porsi';
+    document.getElementById('r-berasPK').textContent    = berasPK.toFixed(2)   + ' kg';
+    document.getElementById('r-berasPB').textContent    = berasPB.toFixed(2)   + ' kg';
+    document.getElementById('r-subtotal').textContent   = subtotal.toFixed(2)  + ' kg';
+    document.getElementById('r-buffer').textContent     = bufferKg.toFixed(2)  + ' kg';
+    document.getElementById('r-nasi').textContent       = nasiTotal.toFixed(1) + ' kg';
     document.getElementById('r-total').textContent      = totalCeil + ' kg';
     document.getElementById('r-batchCount').textContent = batchCount;
     document.getElementById('r-waktuMasak').textContent = waktuMasak + ' mnt';
     document.getElementById('b-kebutuhanBeras').textContent = totalCeil + ' kg';
 
-    lastResult = {
-        porsiPK, porsiPB, nasiPK, nasiPB,
-        berasPK, berasPB, subtotal, bufferKg,
-        total, totalCeil, nasiTotal,
-        batchCount, waktuMasak, rasio, bufferPct
-    };
-
+    lastResult = { porsiPK, porsiPB, nasiPK, nasiPB, berasPK, berasPB, subtotal, bufferKg, total, totalCeil, nasiTotal, batchCount, waktuMasak, rasio, bufferPct };
     hitungBiaya();
 }
 
 // ============================================================
-// FEATURE 2 — KALKULATOR BAHAN LAIN
+// FEATURE 2 — BAHAN
 // ============================================================
+function getAllBahans()  { return [...defaultBahans, ...customBahans]; }
+function getTotalPorsi() { return (parseFloat(document.getElementById('porsiPK').value)||0) + (parseFloat(document.getElementById('porsiPB').value)||0); }
+
 function renderBahanTable() {
-    const totalPorsi = getTotalPorsi();
-    const allBahans  = getAllBahans();
-    let html = '';
+    const total = getTotalPorsi();
+    document.getElementById('bahanTableBody').innerHTML = getAllBahans().map(b => `
+        <tr>
+            <td>${escapeHtml(b.nama)}</td>
+            <td>${b.gram}g</td>
+            <td>${b.faktor}x</td>
+            <td><strong>${(total * b.gram * b.faktor / 1000).toFixed(2)} kg</strong></td>
+        </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada data</td></tr>';
 
-    allBahans.forEach(b => {
-        const total = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
-        html += `
-            <tr>
-                <td>${escapeHtml(b.nama)}</td>
-                <td>${b.gram}g</td>
-                <td>${b.faktor}x</td>
-                <td><strong>${total} kg</strong></td>
-            </tr>`;
-    });
-
-    document.getElementById('bahanTableBody').innerHTML = html || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada data</td></tr>';
-
-    // Ringkasan
-    let ringkasanHtml = allBahans.map(b => {
-        const total = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
-        return `
-            <div class="result-item" style="color:var(--text);">
-                <span>${escapeHtml(b.nama)}</span>
-                <span><strong>${total} kg</strong></span>
-            </div>`;
-    }).join('');
-
-    document.getElementById('ringkasanBahan').innerHTML = ringkasanHtml ||
-        '<p style="color:var(--text-light);text-align:center;padding:20px;">Isi porsi dulu di tab Kalkulator</p>';
+    document.getElementById('ringkasanBahan').innerHTML = getAllBahans().map(b => `
+        <div class="result-item" style="color:var(--text);">
+            <span>${escapeHtml(b.nama)}</span>
+            <span><strong>${(total * b.gram * b.faktor / 1000).toFixed(2)} kg</strong></span>
+        </div>`).join('') || '<p style="color:var(--text-light);text-align:center;padding:18px;">Isi porsi dulu di tab Kalkulator</p>';
 }
 
 function tambahBahan() {
-    const nama    = document.getElementById('customBahanName').value.trim();
-    const gram    = parseFloat(document.getElementById('customBahanGram').value);
-    const faktor  = parseFloat(document.getElementById('customBahanFaktor').value);
-    const harga   = parseFloat(document.getElementById('customBahanHarga').value) || 0;
-
-    if (!nama)         { showToast('⚠️ Nama bahan tidak boleh kosong!'); return; }
-    if (!gram || gram <= 0) { showToast('⚠️ Gram/porsi harus lebih dari 0!'); return; }
-
-    customBahans.push({ nama: '🥘 ' + nama, gram, faktor, harga });
+    const nama   = document.getElementById('customBahanName').value.trim();
+    const gram   = parseFloat(document.getElementById('customBahanGram').value);
+    const faktor = parseFloat(document.getElementById('customBahanFaktor').value);
+    const harga  = parseFloat(document.getElementById('customBahanHarga').value) || 0;
+    if (!nama)       { showToast('⚠️ Nama tidak boleh kosong!'); return; }
+    if (!gram||gram<=0) { showToast('⚠️ Gram harus lebih dari 0!'); return; }
+    customBahans.push({ nama:'🥘 '+nama, gram, faktor, harga });
     localStorage.setItem('customBahans', JSON.stringify(customBahans));
-
-    document.getElementById('customBahanName').value  = '';
-    document.getElementById('customBahanGram').value  = '';
+    document.getElementById('customBahanName').value = '';
+    document.getElementById('customBahanGram').value = '';
     document.getElementById('customBahanHarga').value = '';
-
-    renderBahanTable();
-    renderBiayaTable();
+    renderBahanTable(); renderBiayaTable();
     showToast('✅ Bahan ' + nama + ' ditambahkan!');
 }
 
-function getAllBahans() {
-    return [...defaultBahans, ...customBahans];
-}
-
-function getTotalPorsi() {
-    return (parseFloat(document.getElementById('porsiPK').value) || 0) +
-           (parseFloat(document.getElementById('porsiPB').value) || 0);
-}
-
 // ============================================================
-// FEATURE 3 — HITUNG BIAYA
+// FEATURE 3 — BIAYA
 // ============================================================
 function renderBiayaTable() {
-    const totalPorsi = getTotalPorsi();
-    const allBahans  = getAllBahans();
-    let html = '';
-
-    allBahans.forEach((b, i) => {
-        const qty   = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
-        const harga = b.harga || 0;
-        const sub   = Math.round(qty * harga).toLocaleString('id');
-        html += `
-            <tr>
-                <td>${escapeHtml(b.nama)}</td>
-                <td>${qty}</td>
-                <td>
-                    <input type="number" min="0"
-                        style="width:90px;padding:4px;border:1px solid var(--border);
-                               border-radius:4px;background:var(--card);color:var(--text);font-size:12px;"
-                        value="${harga}"
-                        onchange="updateHargaBahan(${i}, this.value)">
-                </td>
-                <td id="biaya-${i}">Rp ${sub}</td>
-            </tr>`;
-    });
-
-    document.getElementById('biayaTableBody').innerHTML = html ||
-        '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada bahan</td></tr>';
+    const total = getTotalPorsi();
+    document.getElementById('biayaTableBody').innerHTML = getAllBahans().map((b,i) => {
+        const qty = (total * b.gram * b.faktor / 1000).toFixed(2);
+        return `<tr>
+            <td>${escapeHtml(b.nama)}</td>
+            <td>${qty}</td>
+            <td><input type="number" min="0"
+                style="width:85px;padding:4px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:11px;"
+                value="${b.harga||0}" onchange="updateHargaBahan(${i},this.value)"></td>
+            <td>Rp ${Math.round(qty*(b.harga||0)).toLocaleString('id')}</td>
+        </tr>`;
+    }).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada bahan</td></tr>';
     hitungBiaya();
 }
 
-function updateHargaBahan(index, harga) {
-    harga = Math.max(0, parseFloat(harga) || 0);
-    if (index < defaultBahans.length) {
-        defaultBahans[index].harga = harga;
-    } else {
-        customBahans[index - defaultBahans.length].harga = harga;
-        localStorage.setItem('customBahans', JSON.stringify(customBahans));
-    }
+function updateHargaBahan(i, v) {
+    v = Math.max(0, parseFloat(v)||0);
+    if (i < defaultBahans.length) defaultBahans[i].harga = v;
+    else { customBahans[i-defaultBahans.length].harga = v; localStorage.setItem('customBahans', JSON.stringify(customBahans)); }
     hitungBiaya();
 }
 
 function hitungBiaya() {
-    const totalPorsi  = getTotalPorsi();
-    const hargaBeras  = Math.max(0, parseFloat(document.getElementById('hargaBeras').value) || 0);
-    const totalBeras  = lastResult.totalCeil || 0;
-
-    let totalBiaya = totalBeras * hargaBeras;
-    document.getElementById('b-subtotalBeras').textContent = 'Rp ' + Math.round(totalBeras * hargaBeras).toLocaleString('id');
-
-    getAllBahans().forEach(b => {
-        const qty = totalPorsi * b.gram * b.faktor / 1000;
-        totalBiaya += qty * (b.harga || 0);
-    });
-
-    const biayaPerPorsi = totalPorsi > 0 ? totalBiaya / totalPorsi : 0;
-
+    const total      = getTotalPorsi();
+    const hargaBeras = Math.max(0, parseFloat(document.getElementById('hargaBeras').value)||0);
+    const totBeras   = lastResult.totalCeil || 0;
+    let totalBiaya   = totBeras * hargaBeras;
+    document.getElementById('b-subtotalBeras').textContent = 'Rp ' + Math.round(totBeras*hargaBeras).toLocaleString('id');
+    getAllBahans().forEach(b => totalBiaya += total * b.gram * b.faktor / 1000 * (b.harga||0));
+    const perPorsi = total > 0 ? totalBiaya/total : 0;
     document.getElementById('biayaTotal').textContent    = 'Rp ' + Math.round(totalBiaya).toLocaleString('id');
-    document.getElementById('biayaPerPorsi').textContent = 'Rp ' + Math.round(biayaPerPorsi).toLocaleString('id');
-
-    lastResult.totalBiaya    = totalBiaya;
-    lastResult.biayaPerPorsi = biayaPerPorsi;
+    document.getElementById('biayaPerPorsi').textContent = 'Rp ' + Math.round(perPorsi).toLocaleString('id');
+    lastResult.totalBiaya = totalBiaya;
+    lastResult.biayaPerPorsi = perPorsi;
 }
 
 function cekBudget() {
-    const budget    = Math.max(0, parseFloat(document.getElementById('budgetTersedia').value) || 0);
-    const total     = lastResult.totalBiaya || 0;
-    const selisih   = budget - total;
-    const isOk      = selisih >= 0;
-
+    const budget  = Math.max(0, parseFloat(document.getElementById('budgetTersedia').value)||0);
+    const selisih = budget - (lastResult.totalBiaya||0);
+    const ok      = selisih >= 0;
     document.getElementById('budgetResult').innerHTML = `
-        <div style="background:${isOk ? '#e8f5e9' : '#ffebee'};border-radius:10px;
-                    padding:15px;border-left:4px solid ${isOk ? '#4caf50' : '#f44336'};margin-top:10px;">
-            <p style="color:${isOk ? '#2e7d32' : '#c62828'};font-weight:bold;">
-                ${isOk ? '✅ Budget CUKUP!' : '❌ Budget KURANG!'}
-            </p>
-            <p style="color:${isOk ? '#2e7d32' : '#c62828'};">
-                ${isOk ? 'Sisa' : 'Kekurangan'}:
-                <strong>Rp ${Math.round(Math.abs(selisih)).toLocaleString('id')}</strong>
-            </p>
+        <div style="background:${ok?'#e8f5e9':'#ffebee'};border-radius:10px;padding:13px;border-left:4px solid ${ok?'#4caf50':'#f44336'};margin-top:9px;">
+            <p style="color:${ok?'#2e7d32':'#c62828'};font-weight:bold;">${ok?'✅ Budget CUKUP!':'❌ Budget KURANG!'}</p>
+            <p style="color:${ok?'#2e7d32':'#c62828'};">${ok?'Sisa':'Kekurangan'}: <strong>Rp ${Math.round(Math.abs(selisih)).toLocaleString('id')}</strong></p>
         </div>`;
 }
 
 // ============================================================
-// FEATURE 4 — TRACKING STOK
+// FEATURE 4 — STOK
 // ============================================================
 function updateStok() {
     const nama    = document.getElementById('stokBahanSelect').value;
     const jumlah  = parseFloat(document.getElementById('stokJumlah').value);
-    const minimum = Math.max(0, parseFloat(document.getElementById('stokMinimum').value) || 10);
-    const maksimum= Math.max(1, parseFloat(document.getElementById('stokMaksimum').value) || 100);
-
-    if (isNaN(jumlah) || jumlah < 0) { showToast('⚠️ Masukkan jumlah stok yang valid!'); return; }
-
+    const minimum = Math.max(0, parseFloat(document.getElementById('stokMinimum').value)||10);
+    const maksimum= Math.max(1, parseFloat(document.getElementById('stokMaksimum').value)||100);
+    if (isNaN(jumlah)||jumlah<0) { showToast('⚠️ Jumlah stok tidak valid!'); return; }
     stokData[nama] = { jumlah, minimum, maksimum, updatedAt: new Date().toLocaleString('id') };
     localStorage.setItem('stokData', JSON.stringify(stokData));
     renderStok();
-    showToast('✅ Stok ' + nama + ' diupdate: ' + jumlah + ' kg');
-    document.getElementById('stokJumlah').value   = '';
-    document.getElementById('stokMinimum').value  = '';
-    document.getElementById('stokMaksimum').value = '';
+    showToast('✅ Stok ' + nama + ' diupdate!');
+    document.getElementById('stokJumlah').value = document.getElementById('stokMinimum').value = document.getElementById('stokMaksimum').value = '';
 }
 
 function renderStok() {
     const keys = Object.keys(stokData);
-    if (keys.length === 0) {
-        document.getElementById('stokList').innerHTML = `
-            <div class="empty-state">
-                <div class="icon">📦</div>
-                <h3>Belum ada data stok</h3>
-                <p>Tambahkan stok bahan di atas</p>
-            </div>`;
-        return;
-    }
-
+    if (!keys.length) { document.getElementById('stokList').innerHTML = '<div class="empty-state"><div class="icon">📦</div><h3>Belum ada data stok</h3><p>Tambahkan di atas</p></div>'; return; }
     document.getElementById('stokList').innerHTML = keys.map(nama => {
-        const s      = stokData[nama];
-        const persen = Math.min(100, s.maksimum > 0 ? (s.jumlah / s.maksimum) * 100 : 0);
-        const isHabis   = s.jumlah <= 0;
-        const isWarning = !isHabis && s.jumlah <= s.minimum;
-        const color     = isHabis ? '#f44336' : isWarning ? '#ff9800' : '#4caf50';
-        const cardClass = isHabis ? 'danger' : isWarning ? 'warning' : '';
-        const badge     = isHabis ? 'badge-habis' : isWarning ? 'badge-warning' : 'badge-aman';
-        const status    = isHabis ? '❌ Habis' : isWarning ? '⚠️ Hampir Habis' : '✅ Aman';
-
-        return `
-            <div class="stok-card ${cardClass}">
-                <div class="stok-header">
-                    <span class="stok-name">📦 ${escapeHtml(nama)}</span>
-                    <span class="stok-badge ${badge}">${status}</span>
-                </div>
-                <div class="stok-progress">
-                    <div class="stok-bar" style="width:${persen}%;background:${color};"></div>
-                </div>
-                <div class="stok-info">
-                    <span>Stok: <strong>${s.jumlah} kg</strong></span>
-                    <span>Min: ${s.minimum} kg</span>
-                    <span>Max: ${s.maksimum} kg</span>
-                </div>
-                <div style="font-size:11px;color:var(--text-light);margin-top:8px;">🕐 ${s.updatedAt}</div>
-                <div class="btn-row" style="margin-top:8px;">
-                    <button class="btn btn-danger btn-sm"
-                            data-nama="${escapeHtml(nama)}"
-                            onclick="hapusStok(this)">🗑️ Hapus</button>
-                </div>
-            </div>`;
+        const s = stokData[nama];
+        const pct   = Math.min(100, s.maksimum>0?(s.jumlah/s.maksimum)*100:0);
+        const isH   = s.jumlah<=0, isW = !isH && s.jumlah<=s.minimum;
+        const color = isH?'#f44336':isW?'#ff9800':'#4caf50';
+        return `<div class="stok-card ${isH?'danger':isW?'warning':''}">
+            <div class="stok-header">
+                <span class="stok-name">📦 ${escapeHtml(nama)}</span>
+                <span class="stok-badge ${isH?'badge-habis':isW?'badge-warning':'badge-aman'}">${isH?'❌ Habis':isW?'⚠️ Hampir Habis':'✅ Aman'}</span>
+            </div>
+            <div class="stok-progress"><div class="stok-bar" style="width:${pct}%;background:${color};"></div></div>
+            <div class="stok-info"><span>Stok: <strong>${s.jumlah} kg</strong></span><span>Min: ${s.minimum} kg</span><span>Max: ${s.maksimum} kg</span></div>
+            <div style="font-size:10px;color:var(--text-light);margin-top:7px;">🕐 ${s.updatedAt}</div>
+            <div class="btn-row" style="margin-top:7px;">
+                <button class="btn btn-danger btn-sm" data-nama="${escapeHtml(nama)}" onclick="hapusStok(this)">🗑️ Hapus</button>
+            </div>
+        </div>`;
     }).join('');
 }
 
 function hapusStok(btn) {
     const nama = btn.getAttribute('data-nama');
-    if (confirm('Hapus stok ' + nama + '?')) {
-        delete stokData[nama];
-        localStorage.setItem('stokData', JSON.stringify(stokData));
-        renderStok();
-        showToast('🗑️ Stok ' + nama + ' dihapus');
-    }
+    if (confirm('Hapus stok '+nama+'?')) { delete stokData[nama]; localStorage.setItem('stokData', JSON.stringify(stokData)); renderStok(); showToast('🗑️ Stok '+nama+' dihapus'); }
 }
 
 // ============================================================
 // FEATURE 5 — RIWAYAT
 // ============================================================
 function simpanRiwayat() {
-    const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal  = document.getElementById('tanggal').value;
-    const shift    = document.getElementById('shift').value;
-
-    riwayatData.unshift({
-        id: Date.now(),
-        namaSSPG, tanggal, shift,
-        porsiPK:    lastResult.porsiPK    || 0,
-        porsiPB:    lastResult.porsiPB    || 0,
-        totalPorsi: (lastResult.porsiPK || 0) + (lastResult.porsiPB || 0),
-        totalBeras: lastResult.totalCeil  || 0,
-        totalBiaya: lastResult.totalBiaya || 0,
-        batchCount: lastResult.batchCount || 0,
-        createdAt:  new Date().toLocaleString('id')
-    });
-
-    if (riwayatData.length > 50) riwayatData.pop();
+    riwayatData.unshift({ id:Date.now(), namaSSPG:document.getElementById('namaSSPG').value||'SPPG', tanggal:document.getElementById('tanggal').value, shift:document.getElementById('shift').value, porsiPK:lastResult.porsiPK||0, porsiPB:lastResult.porsiPB||0, totalPorsi:(lastResult.porsiPK||0)+(lastResult.porsiPB||0), totalBeras:lastResult.totalCeil||0, totalBiaya:lastResult.totalBiaya||0, batchCount:lastResult.batchCount||0, createdAt:new Date().toLocaleString('id') });
+    if (riwayatData.length>50) riwayatData.pop();
     localStorage.setItem('riwayatData', JSON.stringify(riwayatData));
-    renderRiwayat();
-    showToast('✅ Riwayat disimpan!');
+    renderRiwayat(); showToast('✅ Riwayat disimpan!');
 }
 
 function renderRiwayat() {
-    if (riwayatData.length === 0) {
-        document.getElementById('riwayatList').innerHTML = `
-            <div class="empty-state">
-                <div class="icon">📋</div>
-                <h3>Belum ada riwayat</h3>
-                <p>Simpan perhitungan di Tab Kalkulator</p>
-            </div>`;
-        return;
-    }
-
+    if (!riwayatData.length) { document.getElementById('riwayatList').innerHTML='<div class="empty-state"><div class="icon">📋</div><h3>Belum ada riwayat</h3><p>Simpan di Tab Kalkulator</p></div>'; return; }
     document.getElementById('riwayatList').innerHTML = riwayatData.map(r => {
-        const date = r.tanggal
-            ? new Date(r.tanggal).toLocaleDateString('id', { day:'numeric', month:'long', year:'numeric' })
-            : '—';
-        return `
-            <div class="riwayat-card">
-                <div class="riwayat-header">
-                    <div>
-                        <div style="font-weight:bold;font-size:15px;">${escapeHtml(r.namaSSPG)}</div>
-                        <div class="riwayat-date">📅 ${date} | ${r.shift}</div>
-                    </div>
-                    <div class="riwayat-total">${r.totalBeras} kg</div>
-                </div>
-                <div class="riwayat-detail">
-                    👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB} |
-                    🍽️ Total: ${r.totalPorsi} porsi | ♨️ ${r.batchCount} batch
-                    ${r.totalBiaya > 0 ? '<br>💰 Biaya: Rp ' + Math.round(r.totalBiaya).toLocaleString('id') : ''}
-                </div>
-                <div class="riwayat-actions">
-                    <button class="btn btn-outline btn-sm" data-id="${r.id}" onclick="muatRiwayat(this)">📥 Muat</button>
-                    <button class="btn btn-success btn-sm" data-id="${r.id}" onclick="shareRiwayat(this)">📤 Share</button>
-                    <button class="btn btn-danger btn-sm"  data-id="${r.id}" onclick="hapusRiwayat(this)">🗑️ Hapus</button>
-                </div>
-            </div>`;
+        const date = r.tanggal ? new Date(r.tanggal).toLocaleDateString('id',{day:'numeric',month:'long',year:'numeric'}) : '—';
+        return `<div class="riwayat-card">
+            <div class="riwayat-header">
+                <div><div style="font-weight:bold;font-size:14px;">${escapeHtml(r.namaSSPG)}</div><div class="riwayat-date">📅 ${date} | ${r.shift}</div></div>
+                <div class="riwayat-total">${r.totalBeras} kg</div>
+            </div>
+            <div class="riwayat-detail">👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB} | 🍽️ ${r.totalPorsi} porsi | ♨️ ${r.batchCount} batch${r.totalBiaya>0?'<br>💰 Rp '+Math.round(r.totalBiaya).toLocaleString('id'):''}</div>
+            <div class="riwayat-actions">
+                <button class="btn btn-outline btn-sm" data-id="${r.id}" onclick="muatRiwayat(this)">📥 Muat</button>
+                <button class="btn btn-success btn-sm" data-id="${r.id}" onclick="shareRiwayat(this)">📤 WA</button>
+                <button class="btn btn-danger btn-sm"  data-id="${r.id}" onclick="hapusRiwayat(this)">🗑️ Hapus</button>
+            </div>
+        </div>`;
     }).join('');
 }
 
 function muatRiwayat(btn) {
-    const r = riwayatData.find(x => x.id === parseInt(btn.getAttribute('data-id')));
+    const r = riwayatData.find(x => x.id===parseInt(btn.getAttribute('data-id')));
     if (!r) return;
-    document.getElementById('namaSSPG').value = r.namaSSPG;
-    document.getElementById('tanggal').value  = r.tanggal;
-    document.getElementById('porsiPK').value  = r.porsiPK;
-    document.getElementById('porsiPB').value  = r.porsiPB;
-    calculate();
-    document.querySelectorAll('.tab')[0].click();
-    showToast('✅ Data berhasil dimuat!');
+    document.getElementById('namaSSPG').value=r.namaSSPG; document.getElementById('tanggal').value=r.tanggal;
+    document.getElementById('porsiPK').value=r.porsiPK; document.getElementById('porsiPB').value=r.porsiPB;
+    calculate(); document.querySelectorAll('.tab')[0].click(); showToast('✅ Data dimuat!');
 }
 
 function hapusRiwayat(btn) {
     const id = parseInt(btn.getAttribute('data-id'));
-    if (confirm('Hapus riwayat ini?')) {
-        riwayatData = riwayatData.filter(x => x.id !== id);
-        localStorage.setItem('riwayatData', JSON.stringify(riwayatData));
-        renderRiwayat();
-        showToast('🗑️ Riwayat dihapus');
-    }
+    if (confirm('Hapus riwayat ini?')) { riwayatData=riwayatData.filter(x=>x.id!==id); localStorage.setItem('riwayatData',JSON.stringify(riwayatData)); renderRiwayat(); showToast('🗑️ Dihapus'); }
 }
 
 function hapusSemuaRiwayat() {
-    if (confirm('Hapus SEMUA riwayat? Tidak bisa dikembalikan!')) {
-        riwayatData = [];
-        localStorage.setItem('riwayatData', JSON.stringify(riwayatData));
-        renderRiwayat();
-        showToast('🗑️ Semua riwayat dihapus');
-    }
+    if (confirm('Hapus SEMUA riwayat?')) { riwayatData=[]; localStorage.setItem('riwayatData',JSON.stringify(riwayatData)); renderRiwayat(); showToast('🗑️ Semua riwayat dihapus'); }
 }
 
 function shareRiwayat(btn) {
-    const r = riwayatData.find(x => x.id === parseInt(btn.getAttribute('data-id')));
+    const r = riwayatData.find(x => x.id===parseInt(btn.getAttribute('data-id')));
     if (!r) return;
-    const text = encodeURIComponent(
-        `🍚 *LAPORAN MBG*\n📍 ${r.namaSSPG}\n📅 ${r.tanggal}\n\n` +
-        `👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB}\n` +
-        `🍽️ Total: ${r.totalPorsi} porsi\n✅ Beras: *${r.totalBeras} kg*\n♨️ Batch: ${r.batchCount}`
-    );
-    window.open('https://wa.me/?text=' + text, '_blank');
+    window.open('https://wa.me/?text='+encodeURIComponent(`🍚 *LAPORAN MBG*\n📍 ${r.namaSSPG}\n📅 ${r.tanggal}\n👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB}\n🍽️ Total: ${r.totalPorsi} porsi\n✅ Beras: *${r.totalBeras} kg*\n♨️ Batch: ${r.batchCount}`),'_blank');
 }
 
 // ============================================================
-// FEATURE 6 — INSENTIF RELAWAN
+// FEATURE 6 — INSENTIF
 // ============================================================
 function initDivisiList() {
-    const html = divisiRelawan.map(d => {
-        const saved    = insentifData[d.id] || {};
-        const orang    = saved.orang    ?? d.defaultOrang;
-        const insentif = saved.insentif ?? d.defaultInsentif;
-
-        return `
-            <div class="divisi-card">
-                <div class="divisi-header">
-                    <span class="divisi-name">${d.nama}</span>
-                    <span class="divisi-total" id="divtotal-${d.id}">Rp 0/bln</span>
-                </div>
-                <div class="divisi-inputs">
-                    <div>
-                        <div class="mini-label">Jml Orang</div>
-                        <input type="number" id="org-${d.id}" value="${orang}"
-                               min="0" oninput="hitungInsentif()">
-                    </div>
-                    <div>
-                        <div class="mini-label">Insentif/Hari (Rp)</div>
-                        <input type="number" id="ins-${d.id}" value="${insentif}"
-                               min="0" oninput="hitungInsentif()">
-                    </div>
-                    <div>
-                        <div class="mini-label">Subtotal/Hari</div>
-                        <input type="text" id="sub-${d.id}" readonly>
-                    </div>
-                </div>
-            </div>`;
+    document.getElementById('divisiList').innerHTML = divisiRelawan.map(d => {
+        const s=insentifData[d.id]||{}, o=s.orang??d.defaultOrang, i=s.insentif??d.defaultInsentif;
+        return `<div class="divisi-card">
+            <div class="divisi-header">
+                <span class="divisi-name">${d.nama}</span>
+                <span class="divisi-total" id="divtotal-${d.id}">Rp 0/bln</span>
+            </div>
+            <div class="divisi-inputs">
+                <div><div class="mini-label">Jml Orang</div><input type="number" id="org-${d.id}" value="${o}" min="0" oninput="hitungInsentif()"></div>
+                <div><div class="mini-label">Insentif/Hari</div><input type="number" id="ins-${d.id}" value="${i}" min="0" oninput="hitungInsentif()"></div>
+                <div><div class="mini-label">Subtotal/Hari</div><input type="text" id="sub-${d.id}" readonly></div>
+            </div>
+        </div>`;
     }).join('');
-
-    document.getElementById('divisiList').innerHTML = html;
     hitungInsentif();
-
-    // Sync time
     const saved = localStorage.getItem('lastSync');
     document.getElementById('syncTime').textContent = saved || '—';
 }
 
 function hitungInsentif() {
-    const hariKerja    = Math.max(1, parseFloat(document.getElementById('hariKerja').value)    || 26);
-    const shiftPerHari = Math.max(1, parseFloat(document.getElementById('shiftPerHari').value) || 1);
-
-    let grandHarian  = 0;
-    let grandOrang   = 0;
-    let rekapHTML    = '';
-
+    const hari  = Math.max(1, parseFloat(document.getElementById('hariKerja').value)||26);
+    const shift = Math.max(1, parseFloat(document.getElementById('shiftPerHari').value)||1);
+    let gHarian=0, gOrang=0, html='';
     divisiRelawan.forEach(d => {
-        const orang    = Math.max(0, parseFloat(document.getElementById('org-' + d.id)?.value) || 0);
-        const insentif = Math.max(0, parseFloat(document.getElementById('ins-' + d.id)?.value) || 0);
-
-        const subHarian  = orang * insentif * shiftPerHari;
-        const subBulanan = subHarian * hariKerja;
-
-        const subEl = document.getElementById('sub-' + d.id);
-        if (subEl) subEl.value = 'Rp ' + subHarian.toLocaleString('id');
-
-        const divEl = document.getElementById('divtotal-' + d.id);
-        if (divEl) divEl.textContent = 'Rp ' + subBulanan.toLocaleString('id') + '/bln';
-
-        grandHarian += subHarian;
-        grandOrang  += orang * shiftPerHari;
-
-        insentifData[d.id] = { orang, insentif };
-
-        rekapHTML += `
-            <tr>
-                <td>${d.nama}</td>
-                <td>${orang * shiftPerHari}</td>
-                <td>Rp ${subHarian.toLocaleString('id')}</td>
-                <td>Rp ${subBulanan.toLocaleString('id')}</td>
-            </tr>`;
+        const o = Math.max(0, parseFloat(document.getElementById('org-'+d.id)?.value)||0);
+        const i = Math.max(0, parseFloat(document.getElementById('ins-'+d.id)?.value)||0);
+        const subH = o*i*shift, subB = subH*hari;
+        const se = document.getElementById('sub-'+d.id); if(se) se.value='Rp '+subH.toLocaleString('id');
+        const de = document.getElementById('divtotal-'+d.id); if(de) de.textContent='Rp '+subB.toLocaleString('id')+'/bln';
+        gHarian+=subH; gOrang+=o*shift;
+        insentifData[d.id]={orang:o,insentif:i};
+        html+=`<tr><td>${d.nama}</td><td>${o*shift}</td><td>Rp ${subH.toLocaleString('id')}</td><td>Rp ${subB.toLocaleString('id')}</td></tr>`;
     });
-
-    const grandBulanan = grandHarian * hariKerja;
-
-    document.getElementById('grandTotalInsentif').textContent = 'Rp ' + grandBulanan.toLocaleString('id');
-    document.getElementById('grandPerHari').textContent       = 'Rp ' + grandHarian.toLocaleString('id');
-    document.getElementById('grandTotalRelawan').textContent  = grandOrang;
-    document.getElementById('stat-totalRelawan').textContent  = grandOrang;
-    document.getElementById('rekapInsentifBody').innerHTML    = rekapHTML;
-    document.getElementById('rekap-totalOrang').textContent   = grandOrang;
-    document.getElementById('rekap-totalHarian').textContent  = 'Rp ' + grandHarian.toLocaleString('id');
-    document.getElementById('rekap-totalBulanan').textContent = 'Rp ' + grandBulanan.toLocaleString('id');
-
+    const gBln = gHarian*hari;
+    document.getElementById('grandTotalInsentif').textContent = 'Rp '+gBln.toLocaleString('id');
+    document.getElementById('grandPerHari').textContent = 'Rp '+gHarian.toLocaleString('id');
+    document.getElementById('grandTotalRelawan').textContent = gOrang;
+    document.getElementById('stat-totalRelawan').textContent = gOrang;
+    document.getElementById('rekapInsentifBody').innerHTML = html;
+    document.getElementById('rekap-totalOrang').textContent = gOrang;
+    document.getElementById('rekap-totalHarian').textContent = 'Rp '+gHarian.toLocaleString('id');
+    document.getElementById('rekap-totalBulanan').textContent = 'Rp '+gBln.toLocaleString('id');
     localStorage.setItem('insentifData', JSON.stringify(insentifData));
 }
 
@@ -1771,270 +1380,283 @@ function syncManual() {
     const now = new Date().toLocaleString('id');
     localStorage.setItem('lastSync', now);
     document.getElementById('syncTime').textContent = now;
-    showToast('✅ Waktu perbaruan dicatat: ' + now);
+    showToast('✅ Waktu diperbarui: '+now);
 }
 
 function getInsentifText() {
-    const sppg         = document.getElementById('insentifSPPG').value || 'SPPG Kab. Tangerang';
-    const hariKerja    = document.getElementById('hariKerja').value    || 26;
-    const shiftPerHari = parseFloat(document.getElementById('shiftPerHari').value) || 1;
-
-    let text       = `👷 *REKAP INSENTIF RELAWAN SPPG*\n📍 ${sppg}\n\n`;
-    let totalOrang = 0;
-    let totalBln   = 0;
-
+    const sppg=document.getElementById('insentifSPPG').value||'SPPG Onyam';
+    const hari=document.getElementById('hariKerja').value||26;
+    const shift=parseFloat(document.getElementById('shiftPerHari').value)||1;
+    let txt=`👷 *REKAP INSENTIF RELAWAN*\n📍 ${sppg}\n\n`, tO=0, tB=0;
     divisiRelawan.forEach(d => {
-        const orang    = parseFloat(document.getElementById('org-' + d.id)?.value) || 0;
-        const insentif = parseFloat(document.getElementById('ins-' + d.id)?.value) || 0;
-        const sub      = orang * insentif * shiftPerHari;
-        const bln      = sub * hariKerja;
-        totalOrang    += orang * shiftPerHari;
-        totalBln      += bln;
-        if (orang > 0) {
-            text += `${d.nama}: ${orang * shiftPerHari} org × Rp ${insentif.toLocaleString('id')}/hari = Rp ${bln.toLocaleString('id')}/bln\n`;
-        }
+        const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0;
+        const i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0;
+        const b=o*i*shift*hari; tO+=o*shift; tB+=b;
+        if(o>0) txt+=`${d.nama}: ${o*shift} org × Rp ${i.toLocaleString('id')}/hari = Rp ${b.toLocaleString('id')}/bln\n`;
     });
-
-    text += `\n📊 *TOTAL*\n👥 Relawan: ${totalOrang} orang\n📅 Hari kerja: ${hariKerja} hari\n💰 *Total/bulan: Rp ${totalBln.toLocaleString('id')}*\n\n_MBG Pro Calculator_`;
-    return text;
+    txt+=`\n👥 Total: ${tO} orang | 📅 ${hari} hari\n💰 *Total/bln: Rp ${tB.toLocaleString('id')}*\n\n_MBG Pro Calculator_`;
+    return txt;
 }
 
-function shareInsentif() {
-    window.open('https://wa.me/?text=' + encodeURIComponent(getInsentifText()), '_blank');
-}
-
-function copyInsentif() {
-    navigator.clipboard.writeText(getInsentifText())
-        .then(() => showToast('✅ Rekap insentif disalin!'))
-        .catch(() => showToast('⚠️ Gagal copy, coba lagi'));
-}
-
-function downloadInsentifCSV() {
-    const hariKerja    = document.getElementById('hariKerja').value    || 26;
-    const shiftPerHari = parseFloat(document.getElementById('shiftPerHari').value) || 1;
-    let csv = 'Divisi,Jumlah Orang,Insentif Per Hari,Subtotal Per Hari,Total Per Bulan\n';
-
-    divisiRelawan.forEach(d => {
-        const orang    = parseFloat(document.getElementById('org-' + d.id)?.value) || 0;
-        const insentif = parseFloat(document.getElementById('ins-' + d.id)?.value) || 0;
-        const subHarian  = orang * insentif * shiftPerHari;
-        const subBulanan = subHarian * hariKerja;
-        csv += `"${d.nama}",${orang * shiftPerHari},${insentif},${subHarian},${subBulanan}\n`;
+function shareInsentif()      { window.open('https://wa.me/?text='+encodeURIComponent(getInsentifText()),'_blank'); }
+function copyInsentif()       { navigator.clipboard.writeText(getInsentifText()).then(()=>showToast('✅ Disalin!')); }
+function downloadInsentifCSV(){ 
+    const hari=document.getElementById('hariKerja').value||26, shift=parseFloat(document.getElementById('shiftPerHari').value)||1;
+    let csv='Divisi,Jumlah Orang,Insentif/Hari,Subtotal/Hari,Total/Bulan\n';
+    divisiRelawan.forEach(d=>{
+        const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0, i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0;
+        const sh=o*i*shift; csv+=`"${d.nama}",${o*shift},${i},${sh},${sh*hari}\n`;
     });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = 'rekap-insentif-relawan.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('✅ CSV insentif didownload!');
+    const b=new Blob([csv],{type:'text/csv;charset=utf-8;'}), u=URL.createObjectURL(b), a=document.createElement('a');
+    a.href=u; a.download='rekap-insentif.csv'; a.click(); URL.revokeObjectURL(u);
+    showToast('✅ CSV didownload!');
 }
 
 function printInsentif() {
-    const sppg      = document.getElementById('insentifSPPG').value || 'SPPG Kab. Tangerang';
-    const hariKerja = document.getElementById('hariKerja').value    || 26;
-    const shiftPerHari = parseFloat(document.getElementById('shiftPerHari').value) || 1;
-
-    let rows = '';
-    let grandBln = 0;
-    let grandOrg = 0;
-
-    divisiRelawan.forEach(d => {
-        const orang    = parseFloat(document.getElementById('org-' + d.id)?.value) || 0;
-        const insentif = parseFloat(document.getElementById('ins-' + d.id)?.value) || 0;
-        const subHarian  = orang * insentif * shiftPerHari;
-        const subBulanan = subHarian * hariKerja;
-        grandBln += subBulanan;
-        grandOrg += orang * shiftPerHari;
-        rows += `<tr>
-            <td>${d.nama}</td>
-            <td>${orang * shiftPerHari}</td>
-            <td>Rp ${insentif.toLocaleString('id')}</td>
-            <td>Rp ${subHarian.toLocaleString('id')}</td>
-            <td>Rp ${subBulanan.toLocaleString('id')}</td>
-        </tr>`;
+    const sppg=document.getElementById('insentifSPPG').value||'SPPG Onyam';
+    const hari=document.getElementById('hariKerja').value||26, shift=parseFloat(document.getElementById('shiftPerHari').value)||1;
+    let rows='', gB=0, gO=0;
+    divisiRelawan.forEach(d=>{
+        const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0, i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0;
+        const sh=o*i*shift, bl=sh*hari; gB+=bl; gO+=o*shift;
+        rows+=`<tr><td>${d.nama}</td><td>${o*shift}</td><td>Rp ${i.toLocaleString('id')}</td><td>Rp ${sh.toLocaleString('id')}</td><td>Rp ${bl.toLocaleString('id')}</td></tr>`;
     });
-
-    const w = window.open('', '_blank');
-    w.document.write(`<!DOCTYPE html><html><head><title>Rekap Insentif</title>
-    <style>
-        body{font-family:Arial,sans-serif;padding:30px;color:#333;}
-        h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:10px;}
-        table{width:100%;border-collapse:collapse;margin:20px 0;}
-        th{background:#667eea;color:white;padding:10px;text-align:left;}
-        td{padding:10px;border-bottom:1px solid #eee;}
-        tfoot td{background:#4caf50;color:white;font-weight:bold;}
-        .total-box{background:#4caf50;color:white;padding:20px;border-radius:10px;text-align:center;margin:20px 0;}
-        .total-box .big{font-size:32px;font-weight:bold;color:#ffeb3b;}
-        @media print{button{display:none;}}
-    </style></head><body>
-    <h1>👷 Rekap Insentif Relawan SPPG</h1>
-    <p><strong>SPPG:</strong> ${sppg}</p>
-    <p><strong>Hari Kerja:</strong> ${hariKerja} hari | <strong>Shift/Hari:</strong> ${shiftPerHari}</p>
-    <table>
-        <thead><tr><th>Divisi</th><th>Orang</th><th>Insentif/Hari</th><th>Subtotal/Hari</th><th>Total/Bulan</th></tr></thead>
-        <tbody>${rows}</tbody>
-        <tfoot><tr><td>TOTAL</td><td>${grandOrg}</td><td>—</td><td>—</td><td>Rp ${grandBln.toLocaleString('id')}</td></tr></tfoot>
-    </table>
-    <div class="total-box">
-        <p>TOTAL INSENTIF / BULAN</p>
-        <div class="big">Rp ${grandBln.toLocaleString('id')}</div>
-    </div>
-    <p style="color:#888;font-size:12px;margin-top:20px;">
-        Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator
-    </p>
-    <button onclick="window.print()"
-            style="background:#667eea;color:white;padding:10px 20px;border:none;
-                   border-radius:8px;cursor:pointer;font-size:16px;">
-        🖨️ Print / Save PDF
-    </button>
-    </body></html>`);
+    const w=window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>Rekap Insentif</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#667eea;}table{width:100%;border-collapse:collapse;margin:15px 0;}th{background:#667eea;color:white;padding:9px;}td{padding:9px;border-bottom:1px solid #eee;}tfoot td{background:#4caf50;color:white;font-weight:bold;}.total{background:#4caf50;color:white;padding:18px;border-radius:10px;text-align:center;margin:18px 0;}.total .big{font-size:30px;font-weight:bold;color:#ffeb3b;}@media print{button{display:none;}}</style></head><body><h1>👷 Rekap Insentif — ${sppg}</h1><p>Hari Kerja: ${hari} hari | Shift/Hari: ${shift}</p><table><thead><tr><th>Divisi</th><th>Orang</th><th>Insentif/Hari</th><th>Subtotal/Hari</th><th>Total/Bulan</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>TOTAL</td><td>${gO}</td><td>—</td><td>—</td><td>Rp ${gB.toLocaleString('id')}</td></tr></tfoot></table><div class="total"><p>TOTAL INSENTIF / BULAN</p><div class="big">Rp ${gB.toLocaleString('id')}</div></div><p style="color:#888;font-size:11px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator</p><button onclick="window.print()" style="background:#667eea;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-size:15px;">🖨️ Print / PDF</button></body></html>`);
     w.document.close();
 }
 
 // ============================================================
-// REFERENSI SPPG KAB. TANGERANG
+// FEATURE 7 — ABSENSI RELAWAN
 // ============================================================
-function renderSPPGReferensi() {
-    const html = sppgKabTangerang.map(s => `
-        <div class="sppg-list-item">
-            <div>
-                <div style="font-weight:600;">${escapeHtml(s.nama)}</div>
-                <div class="sppg-kecamatan">📍 Kec. ${escapeHtml(s.kecamatan)}</div>
-            </div>
-            <span style="font-size:11px;color:var(--success);font-weight:600;">✅ Aktif</span>
-        </div>`).join('');
-
-    document.getElementById('sppgReferensiList').innerHTML = html;
+function getAbsenKey() {
+    const tgl   = document.getElementById('absenTanggal').value || new Date().toISOString().split('T')[0];
+    const shift = document.getElementById('absenShift').value   || 'Pagi';
+    return tgl + '_' + shift;
 }
 
+function setAbsen(no, status) {
+    const key = getAbsenKey();
+    if (!absensiDB[key]) absensiDB[key] = {};
+
+    // Toggle off jika klik status yang sama
+    if (absenStatus[no] === status) {
+        delete absenStatus[no];
+        delete absensiDB[key][no];
+    } else {
+        absenStatus[no]      = status;
+        absensiDB[key][no]   = status;
+    }
+
+    // Update card tampilan
+    const card = document.getElementById('card-relawan-' + no);
+    if (card) {
+        card.className = 'relawan-card ' + (absenStatus[no] || '');
+    }
+
+    // Update tombol aktif
+    ['hadir','izin','sakit','alpha'].forEach(s => {
+        const btn = document.getElementById('abtn-' + no + '-' + s);
+        if (btn) {
+            btn.className = 'absen-btn ' + (absenStatus[no] === s ? 'active-'+s : '');
+        }
+    });
+
+    updateAbsenStats();
+}
+
+function updateAbsenStats() {
+    const hadir = Object.values(absenStatus).filter(v=>v==='hadir').length;
+    const izin  = Object.values(absenStatus).filter(v=>v==='izin').length;
+    const sakit = Object.values(absenStatus).filter(v=>v==='sakit').length;
+    const alpha = Object.values(absenStatus).filter(v=>v==='alpha').length;
+
+    document.getElementById('as-hadir').textContent = hadir;
+    document.getElementById('as-izin').textContent  = izin;
+    document.getElementById('as-alpha').textContent = alpha + sakit;
+}
+
+function renderRelawanList() {
+    const key = getAbsenKey();
+    if (absensiDB[key]) absenStatus = { ...absensiDB[key] };
+
+    const search = (document.getElementById('searchRelawan')?.value || '').toLowerCase();
+    const filtered = dataRelawan.filter(r => {
+        const matchFilter = filterAktif === 'semua' || r.divisi === filterAktif;
+        const matchSearch = r.nama.toLowerCase().includes(search) || r.divisi.toLowerCase().includes(search);
+        return matchFilter && matchSearch;
+    });
+
+    document.getElementById('relawanList').innerHTML = filtered.map(r => {
+        const status = absenStatus[r.no] || '';
+        return `
+        <div class="relawan-card ${status}" id="card-relawan-${r.no}">
+            <div class="relawan-no">${r.no}</div>
+            <div class="relawan-info">
+                <div class="relawan-nama">${escapeHtml(r.nama)}</div>
+                <div class="relawan-meta">
+                    <span class="badge-divisi">${escapeHtml(r.divisi)}</span>
+                    <span class="${r.rekening ? 'badge-rekening-ok' : 'badge-rekening-no'}">
+                        ${r.rekening ? '🏦 Rek ✓' : '🏦 Belum'}
+                    </span>
+                </div>
+            </div>
+            <div class="absen-btns">
+                <button class="absen-btn ${status==='hadir'?'active-hadir':''}" id="abtn-${r.no}-hadir"
+                        onclick="setAbsen(${r.no},'hadir')" title="Hadir">✅</button>
+                <button class="absen-btn ${status==='izin'?'active-izin':''}"  id="abtn-${r.no}-izin"
+                        onclick="setAbsen(${r.no},'izin')"  title="Izin">🟡</button>
+                <button class="absen-btn ${status==='sakit'?'active-sakit':''}" id="abtn-${r.no}-sakit"
+                        onclick="setAbsen(${r.no},'sakit')" title="Sakit">🩺</button>
+                <button class="absen-btn ${status==='alpha'?'active-alpha':''}" id="abtn-${r.no}-alpha"
+                        onclick="setAbsen(${r.no},'alpha')" title="Alpha">❌</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function setFilter(divisi, el) {
+    filterAktif = divisi;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderRelawanList();
+}
+
+function filterRelawan() { renderRelawanList(); }
+
+function hadirSemua() {
+    dataRelawan.forEach(r => { absenStatus[r.no] = 'hadir'; });
+    renderRelawanList();
+    updateAbsenStats();
+    showToast('✅ Semua relawan ditandai Hadir!');
+}
+
+function resetAbsen() {
+    if (confirm('Reset semua absensi hari ini?')) {
+        absenStatus = {};
+        renderRelawanList();
+        updateAbsenStats();
+        showToast('🔄 Absensi direset');
+    }
+}
+
+function simpanAbsensi() {
+    const key = getAbsenKey();
+    absensiDB[key] = { ...absenStatus };
+    localStorage.setItem('absensiDB', JSON.stringify(absensiDB));
+    const hadir = Object.values(absenStatus).filter(v=>v==='hadir').length;
+    showToast(`💾 Absensi disimpan! ${hadir} orang hadir`);
+}
+
+function getAbsensiText() {
+    const tgl   = document.getElementById('absenTanggal').value;
+    const shift = document.getElementById('absenShift').value;
+    const tglFmt = new Date(tgl).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+    const hadir = dataRelawan.filter(r => absenStatus[r.no]==='hadir');
+    const izin  = dataRelawan.filter(r => absenStatus[r.no]==='izin');
+    const sakit = dataRelawan.filter(r => absenStatus[r.no]==='sakit');
+    const alpha = dataRelawan.filter(r => absenStatus[r.no]==='alpha');
+    const blm   = dataRelawan.filter(r => !absenStatus[r.no]);
+
+    let txt = `📝 *ABSENSI RELAWAN SPPG ONYAM*\n📍 Gunung Kaler, Kab. Tangerang\n📅 ${tglFmt} | Shift ${shift}\n\n`;
+    txt += `📊 *REKAP:*\n✅ Hadir : ${hadir.length} orang\n🟡 Izin  : ${izin.length} orang\n🩺 Sakit : ${sakit.length} orang\n❌ Alpha : ${alpha.length} orang\n⬜ Belum : ${blm.length} orang\n📌 Total : 50 orang\n\n`;
+
+    if (hadir.length) txt += `*✅ HADIR (${hadir.length}):*\n` + hadir.map((r,i) => `${i+1}. ${r.nama} [${r.divisi}]`).join('\n') + '\n\n';
+    if (izin.length)  txt += `*🟡 IZIN (${izin.length}):*\n`  + izin.map((r,i)  => `${i+1}. ${r.nama}`).join('\n') + '\n\n';
+    if (sakit.length) txt += `*🩺 SAKIT (${sakit.length}):*\n` + sakit.map((r,i) => `${i+1}. ${r.nama}`).join('\n') + '\n\n';
+    if (alpha.length) txt += `*❌ ALPHA (${alpha.length}):*\n` + alpha.map((r,i) => `${i+1}. ${r.nama}`).join('\n') + '\n\n';
+
+    txt += `_MBG Pro Calculator — SPPG Onyam_`;
+    return txt;
+}
+
+function shareAbsensi() { window.open('https://wa.me/?text='+encodeURIComponent(getAbsensiText()),'_blank'); }
+function copyAbsensi()  { navigator.clipboard.writeText(getAbsensiText()).then(()=>showToast('✅ Absensi disalin!')); }
+
+function downloadAbsenCSV() {
+    const tgl   = document.getElementById('absenTanggal').value;
+    const shift = document.getElementById('absenShift').value;
+    let csv = `ABSENSI RELAWAN SPPG ONYAM\nTanggal,${tgl}\nShift,${shift}\n\nNo,Nama,Divisi,Status,Rekening\n`;
+    dataRelawan.forEach(r => {
+        const st = absenStatus[r.no] || 'Belum Absen';
+        const stLabel = st==='hadir'?'Hadir':st==='izin'?'Izin':st==='sakit'?'Sakit':st==='alpha'?'Alpha':'Belum Absen';
+        csv += `${r.no},"${r.nama}","${r.divisi}",${stLabel},${r.rekening?'Sudah':'Belum'}\n`;
+    });
+    const b=new Blob([csv],{type:'text/csv;charset=utf-8;'}), u=URL.createObjectURL(b), a=document.createElement('a');
+    a.href=u; a.download=`absensi-onyam-${tgl}-${shift}.csv`; a.click(); URL.revokeObjectURL(u);
+    showToast('✅ CSV absensi didownload!');
+}
+
+function printAbsensi() {
+    const tgl   = document.getElementById('absenTanggal').value;
+    const shift = document.getElementById('absenShift').value;
+    const tglFmt = new Date(tgl).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+    const statusLabel = s => s==='hadir'?'<span style="color:#2e7d32;font-weight:bold;">✅ Hadir</span>':s==='izin'?'<span style="color:#e65100;">🟡 Izin</span>':s==='sakit'?'<span style="color:#880e4f;">🩺 Sakit</span>':s==='alpha'?'<span style="color:#c62828;">❌ Alpha</span>':'<span style="color:#888;">⬜ —</span>';
+
+    const hadir = dataRelawan.filter(r=>absenStatus[r.no]==='hadir').length;
+    const tidakHadir = 50 - hadir;
+
+    let rows = dataRelawan.map(r => `<tr><td>${r.no}</td><td>${r.nama}</td><td>${r.divisi}</td><td>${statusLabel(absenStatus[r.no])}</td><td style="color:${r.rekening?'#2e7d32':'#c62828'}">${r.rekening?'✅ Sudah':'❌ Belum'}</td></tr>`).join('');
+
+    const w=window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>Absensi SPPG Onyam</title><style>body{font-family:Arial,sans-serif;padding:25px;font-size:13px;}h1{color:#00897b;border-bottom:2px solid #00897b;padding-bottom:8px;}table{width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;}th{background:#00897b;color:white;padding:8px 6px;text-align:left;}td{padding:8px 6px;border-bottom:1px solid #eee;}tr:nth-child(even)td{background:#f5f5f5;}.summary{display:flex;gap:15px;margin:12px 0;flex-wrap:wrap;}.s-box{background:#f0f4ff;border-radius:8px;padding:10px 15px;text-align:center;}.s-box .sv{font-size:22px;font-weight:bold;color:#667eea;}.s-box .sl{font-size:11px;color:#888;}@media print{button{display:none;}}</style></head><body>
+    <h1>📝 Absensi Relawan SPPG Onyam</h1>
+    <p><strong>📍 Kp. Sambidoyong, Desa Onyam, Gunung Kaler, Kab. Tangerang</strong></p>
+    <p>📅 ${tglFmt} | Shift: ${shift}</p>
+    <div class="summary">
+        <div class="s-box"><div class="sv">50</div><div class="sl">Total</div></div>
+        <div class="s-box"><div class="sv" style="color:#2e7d32">${hadir}</div><div class="sl">✅ Hadir</div></div>
+        <div class="s-box"><div class="sv" style="color:#c62828">${tidakHadir}</div><div class="sl">❌ Tidak</div></div>
+        <div class="s-box"><div class="sv" style="color:#7b1fa2">${dataRelawan.filter(r=>r.rekening).length}</div><div class="sl">🏦 Rek ✓</div></div>
+    </div>
+    <table><thead><tr><th>#</th><th>Nama</th><th>Divisi</th><th>Status</th><th>Rekening</th></tr></thead><tbody>${rows}</tbody></table>
+    <p style="color:#888;font-size:11px;margin-top:15px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator</p>
+    <button onclick="window.print()" style="background:#00897b;color:white;padding:9px 20px;border:none;border-radius:8px;cursor:pointer;font-size:14px;margin-top:8px;">🖨️ Print / PDF</button>
+    </body></html>`);
+    w.document.close();
+}
+
+// Listener perubahan tanggal/shift absen — reload data tersimpan
+document.addEventListener('DOMContentLoaded', () => {
+    ['absenTanggal','absenShift'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', () => {
+            const key = getAbsenKey();
+            absenStatus = absensiDB[key] ? { ...absensiDB[key] } : {};
+            renderRelawanList();
+            updateAbsenStats();
+        });
+    });
+});
+
 // ============================================================
-// SHARE / EXPORT (TAB KALKULATOR)
+// SHARE / EXPORT (KALKULATOR)
 // ============================================================
 function getLaporanText() {
-    const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal  = new Date(document.getElementById('tanggal').value)
-        .toLocaleDateString('id', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-
-    return `🍚 *LAPORAN KEBUTUHAN BERAS MBG*
-📍 ${namaSSPG}
-📅 ${tanggal}
-
-*PORSI:*
-👶 PK (PAUD) : ${lastResult.porsiPK || 0} porsi
-👨 PB (SD/SMP): ${lastResult.porsiPB || 0} porsi
-🍽️ Total      : ${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)} porsi
-
-*KEBUTUHAN BERAS:*
-• Beras PK  : ${(lastResult.berasPK  || 0).toFixed(2)} kg
-• Beras PB  : ${(lastResult.berasPB  || 0).toFixed(2)} kg
-• Subtotal  : ${(lastResult.subtotal || 0).toFixed(2)} kg
-• Buffer ${lastResult.bufferPct || 10}%: ${(lastResult.bufferKg || 0).toFixed(2)} kg
-• *TOTAL    : ${lastResult.totalCeil || 0} kg*
-
-♨️ Batch Masak    : ${lastResult.batchCount || 0} batch
-⏱️ Estimasi Waktu : ${lastResult.waktuMasak || 0} menit
-🍚 Nasi Dihasilkan: ${(lastResult.nasiTotal || 0).toFixed(1)} kg
-
-${lastResult.totalBiaya > 0 ? '💰 Est. Biaya: Rp ' + Math.round(lastResult.totalBiaya).toLocaleString('id') : ''}
-
-_MBG Pro Calculator_`;
+    const namaSSPG = document.getElementById('namaSSPG').value||'SPPG';
+    const tgl      = new Date(document.getElementById('tanggal').value).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    return `🍚 *LAPORAN KEBUTUHAN BERAS MBG*\n📍 ${namaSSPG}\n📅 ${tgl}\n\n*PORSI:*\n👶 PK (PAUD) : ${lastResult.porsiPK||0} porsi\n👨 PB (SD/SMP): ${lastResult.porsiPB||0} porsi\n🍽️ Total      : ${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)} porsi\n\n*KEBUTUHAN BERAS:*\n• Beras PK  : ${(lastResult.berasPK||0).toFixed(2)} kg\n• Beras PB  : ${(lastResult.berasPB||0).toFixed(2)} kg\n• Subtotal  : ${(lastResult.subtotal||0).toFixed(2)} kg\n• Buffer ${lastResult.bufferPct||10}%: ${(lastResult.bufferKg||0).toFixed(2)} kg\n• *TOTAL    : ${lastResult.totalCeil||0} kg*\n\n♨️ Batch: ${lastResult.batchCount||0} | ⏱️ ${lastResult.waktuMasak||0} mnt\n🍚 Nasi: ${(lastResult.nasiTotal||0).toFixed(1)} kg\n${lastResult.totalBiaya>0?'\n💰 Est. Biaya: Rp '+Math.round(lastResult.totalBiaya).toLocaleString('id'):''}\n\n_MBG Pro Calculator — SPPG Onyam_`;
 }
 
-function shareWhatsApp() {
-    window.open('https://wa.me/?text=' + encodeURIComponent(getLaporanText()), '_blank');
-    closeShare();
-}
-
-function copyClipboard() {
-    navigator.clipboard.writeText(getLaporanText())
-        .then(() => { showToast('✅ Disalin ke clipboard!'); closeShare(); })
-        .catch(() => showToast('⚠️ Gagal copy'));
-}
+function shareWhatsApp() { window.open('https://wa.me/?text='+encodeURIComponent(getLaporanText()),'_blank'); closeShare(); }
+function copyClipboard()  { navigator.clipboard.writeText(getLaporanText()).then(()=>{ showToast('✅ Disalin!'); closeShare(); }); }
 
 function downloadCSV() {
-    const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal  = document.getElementById('tanggal').value;
-    let csv = `LAPORAN KEBUTUHAN BERAS MBG\nSSPG,${namaSSPG}\nTanggal,${tanggal}\n\n`;
-    csv += 'PORSI\n';
-    csv += `PK (PAUD),${lastResult.porsiPK || 0}\n`;
-    csv += `PB (SD/SMP),${lastResult.porsiPB || 0}\n`;
-    csv += `Total,${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)}\n\n`;
-    csv += 'KEBUTUHAN BERAS\n';
-    csv += `Beras PK,${(lastResult.berasPK  || 0).toFixed(2)} kg\n`;
-    csv += `Beras PB,${(lastResult.berasPB  || 0).toFixed(2)} kg\n`;
-    csv += `Subtotal,${(lastResult.subtotal || 0).toFixed(2)} kg\n`;
-    csv += `Buffer,${(lastResult.bufferKg   || 0).toFixed(2)} kg\n`;
-    csv += `TOTAL,${lastResult.totalCeil || 0} kg\n`;
-    csv += `Batch Masak,${lastResult.batchCount || 0}\n`;
-    csv += `Waktu Masak,${lastResult.waktuMasak || 0} menit\n`;
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = `laporan-mbg-${tanggal}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('✅ CSV berhasil didownload!');
-    closeShare();
+    const tgl = document.getElementById('tanggal').value;
+    let csv=`LAPORAN MBG\nSSPG,${document.getElementById('namaSSPG').value||'SPPG'}\nTanggal,${tgl}\n\nPorsi PK,${lastResult.porsiPK||0}\nPorsi PB,${lastResult.porsiPB||0}\nTotal Porsi,${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)}\n\nBeras PK,${(lastResult.berasPK||0).toFixed(2)} kg\nBeras PB,${(lastResult.berasPB||0).toFixed(2)} kg\nSubtotal,${(lastResult.subtotal||0).toFixed(2)} kg\nBuffer,${(lastResult.bufferKg||0).toFixed(2)} kg\nTOTAL,${lastResult.totalCeil||0} kg\nBatch,${lastResult.batchCount||0}\nWaktu,${lastResult.waktuMasak||0} menit\n`;
+    const b=new Blob([csv],{type:'text/csv;charset=utf-8;'}), u=URL.createObjectURL(b), a=document.createElement('a');
+    a.href=u; a.download=`laporan-mbg-${tgl}.csv`; a.click(); URL.revokeObjectURL(u);
+    showToast('✅ CSV didownload!'); closeShare();
 }
 
 function printPDF() {
-    const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal  = new Date(document.getElementById('tanggal').value)
-        .toLocaleDateString('id', { day:'numeric', month:'long', year:'numeric' });
-
-    const w = window.open('', '_blank');
-    w.document.write(`<!DOCTYPE html><html><head>
-    <title>Laporan MBG - ${namaSSPG}</title>
-    <style>
-        body{font-family:Arial,sans-serif;padding:30px;color:#333;}
-        h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:10px;}
-        table{width:100%;border-collapse:collapse;margin:20px 0;}
-        th{background:#667eea;color:white;padding:10px;text-align:left;}
-        td{padding:10px;border-bottom:1px solid #eee;}
-        .total-box{background:#667eea;color:white;padding:20px;border-radius:10px;text-align:center;margin:20px 0;}
-        .total-box .big{font-size:36px;font-weight:bold;}
-        @media print{button{display:none;}}
-    </style></head><body>
-    <h1>🍚 Laporan Kebutuhan Beras MBG</h1>
-    <p><strong>SPPG:</strong> ${namaSSPG} &nbsp;|&nbsp; <strong>Tanggal:</strong> ${tanggal}</p>
-    <table>
-        <tr><th colspan="2">DATA PORSI</th></tr>
-        <tr><td>PK (PAUD)</td><td><strong>${lastResult.porsiPK || 0} porsi</strong></td></tr>
-        <tr><td>PB (SD/SMP)</td><td><strong>${lastResult.porsiPB || 0} porsi</strong></td></tr>
-        <tr><td>Total Porsi</td><td><strong>${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)} porsi</strong></td></tr>
-    </table>
-    <table>
-        <tr><th colspan="2">KEBUTUHAN BERAS</th></tr>
-        <tr><td>Beras PK</td><td>${(lastResult.berasPK  || 0).toFixed(2)} kg</td></tr>
-        <tr><td>Beras PB</td><td>${(lastResult.berasPB  || 0).toFixed(2)} kg</td></tr>
-        <tr><td>Subtotal</td><td>${(lastResult.subtotal || 0).toFixed(2)} kg</td></tr>
-        <tr><td>Buffer ${lastResult.bufferPct || 10}%</td><td>${(lastResult.bufferKg || 0).toFixed(2)} kg</td></tr>
-        <tr><td>Batch Masak</td><td>${lastResult.batchCount || 0} batch</td></tr>
-        <tr><td>Estimasi Waktu</td><td>${lastResult.waktuMasak || 0} menit</td></tr>
-    </table>
-    <div class="total-box">
-        <p>TOTAL KEBUTUHAN BERAS</p>
-        <div class="big">${lastResult.totalCeil || 0} kg</div>
-    </div>
-    ${lastResult.totalBiaya > 0
-        ? `<p><strong>Estimasi Biaya: Rp ${Math.round(lastResult.totalBiaya).toLocaleString('id')}</strong></p>`
-        : ''}
-    <p style="color:#888;font-size:12px;margin-top:30px;">
-        Dibuat: ${new Date().toLocaleString('id')} | MBG Pro Calculator
-    </p>
-    <button onclick="window.print()"
-            style="background:#667eea;color:white;padding:10px 20px;border:none;
-                   border-radius:8px;cursor:pointer;font-size:16px;">
-        🖨️ Print / Save PDF
-    </button>
-    </body></html>`);
-    w.document.close();
-    closeShare();
+    const tgl   = new Date(document.getElementById('tanggal').value).toLocaleDateString('id',{day:'numeric',month:'long',year:'numeric'});
+    const sppg  = document.getElementById('namaSSPG').value||'SPPG';
+    const w = window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>Laporan MBG</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:9px;}table{width:100%;border-collapse:collapse;margin:15px 0;}th{background:#667eea;color:white;padding:9px;text-align:left;}td{padding:9px;border-bottom:1px solid #eee;}.tb{background:#667eea;color:white;padding:18px;border-radius:10px;text-align:center;margin:18px 0;}.tb .big{font-size:34px;font-weight:bold;color:#ffeb3b;}@media print{button{display:none;}}</style></head><body><h1>🍚 Laporan Beras MBG</h1><p><strong>SPPG:</strong> ${sppg} &nbsp;|&nbsp; <strong>Tanggal:</strong> ${tgl}</p><table><tr><th colspan="2">PORSI</th></tr><tr><td>PK (PAUD)</td><td>${lastResult.porsiPK||0}</td></tr><tr><td>PB (SD/SMP)</td><td>${lastResult.porsiPB||0}</td></tr><tr><td>Total</td><td>${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)}</td></tr></table><table><tr><th colspan="2">KEBUTUHAN BERAS</th></tr><tr><td>Beras PK</td><td>${(lastResult.berasPK||0).toFixed(2)} kg</td></tr><tr><td>Beras PB</td><td>${(lastResult.berasPB||0).toFixed(2)} kg</td></tr><tr><td>Subtotal</td><td>${(lastResult.subtotal||0).toFixed(2)} kg</td></tr><tr><td>Buffer ${lastResult.bufferPct||10}%</td><td>${(lastResult.bufferKg||0).toFixed(2)} kg</td></tr><tr><td>Batch</td><td>${lastResult.batchCount||0}</td></tr><tr><td>Waktu</td><td>${lastResult.waktuMasak||0} menit</td></tr></table><div class="tb"><p>TOTAL BERAS</p><div class="big">${lastResult.totalCeil||0} kg</div></div>${lastResult.totalBiaya>0?`<p><strong>Estimasi Biaya: Rp ${Math.round(lastResult.totalBiaya).toLocaleString('id')}</strong></p>`:''}<p style="color:#888;font-size:11px;margin-top:20px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator</p><button onclick="window.print()" style="background:#667eea;color:white;padding:9px 18px;border:none;border-radius:8px;cursor:pointer;font-size:14px;">🖨️ Print / PDF</button></body></html>`);
+    w.document.close(); closeShare();
 }
 
 // ============================================================
@@ -2045,37 +1667,27 @@ function closeShare() { document.getElementById('shareModal').classList.remove('
 
 function showToast(msg) {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
+    t.textContent = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 function toggleDark() {
     document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    document.querySelector('.dark-toggle').textContent = isDark ? '☀️ Light' : '🌙 Dark';
-    localStorage.setItem('darkMode', isDark);
+    const d = document.body.classList.contains('dark-mode');
+    document.querySelector('.dark-toggle').textContent = d ? '☀️ Light' : '🌙 Dark';
+    localStorage.setItem('darkMode', d);
 }
 
 function resetForm() {
-    if (confirm('Reset semua input porsi?')) {
-        document.getElementById('porsiPK').value = '';
-        document.getElementById('porsiPB').value = '';
-        document.getElementById('buffer').value  = 10;
-        calculate();
-        showToast('🔄 Form direset');
+    if (confirm('Reset input porsi?')) {
+        document.getElementById('porsiPK').value=''; document.getElementById('porsiPB').value=''; document.getElementById('buffer').value=10;
+        calculate(); showToast('🔄 Form direset');
     }
 }
 
-// Sanitize untuk mencegah XSS
 function escapeHtml(str) {
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
 </script>
 </body>
-    </html>
+</html>
