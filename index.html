@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator MBG </title>
+    <title>Kalkulator MBG Pro</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -73,7 +73,9 @@
             overflow-x: auto;
             gap: 5px;
             padding: 5px 0;
+            scrollbar-width: none;
         }
+        .tabs::-webkit-scrollbar { display: none; }
         
         .tab {
             background: rgba(255,255,255,0.2);
@@ -121,6 +123,12 @@
             align-items: center;
             gap: 8px;
         }
+
+        .card h3 {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
         
         /* INPUT */
         .input-row {
@@ -142,7 +150,8 @@
             margin-bottom: 6px;
         }
         
-        .input-group input, .input-group select {
+        .input-group input,
+        .input-group select {
             width: 100%;
             padding: 10px 12px;
             border: 2px solid var(--border);
@@ -153,12 +162,17 @@
             transition: border-color 0.2s;
         }
         
-        .input-group input:focus, .input-group select:focus {
+        .input-group input:focus,
+        .input-group select:focus {
             outline: none;
             border-color: var(--primary);
         }
         
-        .hint { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+        .hint {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
         
         /* BUTTON */
         .btn {
@@ -187,7 +201,7 @@
         
         .btn-success { background: var(--success); color: white; }
         .btn-warning { background: var(--warning); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger  { background: var(--danger);  color: white; }
         .btn-outline {
             background: transparent;
             border: 2px solid var(--primary);
@@ -199,6 +213,12 @@
             gap: 8px;
             margin-top: 10px;
             flex-wrap: wrap;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 6px;
         }
         
         /* RESULT BOX */
@@ -262,6 +282,13 @@
             color: var(--text);
         }
         
+        .bahan-table tfoot td {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            padding: 10px 8px;
+        }
+
         .bahan-table tr:last-child td { border-bottom: none; }
         .bahan-table tr:nth-child(even) td { background: rgba(102,126,234,0.05); }
         
@@ -273,10 +300,11 @@
             margin-bottom: 10px;
             border-left: 4px solid var(--success);
             border: 1px solid var(--border);
+            border-left: 4px solid var(--success);
         }
         
         .stok-card.warning { border-left-color: var(--warning); }
-        .stok-card.danger { border-left-color: var(--danger); }
+        .stok-card.danger  { border-left-color: var(--danger);  }
         
         .stok-header {
             display: flex;
@@ -286,6 +314,7 @@
         }
         
         .stok-name { font-weight: bold; font-size: 15px; }
+        
         .stok-badge {
             padding: 4px 10px;
             border-radius: 20px;
@@ -294,9 +323,9 @@
             color: white;
         }
         
-        .badge-aman { background: var(--success); }
+        .badge-aman    { background: var(--success); }
         .badge-warning { background: var(--warning); }
-        .badge-habis { background: var(--danger); }
+        .badge-habis   { background: var(--danger);  }
         
         .stok-progress {
             background: var(--border);
@@ -335,18 +364,10 @@
             margin-bottom: 8px;
         }
         
-        .riwayat-date { font-size: 12px; color: var(--text-light); }
+        .riwayat-date  { font-size: 12px; color: var(--text-light); }
         .riwayat-total { font-weight: bold; color: var(--primary); font-size: 16px; }
-        
         .riwayat-detail { font-size: 13px; color: var(--text-light); }
-        
         .riwayat-actions { display: flex; gap: 5px; margin-top: 8px; }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 6px;
-        }
         
         /* BIAYA */
         .biaya-total-box {
@@ -358,10 +379,7 @@
             margin-top: 15px;
         }
         
-        .biaya-total-box .amount {
-            font-size: 28px;
-            font-weight: bold;
-        }
+        .biaya-total-box .amount { font-size: 28px; font-weight: bold; }
         
         /* TOAST */
         .toast {
@@ -379,61 +397,17 @@
             transition: opacity 0.3s;
             white-space: nowrap;
         }
-        
         .toast.show { opacity: 1; }
         
-        /* BOTTOM NAV */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            display: flex;
-            z-index: 100;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 5px;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            color: var(--text-light);
-            font-size: 10px;
-            transition: color 0.2s;
-        }
-        
-        .nav-item.active { color: var(--primary); }
-        .nav-item span:first-child { font-size: 22px; margin-bottom: 3px; }
-        
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-light);
-        }
-        
-        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
-        .empty-state h3 { font-size: 16px; margin-bottom: 8px; color: var(--text); }
-        .empty-state p { font-size: 14px; }
-
-        /* SHARE MODAL */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            right: 0; bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.5);
             z-index: 200;
             align-items: flex-end;
         }
-        
         .modal.show { display: flex; }
         
         .modal-content {
@@ -476,19 +450,14 @@
             border: 1px solid var(--border);
             transition: background 0.2s;
         }
-        
         .share-option:active { background: var(--bg); }
-        .share-icon { font-size: 28px; }
+        .share-icon  { font-size: 28px; }
         .share-label { font-weight: 600; font-size: 15px; }
-        .share-desc { font-size: 12px; color: var(--text-light); }
-
+        .share-desc  { font-size: 12px; color: var(--text-light); }
+        
         /* DIVIDER */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 15px 0;
-        }
-
+        .divider { border: none; border-top: 1px solid var(--border); margin: 15px 0; }
+        
         /* STAT GRID */
         .stat-grid {
             display: grid;
@@ -496,7 +465,7 @@
             gap: 10px;
             margin-bottom: 15px;
         }
-
+        
         .stat-card {
             background: var(--card);
             border-radius: 12px;
@@ -504,21 +473,198 @@
             text-align: center;
             border: 1px solid var(--border);
         }
-
-        .stat-icon { font-size: 24px; margin-bottom: 5px; }
+        
+        .stat-icon  { font-size: 24px; margin-bottom: 5px; }
         .stat-value { font-size: 20px; font-weight: bold; color: var(--primary); }
         .stat-label { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
+        .empty-state h3 { font-size: 16px; margin-bottom: 8px; color: var(--text); }
+        .empty-state p  { font-size: 14px; }
+
+        /* ===================== INSENTIF STYLES ===================== */
+
+        .insentif-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .insentif-stat {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .insentif-stat .val {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .insentif-stat .lbl {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .divisi-card {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+        }
+
+        .divisi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .divisi-name  { font-weight: bold; font-size: 14px; }
+        .divisi-total { font-weight: bold; color: var(--success); font-size: 13px; }
+
+        .divisi-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .divisi-inputs input {
+            width: 100%;
+            padding: 8px 6px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            background: var(--card);
+            color: var(--text);
+            text-align: center;
+        }
+
+        .divisi-inputs input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .divisi-inputs input[readonly] {
+            background: var(--card);
+            font-weight: bold;
+            color: var(--primary);
+            cursor: default;
+        }
+
+        .mini-label {
+            font-size: 10px;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .insentif-grand-total {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .grand-amount {
+            font-size: 30px;
+            font-weight: bold;
+            color: #ffeb3b;
+            word-break: break-all;
+        }
+
+        .grand-label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .sync-banner {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .sync-banner strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .sync-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.3; }
+        }
+
+        .info-box {
+            background: rgba(102,126,234,0.1);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            color: var(--text);
+            border-left: 4px solid var(--primary);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .sppg-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .sppg-list-item:last-child { border-bottom: none; }
+
+        .sppg-kecamatan {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ==================== HEADER ==================== -->
 <div class="header">
     <div class="header-top">
         <div>
-            <h1>🍚 MBG Calculator</h1>
-            <p class="subtitle">Manajemen Beras</p>
-            <p style="font-size: 11px; opacity: 0.7; margin-top: 4px;">by ToingDc 🍚</p>
+            <h1>🍚 MBG Pro Calculator</h1>
+            <p>Sistem Manajemen Beras & Relawan MBG</p>
         </div>
         <button class="dark-toggle" onclick="toggleDark()">🌙 Dark</button>
     </div>
@@ -528,357 +674,504 @@
         <button class="tab" onclick="showTab('biaya', this)">💰 Biaya</button>
         <button class="tab" onclick="showTab('stok', this)">📦 Stok</button>
         <button class="tab" onclick="showTab('riwayat', this)">📋 Riwayat</button>
+        <button class="tab" onclick="showTab('insentif', this)">👷 Insentif</button>
     </div>
 </div>
 
 <div class="content">
 
-    <!-- ==================== TAB 1: KALKULATOR ==================== -->
-    <div id="tab-kalkulator" class="tab-content active">
-        
-        <div class="card">
-            <h2>📍 Informasi SPPG</h2>
+<!-- ==================== TAB 1: KALKULATOR ==================== -->
+<div id="tab-kalkulator" class="tab-content active">
+
+    <div class="card">
+        <h2>📍 Informasi SPPG</h2>
+        <div class="input-group">
+            <label>Nama SPPG</label>
+            <input type="text" id="namaSSPG"
+                   placeholder="Contoh: SPPG Onyam Gunung Kaler"
+                   value="SPPG Onyam Gunung Kaler">
+        </div>
+        <div class="input-row">
             <div class="input-group">
-                <label>Nama SPPG</label>
-                <input type="text" id="namaSSPG" placeholder="Contoh: SPPG Onyam Gunung Kaler" value="SPPG Onyam Gunung Kaler">
+                <label>Tanggal</label>
+                <input type="date" id="tanggal">
             </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Tanggal</label>
-                    <input type="date" id="tanggal">
-                </div>
-                <div class="input-group">
-                    <label>Shift</label>
-                    <select id="shift">
-                        <option>Pagi</option>
-                        <option>Siang</option>
-                        <option>Sore</option>
-                    </select>
-                </div>
+            <div class="input-group">
+                <label>Shift</label>
+                <select id="shift">
+                    <option>Pagi</option>
+                    <option>Siang</option>
+                    <option>Sore</option>
+                </select>
             </div>
         </div>
-
-        <div class="card">
-            <h2>👶 Porsi Kecil (PK) - PAUD</h2>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Jumlah Porsi</label>
-                    <input type="number" id="porsiPK" placeholder="0" value="689" oninput="calculate()">
-                </div>
-                <div class="input-group">
-                    <label>Nasi/Porsi (g)</label>
-                    <input type="number" id="nasiPK" placeholder="125" value="125" oninput="calculate()">
-                </div>
-            </div>
-            <p class="hint">🍚 125g nasi = ±62.5g beras mentah per porsi</p>
-        </div>
-
-        <div class="card">
-            <h2>👨 Porsi Besar (PB) - SD/SMP/Dewasa</h2>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Jumlah Porsi</label>
-                    <input type="number" id="porsiPB" placeholder="0" value="1461" oninput="calculate()">
-                </div>
-                <div class="input-group">
-                    <label>Nasi/Porsi (g)</label>
-                    <input type="number" id="nasiPB" placeholder="150" value="150" oninput="calculate()">
-                </div>
-            </div>
-            <p class="hint">🍚 150g nasi = ±75g beras mentah per porsi</p>
-        </div>
-
-        <div class="card">
-            <h2>⚙️ Pengaturan</h2>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Buffer (%)</label>
-                    <input type="number" id="buffer" value="10" min="0" max="30" oninput="calculate()">
-                </div>
-                <div class="input-group">
-                    <label>Rasio Steamer</label>
-                    <select id="rasioSteamer" onchange="calculate()">
-                        <option value="2.0">2.0x (Real lapangan)</option>
-                        <option value="2.1">2.1x (Moderate)</option>
-                        <option value="2.4" selected>2.4x (Ideal)</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- RESULT -->
-        <div class="result-box" id="resultBox">
-            <div class="result-item">
-                <span class="label">Total Porsi</span>
-                <span class="value" id="r-totalPorsi">0</span>
-            </div>
-            <div class="result-item">
-                <span class="label">Beras PK</span>
-                <span class="value" id="r-berasPK">0 kg</span>
-            </div>
-            <div class="result-item">
-                <span class="label">Beras PB</span>
-                <span class="value" id="r-berasPB">0 kg</span>
-            </div>
-            <div class="result-item">
-                <span class="label">Subtotal</span>
-                <span class="value" id="r-subtotal">0 kg</span>
-            </div>
-            <div class="result-item">
-                <span class="label">Buffer</span>
-                <span class="value" id="r-buffer">0 kg</span>
-            </div>
-            <div class="result-item">
-                <span class="label">Nasi Dihasilkan</span>
-                <span class="value" id="r-nasi">0 kg</span>
-            </div>
-            <div class="result-total">
-                <div class="big-number" id="r-total">0 kg</div>
-                <div class="big-label">⬆️ TOTAL BERAS DIBUTUHKAN</div>
-            </div>
-        </div>
-
-        <!-- STEAMER INFO -->
-        <div class="card" style="margin-top: 15px;">
-            <h2>♨️ Info Steamer</h2>
-<div class="input-group" style="margin-bottom: 12px;">
-    <label>🔥 Jumlah Steamer Aktif</label>
-    <select id="jumlahSteamer" onchange="calculate()">
-        <option value="1">1 Steamer</option>
-        <option value="2" selected>2 Steamer (Aktif Bersamaan)</option>
-        <option value="3">3 Steamer</option>
-        <option value="4">4 Steamer</option>
-    </select>
-    <p class="hint">💡 Semua steamer jalan bersamaan dalam 1 batch</p>
-</div>
-<div class="stat-grid">
-                <div class="stat-card">
-    <div class="stat-icon">🍳</div>
-    <div class="stat-value" id="r-batchCount">0</div>
-    <div class="stat-label">Batch Dibutuhkan</div>
-</div>
-<div class="stat-card">
-    <div class="stat-icon">⏱️</div>
-    <div class="stat-value" id="r-waktuMasak">0 menit</div>
-    <div class="stat-label">Total Waktu Masak</div>
-</div>
-<div class="stat-card">
-    <div class="stat-icon">♨️</div>
-    <div class="stat-value" id="r-kapasitasTotal">0 kg</div>
-    <div class="stat-label">Kapasitas per Batch</div>
-</div>
-<div class="stat-card">
-    <div class="stat-icon">🔥</div>
-    <div class="stat-value" id="r-jumlahSteamer">2</div>
-    <div class="stat-label">Steamer Aktif</div>
-</div>
-            </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Beras/Tray (kg)</label>
-                    <input type="number" id="berasPerTray" value="3" oninput="calculate()">
-                </div>
-                <div class="input-group">
-                    <label>Jumlah Tray</label>
-                    <input type="number" id="jumlahTray" value="12" oninput="calculate()">
-                </div>
-            </div>
-        </div>
-
-        <div class="btn-row">
-            <button class="btn btn-primary" onclick="simpanRiwayat()">💾 Simpan Riwayat</button>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-success" style="flex:1" onclick="showShare()">📤 Share / Export</button>
-            <button class="btn btn-warning" style="flex:1" onclick="resetForm()">🔄 Reset</button>
-        </div>
-
     </div>
 
-    <!-- ==================== TAB 2: BAHAN LAIN ==================== -->
-    <div id="tab-bahan" class="tab-content">
-        
-        <div class="card">
-            <h2>🥗 Kalkulator Bahan Makanan Lain</h2>
-            <p class="hint" style="margin-bottom: 15px;">Total porsi otomatis dari Tab Kalkulator</p>
-            
-            <table class="bahan-table">
-                <thead>
-                    <tr>
-                        <th>Bahan</th>
-                        <th>g/porsi</th>
-                        <th>Total (kg)</th>
-                    </tr>
-                </thead>
-                <tbody id="bahanTableBody">
-                    <!-- Generated by JS -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card">
-            <h2>➕ Tambah Bahan Custom</h2>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Nama Bahan</label>
-                    <input type="text" id="customBahanName" placeholder="Contoh: Ayam">
-                </div>
-                <div class="input-group">
-                    <label>Gram/Porsi</label>
-                    <input type="number" id="customBahanGram" placeholder="Contoh: 80">
-                </div>
+    <div class="card">
+        <h2>👶 Porsi Kecil (PK) — PAUD</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Jumlah Porsi</label>
+                <input type="number" id="porsiPK" placeholder="0" value="689"
+                       min="0" oninput="calculate()">
             </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Faktor Susut</label>
-                    <select id="customBahanFaktor">
-                        <option value="1.0">1.0x (Tidak susut)</option>
-                        <option value="1.1">1.1x (Susut 10%)</option>
-                        <option value="1.2">1.2x (Susut 20%)</option>
-                        <option value="1.3">1.3x (Susut 30%)</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Harga/kg (Rp)</label>
-                    <input type="number" id="customBahanHarga" placeholder="Opsional">
-                </div>
-            </div>
-            <button class="btn btn-primary" onclick="tambahBahan()">➕ Tambah Bahan</button>
-        </div>
-
-        <div class="card">
-            <h2>📊 Ringkasan Semua Bahan</h2>
-            <div id="ringkasanBahan">
-                <div class="empty-state">
-                    <div class="icon">🥗</div>
-                    <h3>Belum ada data bahan</h3>
-                    <p>Isi jumlah porsi di tab Kalkulator</p>
-                </div>
+            <div class="input-group">
+                <label>Nasi/Porsi (g)</label>
+                <input type="number" id="nasiPK" placeholder="125" value="125"
+                       min="0" oninput="calculate()">
             </div>
         </div>
-
+        <p class="hint">🍚 125g nasi = ±52g beras mentah (rasio 2.4x)</p>
     </div>
 
-    <!-- ==================== TAB 3: BIAYA ==================== -->
-    <div id="tab-biaya" class="tab-content">
-
-        <div class="card">
-            <h2>💰 Kalkulator Biaya</h2>
-            
+    <div class="card">
+        <h2>👨 Porsi Besar (PB) — SD/SMP/Dewasa</h2>
+        <div class="input-row">
             <div class="input-group">
-                <label>Harga Beras per kg (Rp)</label>
-                <input type="number" id="hargaBeras" placeholder="Contoh: 14000" value="14000" oninput="hitungBiaya()">
+                <label>Jumlah Porsi</label>
+                <input type="number" id="porsiPB" placeholder="0" value="1461"
+                       min="0" oninput="calculate()">
             </div>
-
-            <div id="biayaBerasInfo" class="result-item" style="background: rgba(102,126,234,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-                <span>Kebutuhan Beras</span>
-                <span id="b-kebutuhanBeras" style="font-weight: bold;">0 kg</span>
-            </div>
-
-            <hr class="divider">
-            <h3 style="margin-bottom: 12px; font-size: 14px; color: var(--text-light);">🥗 Bahan Lain</h3>
-
-            <table class="bahan-table" id="biayaTable">
-                <thead>
-                    <tr>
-                        <th>Bahan</th>
-                        <th>Qty (kg)</th>
-                        <th>Harga/kg</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody id="biayaTableBody">
-                    <!-- Generated by JS -->
-                </tbody>
-            </table>
-
-            <div class="biaya-total-box" id="biayaTotalBox">
-                <p style="font-size: 13px; opacity: 0.9;">💰 TOTAL BIAYA BELANJA</p>
-                <div class="amount" id="biayaTotal">Rp 0</div>
-                <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Per porsi: <strong id="biayaPerPorsi">Rp 0</strong></p>
+            <div class="input-group">
+                <label>Nasi/Porsi (g)</label>
+                <input type="number" id="nasiPB" placeholder="150" value="150"
+                       min="0" oninput="calculate()">
             </div>
         </div>
-
-        <div class="card">
-            <h2>💵 Simulasi Budget</h2>
-            <div class="input-group">
-                <label>Budget Tersedia (Rp)</label>
-                <input type="number" id="budgetTersedia" placeholder="Contoh: 5000000" oninput="cekBudget()">
-            </div>
-            <div id="budgetResult"></div>
-        </div>
-
+        <p class="hint">🍚 150g nasi = ±62.5g beras mentah (rasio 2.4x)</p>
     </div>
 
-    <!-- ==================== TAB 4: STOK ==================== -->
-    <div id="tab-stok" class="tab-content">
-
-        <div class="card">
-            <h2>📦 Update Stok Bahan</h2>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Nama Bahan</label>
-                    <select id="stokBahanSelect">
-                        <option>Beras</option>
-                        <option>Ayam</option>
-                        <option>Sayur</option>
-                        <option>Telur</option>
-                        <option>Tahu</option>
-                        <option>Tempe</option>
-                        <option>Minyak</option>
-                        <option>Bawang</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Stok (kg)</label>
-                    <input type="number" id="stokJumlah" placeholder="Masukkan stok">
-                </div>
+    <div class="card">
+        <h2>⚙️ Pengaturan</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Buffer (%)</label>
+                <input type="number" id="buffer" value="10"
+                       min="0" max="30" oninput="calculate()">
             </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Minimum Stok (kg)</label>
-                    <input type="number" id="stokMinimum" placeholder="Batas warning">
-                </div>
-                <div class="input-group">
-                    <label>Stok Maksimum (kg)</label>
-                    <input type="number" id="stokMaksimum" placeholder="Kapasitas">
-                </div>
+            <div class="input-group">
+                <label>Rasio Steamer</label>
+                <select id="rasioSteamer" onchange="calculate()">
+                    <option value="2.0">2.0x (Real lapangan)</option>
+                    <option value="2.1">2.1x (Moderate)</option>
+                    <option value="2.4" selected>2.4x (Ideal)</option>
+                </select>
             </div>
-            <button class="btn btn-primary" onclick="updateStok()">📦 Update Stok</button>
         </div>
+    </div>
 
-        <!-- STOK LIST -->
-        <div id="stokList">
+    <!-- RESULT -->
+    <div class="result-box" id="resultBox">
+        <div class="result-item">
+            <span class="label">Total Porsi</span>
+            <span class="value" id="r-totalPorsi">0</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Beras PK</span>
+            <span class="value" id="r-berasPK">0 kg</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Beras PB</span>
+            <span class="value" id="r-berasPB">0 kg</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Subtotal</span>
+            <span class="value" id="r-subtotal">0 kg</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Buffer</span>
+            <span class="value" id="r-buffer">0 kg</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Nasi Dihasilkan</span>
+            <span class="value" id="r-nasi">0 kg</span>
+        </div>
+        <div class="result-total">
+            <div class="big-number" id="r-total">0 kg</div>
+            <div class="big-label">⬆️ TOTAL BERAS DIBUTUHKAN</div>
+        </div>
+    </div>
+
+    <!-- STEAMER INFO -->
+    <div class="card" style="margin-top:15px;">
+        <h2>♨️ Info Steamer</h2>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🍳</div>
+                <div class="stat-value" id="r-batchCount">0</div>
+                <div class="stat-label">Batch Dibutuhkan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value" id="r-waktuMasak">0 mnt</div>
+                <div class="stat-label">Total Waktu Masak</div>
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Beras/Tray (kg)</label>
+                <input type="number" id="berasPerTray" value="3" min="1" oninput="calculate()">
+            </div>
+            <div class="input-group">
+                <label>Jumlah Tray</label>
+                <input type="number" id="jumlahTray" value="12" min="1" oninput="calculate()">
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="simpanRiwayat()">💾 Simpan Riwayat</button>
+    </div>
+    <div class="btn-row">
+        <button class="btn btn-success" style="flex:1" onclick="showShare()">📤 Share / Export</button>
+        <button class="btn btn-warning" style="flex:1" onclick="resetForm()">🔄 Reset</button>
+    </div>
+</div>
+
+<!-- ==================== TAB 2: BAHAN LAIN ==================== -->
+<div id="tab-bahan" class="tab-content">
+
+    <div class="card">
+        <h2>🥗 Kebutuhan Bahan Makanan</h2>
+        <p class="hint" style="margin-bottom:15px;">Total porsi otomatis dari Tab Kalkulator.</p>
+        <table class="bahan-table">
+            <thead>
+                <tr>
+                    <th>Bahan</th>
+                    <th>g/porsi</th>
+                    <th>Faktor</th>
+                    <th>Total (kg)</th>
+                </tr>
+            </thead>
+            <tbody id="bahanTableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>➕ Tambah Bahan Custom</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Nama Bahan</label>
+                <input type="text" id="customBahanName" placeholder="Contoh: Ayam">
+            </div>
+            <div class="input-group">
+                <label>Gram/Porsi</label>
+                <input type="number" id="customBahanGram" placeholder="Contoh: 80" min="0">
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Faktor Susut</label>
+                <select id="customBahanFaktor">
+                    <option value="1.0">1.0x (Tidak susut)</option>
+                    <option value="1.1">1.1x (Susut 10%)</option>
+                    <option value="1.2">1.2x (Susut 20%)</option>
+                    <option value="1.3">1.3x (Susut 30%)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Harga/kg (Rp)</label>
+                <input type="number" id="customBahanHarga" placeholder="Opsional" min="0">
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="tambahBahan()">➕ Tambah Bahan</button>
+    </div>
+
+    <div class="card">
+        <h2>📊 Ringkasan Semua Bahan</h2>
+        <div id="ringkasanBahan">
             <div class="empty-state">
-                <div class="icon">📦</div>
-                <h3>Belum ada data stok</h3>
-                <p>Tambahkan stok bahan di atas</p>
+                <div class="icon">🥗</div>
+                <h3>Belum ada data bahan</h3>
+                <p>Isi jumlah porsi di tab Kalkulator</p>
             </div>
         </div>
-
     </div>
-
-    <!-- ==================== TAB 5: RIWAYAT ==================== -->
-    <div id="tab-riwayat" class="tab-content">
-
-        <div class="card" style="padding: 15px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="margin-bottom: 0;">📋 Riwayat Perhitungan</h2>
-                <button class="btn btn-danger btn-sm" onclick="hapusSemuaRiwayat()">🗑️ Hapus Semua</button>
-            </div>
-        </div>
-
-        <div id="riwayatList">
-            <div class="empty-state">
-                <div class="icon">📋</div>
-                <h3>Belum ada riwayat</h3>
-                <p>Simpan perhitungan di Tab Kalkulator</p>
-            </div>
-        </div>
-
-    </div>
-
 </div>
+
+<!-- ==================== TAB 3: BIAYA ==================== -->
+<div id="tab-biaya" class="tab-content">
+    <div class="card">
+        <h2>💰 Kalkulator Biaya</h2>
+
+        <div class="input-group">
+            <label>Harga Beras per kg (Rp)</label>
+            <input type="number" id="hargaBeras" placeholder="Contoh: 14000"
+                   value="14000" min="0" oninput="hitungBiaya()">
+        </div>
+
+        <div class="info-box">
+            <strong>Kebutuhan Beras:</strong>
+            <span id="b-kebutuhanBeras">0 kg</span>
+            &nbsp;|&nbsp;
+            <strong>Subtotal Beras:</strong>
+            <span id="b-subtotalBeras">Rp 0</span>
+        </div>
+
+        <hr class="divider">
+        <h3>🥗 Biaya Bahan Lain</h3>
+
+        <table class="bahan-table" id="biayaTable">
+            <thead>
+                <tr>
+                    <th>Bahan</th>
+                    <th>Qty (kg)</th>
+                    <th>Harga/kg</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="biayaTableBody"></tbody>
+        </table>
+
+        <div class="biaya-total-box">
+            <p style="font-size:13px;opacity:0.9;">💰 TOTAL BIAYA BELANJA</p>
+            <div class="amount" id="biayaTotal">Rp 0</div>
+            <p style="font-size:12px;opacity:0.8;margin-top:5px;">
+                Per porsi: <strong id="biayaPerPorsi">Rp 0</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>💵 Simulasi Budget</h2>
+        <div class="input-group">
+            <label>Budget Tersedia (Rp)</label>
+            <input type="number" id="budgetTersedia"
+                   placeholder="Contoh: 5000000" min="0" oninput="cekBudget()">
+        </div>
+        <div id="budgetResult"></div>
+    </div>
+</div>
+
+<!-- ==================== TAB 4: STOK ==================== -->
+<div id="tab-stok" class="tab-content">
+    <div class="card">
+        <h2>📦 Update Stok Bahan</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Nama Bahan</label>
+                <select id="stokBahanSelect">
+                    <option>Beras</option>
+                    <option>Ayam</option>
+                    <option>Sayur</option>
+                    <option>Telur</option>
+                    <option>Tahu</option>
+                    <option>Tempe</option>
+                    <option>Minyak</option>
+                    <option>Bawang</option>
+                    <option>Buah</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Stok (kg)</label>
+                <input type="number" id="stokJumlah" placeholder="Masukkan stok" min="0">
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Minimum Stok (kg)</label>
+                <input type="number" id="stokMinimum" placeholder="Batas warning" min="0">
+            </div>
+            <div class="input-group">
+                <label>Stok Maksimum (kg)</label>
+                <input type="number" id="stokMaksimum" placeholder="Kapasitas" min="0">
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="updateStok()">📦 Update Stok</button>
+    </div>
+
+    <div id="stokList">
+        <div class="empty-state">
+            <div class="icon">📦</div>
+            <h3>Belum ada data stok</h3>
+            <p>Tambahkan stok bahan di atas</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB 5: RIWAYAT ==================== -->
+<div id="tab-riwayat" class="tab-content">
+    <div class="card" style="padding:15px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <h2 style="margin-bottom:0;">📋 Riwayat Perhitungan</h2>
+            <button class="btn btn-danger btn-sm" onclick="hapusSemuaRiwayat()">🗑️ Hapus Semua</button>
+        </div>
+    </div>
+    <div id="riwayatList">
+        <div class="empty-state">
+            <div class="icon">📋</div>
+            <h3>Belum ada riwayat</h3>
+            <p>Simpan perhitungan di Tab Kalkulator</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TAB 6: INSENTIF RELAWAN ==================== -->
+<div id="tab-insentif" class="tab-content">
+
+    <!-- STATUS BANNER -->
+    <div class="sync-banner">
+        <strong><span class="sync-dot"></span>Status Data BGN — Kab. Tangerang</strong>
+        BGN belum menyediakan API publik. Data SPPG diinput manual berdasarkan
+        data Dindik & Pemkab Tangerang.<br>
+        Terakhir diperbarui: <span id="syncTime">—</span>
+        <div class="btn-row" style="margin-top:10px;">
+            <button class="btn btn-sm"
+                    style="background:rgba(255,255,255,0.25);color:white;font-size:12px;"
+                    onclick="syncManual()">🔄 Tandai Sudah Diperbarui</button>
+        </div>
+    </div>
+
+    <!-- STATISTIK SPPG -->
+    <div class="card">
+        <h2>📍 Data SPPG Kab. Tangerang</h2>
+        <div class="insentif-summary">
+            <div class="insentif-stat">
+                <div class="val">170</div>
+                <div class="lbl">SPPG Aktif</div>
+            </div>
+            <div class="insentif-stat">
+                <div class="val" id="stat-totalRelawan">—</div>
+                <div class="lbl">Relawan SPPG Ini</div>
+            </div>
+            <div class="insentif-stat">
+                <div class="val">61.786</div>
+                <div class="lbl">Penerima Manfaat</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Pilih SPPG</label>
+            <select id="insentifSPPG">
+                <option value="">— Pilih SPPG —</option>
+                <optgroup label="Kecamatan Panongan">
+                    <option>Yayasan Latanza — Panongan</option>
+                    <option>Yayasan Hidayatullah Hikmah — Panongan</option>
+                </optgroup>
+                <optgroup label="Kecamatan Cisoka">
+                    <option>Yayasan Carity — Cisoka</option>
+                </optgroup>
+                <optgroup label="Kecamatan Pasar Kemis">
+                    <option>Yayasan Al-Munawir — Pasar Kemis</option>
+                </optgroup>
+                <optgroup label="Kecamatan Tigaraksa">
+                    <option>Yayasan Mualaf Indonesia Timur — Tigaraksa</option>
+                    <option>Yayasan Amal Salam Pancasila — Tigaraksa</option>
+                    <option>Yayasan Al-Munawir Cendhikia — Tigaraksa</option>
+                    <option>Yayasan Tribalti Cerdas — Kodim Tigaraksa</option>
+                    <option>Yayasan Amal Salam Pancasila — Jambe</option>
+                </optgroup>
+                <optgroup label="Kecamatan Balaraja">
+                    <option>Yayasan Nurul Huda — Balaraja</option>
+                </optgroup>
+                <optgroup label="Kecamatan Cikupa">
+                    <option>Yayasan Pendidikan Islam Al-Hikmah — Cikupa</option>
+                </optgroup>
+                <optgroup label="Kecamatan Curug">
+                    <option>Yayasan Puspa Indah Mitra — Curug</option>
+                </optgroup>
+                <optgroup label="Kecamatan Kemiri">
+                    <option>Yayasan Latanza Sejahtera — Kemiri</option>
+                </optgroup>
+                <optgroup label="Kecamatan Jayanti">
+                    <option>Ponpes Al-Badar — Jayanti</option>
+                </optgroup>
+                <optgroup label="Kecamatan Pakuhaji">
+                    <option>Yayasan Mualaf Indonesia Timur — Pakuhaji</option>
+                </optgroup>
+                <optgroup label="Lainnya">
+                    <option>SPPG Onyam Gunung Kaler</option>
+                    <option>SPPG Lainnya (Input Manual)</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="info-box">
+            📌 Data 170 SPPG &amp; 61.786 penerima manfaat bersumber dari Dindik
+            Kab. Tangerang dan Pemkab Tangerang 2025.
+            Besaran insentif di bawah adalah <strong>contoh</strong> —
+            sesuaikan dengan kebijakan masing-masing yayasan/SPPG.
+        </div>
+    </div>
+
+    <!-- PENGATURAN PERIODE -->
+    <div class="card">
+        <h2>⚙️ Pengaturan Periode</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Hari Kerja / Bulan</label>
+                <input type="number" id="hariKerja" value="26"
+                       min="1" max="31" oninput="hitungInsentif()">
+            </div>
+            <div class="input-group">
+                <label>Jumlah Shift / Hari</label>
+                <select id="shiftPerHari" onchange="hitungInsentif()">
+                    <option value="1">1 Shift</option>
+                    <option value="2">2 Shift</option>
+                    <option value="3" selected>3 Shift</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIVISI RELAWAN -->
+    <div class="card">
+        <h2>👷 Insentif Per Divisi</h2>
+        <p class="hint" style="margin-bottom:15px;">
+            Isi jumlah relawan &amp; insentif harian. Total dihitung otomatis.
+        </p>
+        <div id="divisiList"></div>
+
+        <!-- GRAND TOTAL -->
+        <div class="insentif-grand-total">
+            <div class="grand-label">💰 TOTAL INSENTIF SELURUH DIVISI / BULAN</div>
+            <div class="grand-amount" id="grandTotalInsentif">Rp 0</div>
+            <div style="font-size:12px;opacity:0.8;margin-top:8px;">
+                Per hari: <strong id="grandPerHari">Rp 0</strong> &nbsp;|&nbsp;
+                Total relawan: <strong id="grandTotalRelawan">0</strong> orang
+            </div>
+        </div>
+    </div>
+
+    <!-- REKAP TABEL -->
+    <div class="card">
+        <h2>📊 Rekap Insentif</h2>
+        <table class="bahan-table">
+            <thead>
+                <tr>
+                    <th>Divisi</th>
+                    <th>Orang</th>
+                    <th>/Hari</th>
+                    <th>/Bulan</th>
+                </tr>
+            </thead>
+            <tbody id="rekapInsentifBody"></tbody>
+            <tfoot>
+                <tr>
+                    <td>TOTAL</td>
+                    <td id="rekap-totalOrang">0</td>
+                    <td id="rekap-totalHarian">0</td>
+                    <td id="rekap-totalBulanan">0</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="btn-row" style="margin-top:15px;">
+            <button class="btn btn-success" style="flex:1" onclick="shareInsentif()">📤 WA</button>
+            <button class="btn btn-outline"  style="flex:1" onclick="copyInsentif()">📋 Copy</button>
+            <button class="btn btn-warning"  style="flex:1" onclick="downloadInsentifCSV()">📊 CSV</button>
+            <button class="btn btn-primary"  style="flex:1;padding:10px;" onclick="printInsentif()">🖨️ Print</button>
+        </div>
+    </div>
+
+    <!-- DAFTAR SPPG KAB TANGERANG -->
+    <div class="card">
+        <h2>🗺️ SPPG Kab. Tangerang (Referensi)</h2>
+        <div id="sppgReferensiList"></div>
+    </div>
+</div>
+
+</div><!-- /content -->
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -887,34 +1180,30 @@
 <div class="modal" id="shareModal">
     <div class="modal-content">
         <div class="modal-header">
-            <div class="modal-title">📤 Share & Export</div>
+            <div class="modal-title">📤 Share &amp; Export</div>
             <button class="btn-close" onclick="closeShare()">✕</button>
         </div>
-        
         <div class="share-option" onclick="shareWhatsApp()">
             <span class="share-icon">💬</span>
             <div>
                 <div class="share-label">WhatsApp</div>
-                <div class="share-desc">Kirim laporan via WhatsApp</div>
+                <div class="share-desc">Kirim laporan beras via WhatsApp</div>
             </div>
         </div>
-
         <div class="share-option" onclick="copyClipboard()">
             <span class="share-icon">📋</span>
             <div>
                 <div class="share-label">Copy ke Clipboard</div>
-                <div class="share-desc">Copy teks untuk paste di mana saja</div>
+                <div class="share-desc">Paste di mana saja</div>
             </div>
         </div>
-
         <div class="share-option" onclick="downloadCSV()">
             <span class="share-icon">📊</span>
             <div>
-                <div class="share-label">Download CSV/Excel</div>
+                <div class="share-label">Download CSV / Excel</div>
                 <div class="share-desc">Buka dengan Excel atau Google Sheets</div>
             </div>
         </div>
-
         <div class="share-option" onclick="printPDF()">
             <span class="share-icon">🖨️</span>
             <div>
@@ -925,102 +1214,127 @@
     </div>
 </div>
 
+<!-- ==================== JAVASCRIPT ==================== -->
 <script>
 // ============================================================
-// STATE / DATA
+// STATE & DATA
 // ============================================================
-let lastResult = {};
-let customBahans = [];
-let stokData = JSON.parse(localStorage.getItem('stokData')) || {};
-let riwayatData = JSON.parse(localStorage.getItem('riwayatData')) || [];
+let lastResult    = {};
+let customBahans  = JSON.parse(localStorage.getItem('customBahans'))  || [];
+let stokData      = JSON.parse(localStorage.getItem('stokData'))      || {};
+let riwayatData   = JSON.parse(localStorage.getItem('riwayatData'))   || [];
+let insentifData  = JSON.parse(localStorage.getItem('insentifData'))  || {};
 
-// Default bahan
+// Default bahan + harga default
 const defaultBahans = [
-    { nama: '🐔 Ayam', gram: 80, faktor: 1.1 },
-    { nama: '🥚 Telur', gram: 50, faktor: 1.0 },
-    { nama: '🥬 Sayur', gram: 100, faktor: 0.8 },
-    { nama: '🍌 Buah', gram: 100, faktor: 1.0 },
-    { nama: '🫘 Tahu', gram: 60, faktor: 1.0 },
-    { nama: '🟫 Tempe', gram: 50, faktor: 1.0 },
-    { nama: '🫙 Minyak', gram: 10, faktor: 1.0 },
+    { nama: '🐔 Ayam',   gram: 80,  faktor: 1.1, harga: 38000 },
+    { nama: '🥚 Telur',  gram: 50,  faktor: 1.0, harga: 25000 },
+    { nama: '🥬 Sayur',  gram: 100, faktor: 0.8, harga: 8000  },
+    { nama: '🍌 Buah',   gram: 100, faktor: 1.0, harga: 12000 },
+    { nama: '🫘 Tahu',   gram: 60,  faktor: 1.0, harga: 10000 },
+    { nama: '🟫 Tempe',  gram: 50,  faktor: 1.0, harga: 12000 },
+    { nama: '🫙 Minyak', gram: 10,  faktor: 1.0, harga: 18000 },
+];
+
+// Divisi relawan SPPG
+const divisiRelawan = [
+    { id: 'kepala',     nama: '👨‍💼 Kepala SPPG',    defaultOrang: 1,  defaultInsentif: 150000 },
+    { id: 'akuntan',    nama: '📒 Akuntan',          defaultOrang: 1,  defaultInsentif: 100000 },
+    { id: 'ahligizi',   nama: '🩺 Ahli Gizi',        defaultOrang: 1,  defaultInsentif: 120000 },
+    { id: 'persiapan',  nama: '🔪 Tim Persiapan',    defaultOrang: 5,  defaultInsentif: 75000  },
+    { id: 'jurumasak',  nama: '👨‍🍳 Juru Masak',      defaultOrang: 3,  defaultInsentif: 100000 },
+    { id: 'pemorsian',  nama: '🍱 Tim Pemorsian',    defaultOrang: 8,  defaultInsentif: 75000  },
+    { id: 'pengemasan', nama: '📦 Tim Pengemasan',   defaultOrang: 5,  defaultInsentif: 75000  },
+    { id: 'distribusi', nama: '🚚 Tim Distribusi',   defaultOrang: 4,  defaultInsentif: 85000  },
+    { id: 'kebersihan', nama: '🧹 Tim Kebersihan',   defaultOrang: 2,  defaultInsentif: 70000  },
+    { id: 'keamanan',   nama: '🛡️ Keamanan',         defaultOrang: 1,  defaultInsentif: 80000  },
+];
+
+// Referensi SPPG Kab. Tangerang
+const sppgKabTangerang = [
+    { nama: 'Yayasan Latanza',                   kecamatan: 'Panongan'    },
+    { nama: 'Yayasan Carity',                    kecamatan: 'Cisoka'      },
+    { nama: 'Yayasan Al-Munawir',                kecamatan: 'Pasar Kemis' },
+    { nama: 'Yayasan Mualaf Indonesia Timur',    kecamatan: 'Tigaraksa'   },
+    { nama: 'Yayasan Amal Salam Pancasila',      kecamatan: 'Tigaraksa'   },
+    { nama: 'Yayasan Nurul Huda',                kecamatan: 'Balaraja'    },
+    { nama: 'Yayasan Hidayatullah Hikmah',       kecamatan: 'Panongan'    },
+    { nama: 'Yayasan Al-Munawir Cendhikia',      kecamatan: 'Tigaraksa'   },
+    { nama: 'Yayasan Pendidikan Islam Al-Hikmah',kecamatan: 'Cikupa'      },
+    { nama: 'Yayasan Latanza Sejahtera',         kecamatan: 'Kemiri'      },
+    { nama: 'Yayasan Puspa Indah Mitra',         kecamatan: 'Curug'       },
+    { nama: 'Yayasan Tribalti Cerdas',           kecamatan: 'Tigaraksa'   },
+    { nama: 'Yayasan Amal Salam Pancasila',      kecamatan: 'Jambe'       },
+    { nama: 'Ponpes Al-Badar',                   kecamatan: 'Jayanti'     },
+    { nama: 'Yayasan Mualaf Indonesia Timur',    kecamatan: 'Pakuhaji'    },
+    { nama: 'SPPG Onyam Gunung Kaler',           kecamatan: 'Gunung Kaler'},
 ];
 
 // ============================================================
 // INIT
 // ============================================================
-window.onload = function() {
-    // Set today's date
+window.onload = function () {
     document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
-    
-    // Initial calculation
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '☀️ Light';
+    }
     calculate();
-    
-    // Render stok
     renderStok();
     renderRiwayat();
+    renderSPPGReferensi();
 };
 
 // ============================================================
 // TAB NAVIGATION
 // ============================================================
 function showTab(tabName, btn) {
-    // Hide all tab contents
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    
-    // Show selected
     document.getElementById('tab-' + tabName).classList.add('active');
     btn.classList.add('active');
-    
-    // Update dependent tabs
-    if (tabName === 'bahan') renderBahanTable();
-    if (tabName === 'biaya') { hitungBiaya(); renderBiayaTable(); }
+
+    if (tabName === 'bahan')    renderBahanTable();
+    if (tabName === 'biaya')  { hitungBiaya(); renderBiayaTable(); }
+    if (tabName === 'insentif') initDivisiList();
 }
 
 // ============================================================
-// FEATURE 1: KALKULATOR BERAS
+// FEATURE 1 — KALKULATOR BERAS
 // ============================================================
 function calculate() {
-    const porsiPK = parseFloat(document.getElementById('porsiPK').value) || 0;
-    const porsiPB = parseFloat(document.getElementById('porsiPB').value) || 0;
-    const nasiPK = parseFloat(document.getElementById('nasiPK').value) || 125;
-    const nasiPB = parseFloat(document.getElementById('nasiPB').value) || 150;
-    const bufferPct = parseFloat(document.getElementById('buffer').value) || 10;
-    const rasio = parseFloat(document.getElementById('rasioSteamer').value) || 2.4;
-    const berasPerTray = parseFloat(document.getElementById('berasPerTray').value) || 3;
-    const jumlahTray = parseFloat(document.getElementById('jumlahTray').value) || 12;
+    const porsiPK      = Math.max(0, parseFloat(document.getElementById('porsiPK').value)      || 0);
+    const porsiPB      = Math.max(0, parseFloat(document.getElementById('porsiPB').value)      || 0);
+    const nasiPK       = Math.max(0, parseFloat(document.getElementById('nasiPK').value)       || 125);
+    const nasiPB       = Math.max(0, parseFloat(document.getElementById('nasiPB').value)       || 150);
+    const bufferPct    = Math.max(0, parseFloat(document.getElementById('buffer').value)        || 10);
+    const rasio        = parseFloat(document.getElementById('rasioSteamer').value)              || 2.4;
+    const berasPerTray = Math.max(1, parseFloat(document.getElementById('berasPerTray').value) || 3);
+    const jumlahTray   = Math.max(1, parseFloat(document.getElementById('jumlahTray').value)   || 12);
 
-    // Beras calculation
-    const berasPK = (porsiPK * (nasiPK / rasio)) / 1000;
-    const berasPB = (porsiPB * (nasiPB / rasio)) / 1000;
-    const subtotal = berasPK + berasPB;
-    const bufferKg = subtotal * (bufferPct / 100);
-    const total = subtotal + bufferKg;
+    const berasPK   = (porsiPK * (nasiPK / rasio)) / 1000;
+    const berasPB   = (porsiPB * (nasiPB / rasio)) / 1000;
+    const subtotal  = berasPK + berasPB;
+    const bufferKg  = subtotal * (bufferPct / 100);
+    const total     = subtotal + bufferKg;
     const totalCeil = Math.ceil(total);
     const nasiTotal = total * rasio;
 
-    // Steamer calculation
-    const jumlahSteamer = parseFloat(document.getElementById('jumlahSteamer').value) || 1;
     const berasPerSteamer = berasPerTray * jumlahTray;
-    const kapasitasTotal = berasPerSteamer * jumlahSteamer;
-    const batchCount = Math.ceil(totalCeil / kapasitasTotal);
-    const waktuMasak = batchCount * 45;
+    const batchCount  = berasPerSteamer > 0 ? Math.ceil(totalCeil / berasPerSteamer) : 0;
+    const waktuMasak  = batchCount * 45;
 
-    // Update UI
     document.getElementById('r-totalPorsi').textContent = (porsiPK + porsiPB).toLocaleString('id') + ' porsi';
-    document.getElementById('r-berasPK').textContent = berasPK.toFixed(2) + ' kg';
-    document.getElementById('r-berasPB').textContent = berasPB.toFixed(2) + ' kg';
-    document.getElementById('r-subtotal').textContent = subtotal.toFixed(2) + ' kg';
-    document.getElementById('r-buffer').textContent = bufferKg.toFixed(2) + ' kg';
-    document.getElementById('r-nasi').textContent = nasiTotal.toFixed(1) + ' kg';
-    document.getElementById('r-total').textContent = totalCeil + ' kg';
+    document.getElementById('r-berasPK').textContent    = berasPK.toFixed(2)  + ' kg';
+    document.getElementById('r-berasPB').textContent    = berasPB.toFixed(2)  + ' kg';
+    document.getElementById('r-subtotal').textContent   = subtotal.toFixed(2) + ' kg';
+    document.getElementById('r-buffer').textContent     = bufferKg.toFixed(2) + ' kg';
+    document.getElementById('r-nasi').textContent       = nasiTotal.toFixed(1)+ ' kg';
+    document.getElementById('r-total').textContent      = totalCeil + ' kg';
     document.getElementById('r-batchCount').textContent = batchCount;
     document.getElementById('r-waktuMasak').textContent = waktuMasak + ' mnt';
-    document.getElementById('r-kapasitasTotal').textContent = kapasitasTotal + ' kg';
-    document.getElementById('r-jumlahSteamer').textContent = jumlahSteamer + ' unit';
     document.getElementById('b-kebutuhanBeras').textContent = totalCeil + ' kg';
 
-    // Save result
     lastResult = {
         porsiPK, porsiPB, nasiPK, nasiPB,
         berasPK, berasPB, subtotal, bufferKg,
@@ -1028,257 +1342,226 @@ function calculate() {
         batchCount, waktuMasak, rasio, bufferPct
     };
 
-    // Update biaya if active
     hitungBiaya();
 }
 
 // ============================================================
-// FEATURE 2: KALKULATOR BAHAN LAIN
+// FEATURE 2 — KALKULATOR BAHAN LAIN
 // ============================================================
 function renderBahanTable() {
-    const totalPorsi = (parseFloat(document.getElementById('porsiPK').value) || 0) +
-                       (parseFloat(document.getElementById('porsiPB').value) || 0);
-    
-    const allBahans = [...defaultBahans, ...customBahans];
-    
+    const totalPorsi = getTotalPorsi();
+    const allBahans  = getAllBahans();
     let html = '';
-    allBahans.forEach((b, i) => {
+
+    allBahans.forEach(b => {
         const total = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
         html += `
             <tr>
-                <td>${b.nama}</td>
+                <td>${escapeHtml(b.nama)}</td>
                 <td>${b.gram}g</td>
+                <td>${b.faktor}x</td>
                 <td><strong>${total} kg</strong></td>
-            </tr>
-        `;
+            </tr>`;
     });
-    
-    document.getElementById('bahanTableBody').innerHTML = html;
+
+    document.getElementById('bahanTableBody').innerHTML = html || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada data</td></tr>';
 
     // Ringkasan
-    let ringkasanHtml = '';
-    allBahans.forEach(b => {
+    let ringkasanHtml = allBahans.map(b => {
         const total = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
-        ringkasanHtml += `
-            <div class="result-item">
-                <span>${b.nama}</span>
+        return `
+            <div class="result-item" style="color:var(--text);">
+                <span>${escapeHtml(b.nama)}</span>
                 <span><strong>${total} kg</strong></span>
-            </div>
-        `;
-    });
-    
-    document.getElementById('ringkasanBahan').innerHTML = ringkasanHtml || 
-        '<p style="color: var(--text-light); text-align: center;">Isi porsi dulu di tab Kalkulator</p>';
+            </div>`;
+    }).join('');
+
+    document.getElementById('ringkasanBahan').innerHTML = ringkasanHtml ||
+        '<p style="color:var(--text-light);text-align:center;padding:20px;">Isi porsi dulu di tab Kalkulator</p>';
 }
 
 function tambahBahan() {
-    const nama = document.getElementById('customBahanName').value.trim();
-    const gram = parseFloat(document.getElementById('customBahanGram').value);
-    const faktor = parseFloat(document.getElementById('customBahanFaktor').value);
-    const harga = parseFloat(document.getElementById('customBahanHarga').value) || 0;
-    
-    if (!nama || !gram) {
-        showToast('⚠️ Nama dan gram tidak boleh kosong!');
-        return;
-    }
-    
+    const nama    = document.getElementById('customBahanName').value.trim();
+    const gram    = parseFloat(document.getElementById('customBahanGram').value);
+    const faktor  = parseFloat(document.getElementById('customBahanFaktor').value);
+    const harga   = parseFloat(document.getElementById('customBahanHarga').value) || 0;
+
+    if (!nama)         { showToast('⚠️ Nama bahan tidak boleh kosong!'); return; }
+    if (!gram || gram <= 0) { showToast('⚠️ Gram/porsi harus lebih dari 0!'); return; }
+
     customBahans.push({ nama: '🥘 ' + nama, gram, faktor, harga });
-    
-    document.getElementById('customBahanName').value = '';
-    document.getElementById('customBahanGram').value = '';
+    localStorage.setItem('customBahans', JSON.stringify(customBahans));
+
+    document.getElementById('customBahanName').value  = '';
+    document.getElementById('customBahanGram').value  = '';
     document.getElementById('customBahanHarga').value = '';
-    
+
     renderBahanTable();
     renderBiayaTable();
     showToast('✅ Bahan ' + nama + ' ditambahkan!');
 }
 
+function getAllBahans() {
+    return [...defaultBahans, ...customBahans];
+}
+
+function getTotalPorsi() {
+    return (parseFloat(document.getElementById('porsiPK').value) || 0) +
+           (parseFloat(document.getElementById('porsiPB').value) || 0);
+}
+
 // ============================================================
-// FEATURE 3: HITUNG BIAYA
+// FEATURE 3 — HITUNG BIAYA
 // ============================================================
 function renderBiayaTable() {
-    const totalPorsi = (parseFloat(document.getElementById('porsiPK').value) || 0) +
-                       (parseFloat(document.getElementById('porsiPB').value) || 0);
-    const allBahans = [...defaultBahans, ...customBahans];
-    
+    const totalPorsi = getTotalPorsi();
+    const allBahans  = getAllBahans();
     let html = '';
+
     allBahans.forEach((b, i) => {
-        const qty = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
+        const qty   = (totalPorsi * b.gram * b.faktor / 1000).toFixed(2);
         const harga = b.harga || 0;
-        const total = (qty * harga).toLocaleString('id');
+        const sub   = Math.round(qty * harga).toLocaleString('id');
         html += `
             <tr>
-                <td>${b.nama}</td>
+                <td>${escapeHtml(b.nama)}</td>
                 <td>${qty}</td>
                 <td>
-                    <input type="number" 
-                        style="width: 80px; padding: 4px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--text); font-size: 12px;"
-                        value="${harga}" 
-                        placeholder="0"
+                    <input type="number" min="0"
+                        style="width:90px;padding:4px;border:1px solid var(--border);
+                               border-radius:4px;background:var(--card);color:var(--text);font-size:12px;"
+                        value="${harga}"
                         onchange="updateHargaBahan(${i}, this.value)">
                 </td>
-                <td id="biaya-${i}">Rp ${total}</td>
-            </tr>
-        `;
+                <td id="biaya-${i}">Rp ${sub}</td>
+            </tr>`;
     });
-    
-    document.getElementById('biayaTableBody').innerHTML = html;
+
+    document.getElementById('biayaTableBody').innerHTML = html ||
+        '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada bahan</td></tr>';
     hitungBiaya();
 }
 
 function updateHargaBahan(index, harga) {
-    const allBahans = [...defaultBahans, ...customBahans];
+    harga = Math.max(0, parseFloat(harga) || 0);
     if (index < defaultBahans.length) {
-        defaultBahans[index].harga = parseFloat(harga) || 0;
+        defaultBahans[index].harga = harga;
     } else {
-        customBahans[index - defaultBahans.length].harga = parseFloat(harga) || 0;
+        customBahans[index - defaultBahans.length].harga = harga;
+        localStorage.setItem('customBahans', JSON.stringify(customBahans));
     }
     hitungBiaya();
-    renderBiayaTable();
 }
 
 function hitungBiaya() {
-    const totalPorsi = (parseFloat(document.getElementById('porsiPK').value) || 0) +
-                       (parseFloat(document.getElementById('porsiPB').value) || 0);
-    const hargaBeras = parseFloat(document.getElementById('hargaBeras').value) || 0;
-    const totalBeras = lastResult.totalCeil || 0;
-    
+    const totalPorsi  = getTotalPorsi();
+    const hargaBeras  = Math.max(0, parseFloat(document.getElementById('hargaBeras').value) || 0);
+    const totalBeras  = lastResult.totalCeil || 0;
+
     let totalBiaya = totalBeras * hargaBeras;
-    
-    const allBahans = [...defaultBahans, ...customBahans];
-    allBahans.forEach(b => {
+    document.getElementById('b-subtotalBeras').textContent = 'Rp ' + Math.round(totalBeras * hargaBeras).toLocaleString('id');
+
+    getAllBahans().forEach(b => {
         const qty = totalPorsi * b.gram * b.faktor / 1000;
         totalBiaya += qty * (b.harga || 0);
     });
-    
+
     const biayaPerPorsi = totalPorsi > 0 ? totalBiaya / totalPorsi : 0;
-    
-    document.getElementById('biayaTotal').textContent = 'Rp ' + Math.round(totalBiaya).toLocaleString('id');
+
+    document.getElementById('biayaTotal').textContent    = 'Rp ' + Math.round(totalBiaya).toLocaleString('id');
     document.getElementById('biayaPerPorsi').textContent = 'Rp ' + Math.round(biayaPerPorsi).toLocaleString('id');
-    
-    lastResult.totalBiaya = totalBiaya;
+
+    lastResult.totalBiaya    = totalBiaya;
     lastResult.biayaPerPorsi = biayaPerPorsi;
 }
 
 function cekBudget() {
-    const budget = parseFloat(document.getElementById('budgetTersedia').value) || 0;
-    const totalBiaya = lastResult.totalBiaya || 0;
-    const selisih = budget - totalBiaya;
-    
-    let html = '';
-    if (selisih >= 0) {
-        html = `
-            <div style="background: #e8f5e9; border-radius: 10px; padding: 15px; border-left: 4px solid #4caf50;">
-                <p style="color: #2e7d32; font-weight: bold;">✅ Budget CUKUP!</p>
-                <p style="color: #2e7d32;">Sisa: <strong>Rp ${Math.round(selisih).toLocaleString('id')}</strong></p>
-            </div>
-        `;
-    } else {
-        html = `
-            <div style="background: #ffebee; border-radius: 10px; padding: 15px; border-left: 4px solid #f44336;">
-                <p style="color: #c62828; font-weight: bold;">❌ Budget KURANG!</p>
-                <p style="color: #c62828;">Kekurangan: <strong>Rp ${Math.round(Math.abs(selisih)).toLocaleString('id')}</strong></p>
-            </div>
-        `;
-    }
-    
-    document.getElementById('budgetResult').innerHTML = html;
+    const budget    = Math.max(0, parseFloat(document.getElementById('budgetTersedia').value) || 0);
+    const total     = lastResult.totalBiaya || 0;
+    const selisih   = budget - total;
+    const isOk      = selisih >= 0;
+
+    document.getElementById('budgetResult').innerHTML = `
+        <div style="background:${isOk ? '#e8f5e9' : '#ffebee'};border-radius:10px;
+                    padding:15px;border-left:4px solid ${isOk ? '#4caf50' : '#f44336'};margin-top:10px;">
+            <p style="color:${isOk ? '#2e7d32' : '#c62828'};font-weight:bold;">
+                ${isOk ? '✅ Budget CUKUP!' : '❌ Budget KURANG!'}
+            </p>
+            <p style="color:${isOk ? '#2e7d32' : '#c62828'};">
+                ${isOk ? 'Sisa' : 'Kekurangan'}:
+                <strong>Rp ${Math.round(Math.abs(selisih)).toLocaleString('id')}</strong>
+            </p>
+        </div>`;
 }
 
 // ============================================================
-// FEATURE 4: TRACKING STOK
+// FEATURE 4 — TRACKING STOK
 // ============================================================
 function updateStok() {
-    const nama = document.getElementById('stokBahanSelect').value;
-    const jumlah = parseFloat(document.getElementById('stokJumlah').value);
-    const minimum = parseFloat(document.getElementById('stokMinimum').value) || 10;
-    const maksimum = parseFloat(document.getElementById('stokMaksimum').value) || 100;
-    
-    if (!jumlah) {
-        showToast('⚠️ Masukkan jumlah stok!');
-        return;
-    }
-    
-    stokData[nama] = {
-        jumlah,
-        minimum,
-        maksimum,
-        updatedAt: new Date().toLocaleString('id')
-    };
-    
+    const nama    = document.getElementById('stokBahanSelect').value;
+    const jumlah  = parseFloat(document.getElementById('stokJumlah').value);
+    const minimum = Math.max(0, parseFloat(document.getElementById('stokMinimum').value) || 10);
+    const maksimum= Math.max(1, parseFloat(document.getElementById('stokMaksimum').value) || 100);
+
+    if (isNaN(jumlah) || jumlah < 0) { showToast('⚠️ Masukkan jumlah stok yang valid!'); return; }
+
+    stokData[nama] = { jumlah, minimum, maksimum, updatedAt: new Date().toLocaleString('id') };
     localStorage.setItem('stokData', JSON.stringify(stokData));
     renderStok();
     showToast('✅ Stok ' + nama + ' diupdate: ' + jumlah + ' kg');
-    
-    // Clear inputs
-    document.getElementById('stokJumlah').value = '';
+    document.getElementById('stokJumlah').value   = '';
+    document.getElementById('stokMinimum').value  = '';
+    document.getElementById('stokMaksimum').value = '';
 }
 
 function renderStok() {
     const keys = Object.keys(stokData);
-    
     if (keys.length === 0) {
         document.getElementById('stokList').innerHTML = `
             <div class="empty-state">
                 <div class="icon">📦</div>
                 <h3>Belum ada data stok</h3>
                 <p>Tambahkan stok bahan di atas</p>
-            </div>
-        `;
+            </div>`;
         return;
     }
-    
-    let html = '';
-    keys.forEach(nama => {
-        const s = stokData[nama];
-        const persen = Math.min(100, (s.jumlah / s.maksimum) * 100);
-        
-        let statusClass = 'aman';
-        let badgeClass = 'badge-aman';
-        let statusText = '✅ Aman';
-        let cardClass = '';
-        let barColor = '#4caf50';
-        
-        if (s.jumlah <= 0) {
-            statusClass = 'danger';
-            badgeClass = 'badge-habis';
-            statusText = '❌ Habis';
-            cardClass = 'danger';
-            barColor = '#f44336';
-        } else if (s.jumlah <= s.minimum) {
-            statusClass = 'warning';
-            badgeClass = 'badge-warning';
-            statusText = '⚠️ Hampir Habis';
-            cardClass = 'warning';
-            barColor = '#ff9800';
-        }
-        
-        html += `
+
+    document.getElementById('stokList').innerHTML = keys.map(nama => {
+        const s      = stokData[nama];
+        const persen = Math.min(100, s.maksimum > 0 ? (s.jumlah / s.maksimum) * 100 : 0);
+        const isHabis   = s.jumlah <= 0;
+        const isWarning = !isHabis && s.jumlah <= s.minimum;
+        const color     = isHabis ? '#f44336' : isWarning ? '#ff9800' : '#4caf50';
+        const cardClass = isHabis ? 'danger' : isWarning ? 'warning' : '';
+        const badge     = isHabis ? 'badge-habis' : isWarning ? 'badge-warning' : 'badge-aman';
+        const status    = isHabis ? '❌ Habis' : isWarning ? '⚠️ Hampir Habis' : '✅ Aman';
+
+        return `
             <div class="stok-card ${cardClass}">
                 <div class="stok-header">
-                    <span class="stok-name">📦 ${nama}</span>
-                    <span class="stok-badge ${badgeClass}">${statusText}</span>
+                    <span class="stok-name">📦 ${escapeHtml(nama)}</span>
+                    <span class="stok-badge ${badge}">${status}</span>
                 </div>
                 <div class="stok-progress">
-                    <div class="stok-bar" style="width: ${persen}%; background: ${barColor};"></div>
+                    <div class="stok-bar" style="width:${persen}%;background:${color};"></div>
                 </div>
                 <div class="stok-info">
                     <span>Stok: <strong>${s.jumlah} kg</strong></span>
                     <span>Min: ${s.minimum} kg</span>
                     <span>Max: ${s.maksimum} kg</span>
                 </div>
-                <div style="font-size: 11px; color: var(--text-light); margin-top: 8px;">🕐 ${s.updatedAt}</div>
-                <div class="btn-row" style="margin-top: 8px;">
-                    <button class="btn btn-danger btn-sm" onclick="hapusStok('${nama}')">🗑️ Hapus</button>
+                <div style="font-size:11px;color:var(--text-light);margin-top:8px;">🕐 ${s.updatedAt}</div>
+                <div class="btn-row" style="margin-top:8px;">
+                    <button class="btn btn-danger btn-sm"
+                            data-nama="${escapeHtml(nama)}"
+                            onclick="hapusStok(this)">🗑️ Hapus</button>
                 </div>
-            </div>
-        `;
-    });
-    
-    document.getElementById('stokList').innerHTML = html;
+            </div>`;
+    }).join('');
 }
 
-function hapusStok(nama) {
+function hapusStok(btn) {
+    const nama = btn.getAttribute('data-nama');
     if (confirm('Hapus stok ' + nama + '?')) {
         delete stokData[nama];
         localStorage.setItem('stokData', JSON.stringify(stokData));
@@ -1288,32 +1571,26 @@ function hapusStok(nama) {
 }
 
 // ============================================================
-// FEATURE 5: RIWAYAT & SHARE/EXPORT
+// FEATURE 5 — RIWAYAT
 // ============================================================
 function simpanRiwayat() {
     const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal = document.getElementById('tanggal').value;
-    const shift = document.getElementById('shift').value;
-    
-    const entry = {
+    const tanggal  = document.getElementById('tanggal').value;
+    const shift    = document.getElementById('shift').value;
+
+    riwayatData.unshift({
         id: Date.now(),
-        namaSSPG,
-        tanggal,
-        shift,
-        porsiPK: lastResult.porsiPK || 0,
-        porsiPB: lastResult.porsiPB || 0,
+        namaSSPG, tanggal, shift,
+        porsiPK:    lastResult.porsiPK    || 0,
+        porsiPB:    lastResult.porsiPB    || 0,
         totalPorsi: (lastResult.porsiPK || 0) + (lastResult.porsiPB || 0),
-        totalBeras: lastResult.totalCeil || 0,
+        totalBeras: lastResult.totalCeil  || 0,
         totalBiaya: lastResult.totalBiaya || 0,
         batchCount: lastResult.batchCount || 0,
-        createdAt: new Date().toLocaleString('id')
-    };
-    
-    riwayatData.unshift(entry);
-    
-    // Keep only last 50 records
+        createdAt:  new Date().toLocaleString('id')
+    });
+
     if (riwayatData.length > 50) riwayatData.pop();
-    
     localStorage.setItem('riwayatData', JSON.stringify(riwayatData));
     renderRiwayat();
     showToast('✅ Riwayat disimpan!');
@@ -1326,58 +1603,51 @@ function renderRiwayat() {
                 <div class="icon">📋</div>
                 <h3>Belum ada riwayat</h3>
                 <p>Simpan perhitungan di Tab Kalkulator</p>
-            </div>
-        `;
+            </div>`;
         return;
     }
-    
-    let html = '';
-    riwayatData.forEach(r => {
-        const date = new Date(r.tanggal).toLocaleDateString('id', { 
-            day: 'numeric', month: 'long', year: 'numeric' 
-        });
-        html += `
+
+    document.getElementById('riwayatList').innerHTML = riwayatData.map(r => {
+        const date = r.tanggal
+            ? new Date(r.tanggal).toLocaleDateString('id', { day:'numeric', month:'long', year:'numeric' })
+            : '—';
+        return `
             <div class="riwayat-card">
                 <div class="riwayat-header">
                     <div>
-                        <div style="font-weight: bold; font-size: 15px;">${r.namaSSPG}</div>
+                        <div style="font-weight:bold;font-size:15px;">${escapeHtml(r.namaSSPG)}</div>
                         <div class="riwayat-date">📅 ${date} | ${r.shift}</div>
                     </div>
                     <div class="riwayat-total">${r.totalBeras} kg</div>
                 </div>
                 <div class="riwayat-detail">
-                    👶 PK: ${r.porsiPK} porsi | 👨 PB: ${r.porsiPB} porsi | 
+                    👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB} |
                     🍽️ Total: ${r.totalPorsi} porsi | ♨️ ${r.batchCount} batch
                     ${r.totalBiaya > 0 ? '<br>💰 Biaya: Rp ' + Math.round(r.totalBiaya).toLocaleString('id') : ''}
                 </div>
                 <div class="riwayat-actions">
-                    <button class="btn btn-outline btn-sm" onclick="muat(${r.id})">📥 Muat</button>
-                    <button class="btn btn-success btn-sm" onclick="shareRiwayat(${r.id})">📤 Share</button>
-                    <button class="btn btn-danger btn-sm" onclick="hapusRiwayat(${r.id})">🗑️ Hapus</button>
+                    <button class="btn btn-outline btn-sm" data-id="${r.id}" onclick="muatRiwayat(this)">📥 Muat</button>
+                    <button class="btn btn-success btn-sm" data-id="${r.id}" onclick="shareRiwayat(this)">📤 Share</button>
+                    <button class="btn btn-danger btn-sm"  data-id="${r.id}" onclick="hapusRiwayat(this)">🗑️ Hapus</button>
                 </div>
-            </div>
-        `;
-    });
-    
-    document.getElementById('riwayatList').innerHTML = html;
+            </div>`;
+    }).join('');
 }
 
-function muat(id) {
-    const r = riwayatData.find(x => x.id === id);
+function muatRiwayat(btn) {
+    const r = riwayatData.find(x => x.id === parseInt(btn.getAttribute('data-id')));
     if (!r) return;
-    
     document.getElementById('namaSSPG').value = r.namaSSPG;
-    document.getElementById('tanggal').value = r.tanggal;
-    document.getElementById('porsiPK').value = r.porsiPK;
-    document.getElementById('porsiPB').value = r.porsiPB;
-    
+    document.getElementById('tanggal').value  = r.tanggal;
+    document.getElementById('porsiPK').value  = r.porsiPK;
+    document.getElementById('porsiPB').value  = r.porsiPB;
     calculate();
-    showTab('kalkulator', document.querySelector('.tab'));
-    document.querySelector('.tab').classList.add('active');
+    document.querySelectorAll('.tab')[0].click();
     showToast('✅ Data berhasil dimuat!');
 }
 
-function hapusRiwayat(id) {
+function hapusRiwayat(btn) {
+    const id = parseInt(btn.getAttribute('data-id'));
     if (confirm('Hapus riwayat ini?')) {
         riwayatData = riwayatData.filter(x => x.id !== id);
         localStorage.setItem('riwayatData', JSON.stringify(riwayatData));
@@ -1395,199 +1665,417 @@ function hapusSemuaRiwayat() {
     }
 }
 
+function shareRiwayat(btn) {
+    const r = riwayatData.find(x => x.id === parseInt(btn.getAttribute('data-id')));
+    if (!r) return;
+    const text = encodeURIComponent(
+        `🍚 *LAPORAN MBG*\n📍 ${r.namaSSPG}\n📅 ${r.tanggal}\n\n` +
+        `👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB}\n` +
+        `🍽️ Total: ${r.totalPorsi} porsi\n✅ Beras: *${r.totalBeras} kg*\n♨️ Batch: ${r.batchCount}`
+    );
+    window.open('https://wa.me/?text=' + text, '_blank');
+}
+
 // ============================================================
-// SHARE / EXPORT FUNCTIONS
+// FEATURE 6 — INSENTIF RELAWAN
+// ============================================================
+function initDivisiList() {
+    const html = divisiRelawan.map(d => {
+        const saved    = insentifData[d.id] || {};
+        const orang    = saved.orang    ?? d.defaultOrang;
+        const insentif = saved.insentif ?? d.defaultInsentif;
+
+        return `
+            <div class="divisi-card">
+                <div class="divisi-header">
+                    <span class="divisi-name">${d.nama}</span>
+                    <span class="divisi-total" id="divtotal-${d.id}">Rp 0/bln</span>
+                </div>
+                <div class="divisi-inputs">
+                    <div>
+                        <div class="mini-label">Jml Orang</div>
+                        <input type="number" id="org-${d.id}" value="${orang}"
+                               min="0" oninput="hitungInsentif()">
+                    </div>
+                    <div>
+                        <div class="mini-label">Insentif/Hari (Rp)</div>
+                        <input type="number" id="ins-${d.id}" value="${insentif}"
+                               min="0" oninput="hitungInsentif()">
+                    </div>
+                    <div>
+                        <div class="mini-label">Subtotal/Hari</div>
+                        <input type="text" id="sub-${d.id}" readonly>
+                    </div>
+                </div>
+            </div>`;
+    }).join('');
+
+    document.getElementById('divisiList').innerHTML = html;
+    hitungInsentif();
+
+    // Sync time
+    const saved = localStorage.getItem('lastSync');
+    document.getElementById('syncTime').textContent = saved || '—';
+}
+
+function hitungInsentif() {
+    const hariKerja    = Math.max(1, parseFloat(document.getElementById('hariKerja').value)    || 26);
+    const shiftPerHari = Math.max(1, parseFloat(document.getElementById('shiftPerHari').value) || 1);
+
+    let grandHarian  = 0;
+    let grandOrang   = 0;
+    let rekapHTML    = '';
+
+    divisiRelawan.forEach(d => {
+        const orang    = Math.max(0, parseFloat(document.getElementById('org-' + d.id)?.value) || 0);
+        const insentif = Math.max(0, parseFloat(document.getElementById('ins-' + d.id)?.value) || 0);
+
+        const subHarian  = orang * insentif * shiftPerHari;
+        const subBulanan = subHarian * hariKerja;
+
+        const subEl = document.getElementById('sub-' + d.id);
+        if (subEl) subEl.value = 'Rp ' + subHarian.toLocaleString('id');
+
+        const divEl = document.getElementById('divtotal-' + d.id);
+        if (divEl) divEl.textContent = 'Rp ' + subBulanan.toLocaleString('id') + '/bln';
+
+        grandHarian += subHarian;
+        grandOrang  += orang * shiftPerHari;
+
+        insentifData[d.id] = { orang, insentif };
+
+        rekapHTML += `
+            <tr>
+                <td>${d.nama}</td>
+                <td>${orang * shiftPerHari}</td>
+                <td>Rp ${subHarian.toLocaleString('id')}</td>
+                <td>Rp ${subBulanan.toLocaleString('id')}</td>
+            </tr>`;
+    });
+
+    const grandBulanan = grandHarian * hariKerja;
+
+    document.getElementById('grandTotalInsentif').textContent = 'Rp ' + grandBulanan.toLocaleString('id');
+    document.getElementById('grandPerHari').textContent       = 'Rp ' + grandHarian.toLocaleString('id');
+    document.getElementById('grandTotalRelawan').textContent  = grandOrang;
+    document.getElementById('stat-totalRelawan').textContent  = grandOrang;
+    document.getElementById('rekapInsentifBody').innerHTML    = rekapHTML;
+    document.getElementById('rekap-totalOrang').textContent   = grandOrang;
+    document.getElementById('rekap-totalHarian').textContent  = 'Rp ' + grandHarian.toLocaleString('id');
+    document.getElementById('rekap-totalBulanan').textContent = 'Rp ' + grandBulanan.toLocaleString('id');
+
+    localStorage.setItem('insentifData', JSON.stringify(insentifData));
+}
+
+function syncManual() {
+    const now = new Date().toLocaleString('id');
+    localStorage.setItem('lastSync', now);
+    document.getElementById('syncTime').textContent = now;
+    showToast('✅ Waktu perbaruan dicatat: ' + now);
+}
+
+function getInsentifText() {
+    const sppg         = document.getElementById('insentifSPPG').value || 'SPPG Kab. Tangerang';
+    const hariKerja    = document.getElementById('hariKerja').value    || 26;
+    const shiftPerHari = parseFloat(document.getElementById('shiftPerHari').value) || 1;
+
+    let text       = `👷 *REKAP INSENTIF RELAWAN SPPG*\n📍 ${sppg}\n\n`;
+    let totalOrang = 0;
+    let totalBln   = 0;
+
+    divisiRelawan.forEach(d => {
+        const orang    = parseFloat(document.getElementById('org-' + d.id)?.value) || 0;
+        const insentif = parseFloat(document.getElementById('ins-' + d.id)?.value) || 0;
+        const sub      = orang * insentif * shiftPerHari;
+        const bln      = sub * hariKerja;
+        totalOrang    += orang * shiftPerHari;
+        totalBln      += bln;
+        if (orang > 0) {
+            text += `${d.nama}: ${orang * shiftPerHari} org × Rp ${insentif.toLocaleString('id')}/hari = Rp ${bln.toLocaleString('id')}/bln\n`;
+        }
+    });
+
+    text += `\n📊 *TOTAL*\n👥 Relawan: ${totalOrang} orang\n📅 Hari kerja: ${hariKerja} hari\n💰 *Total/bulan: Rp ${totalBln.toLocaleString('id')}*\n\n_MBG Pro Calculator_`;
+    return text;
+}
+
+function shareInsentif() {
+    window.open('https://wa.me/?text=' + encodeURIComponent(getInsentifText()), '_blank');
+}
+
+function copyInsentif() {
+    navigator.clipboard.writeText(getInsentifText())
+        .then(() => showToast('✅ Rekap insentif disalin!'))
+        .catch(() => showToast('⚠️ Gagal copy, coba lagi'));
+}
+
+function downloadInsentifCSV() {
+    const hariKerja    = document.getElementById('hariKerja').value    || 26;
+    const shiftPerHari = parseFloat(document.getElementById('shiftPerHari').value) || 1;
+    let csv = 'Divisi,Jumlah Orang,Insentif Per Hari,Subtotal Per Hari,Total Per Bulan\n';
+
+    divisiRelawan.forEach(d => {
+        const orang    = parseFloat(document.getElementById('org-' + d.id)?.value) || 0;
+        const insentif = parseFloat(document.getElementById('ins-' + d.id)?.value) || 0;
+        const subHarian  = orang * insentif * shiftPerHari;
+        const subBulanan = subHarian * hariKerja;
+        csv += `"${d.nama}",${orang * shiftPerHari},${insentif},${subHarian},${subBulanan}\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'rekap-insentif-relawan.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ CSV insentif didownload!');
+}
+
+function printInsentif() {
+    const sppg      = document.getElementById('insentifSPPG').value || 'SPPG Kab. Tangerang';
+    const hariKerja = document.getElementById('hariKerja').value    || 26;
+    const shiftPerHari = parseFloat(document.getElementById('shiftPerHari').value) || 1;
+
+    let rows = '';
+    let grandBln = 0;
+    let grandOrg = 0;
+
+    divisiRelawan.forEach(d => {
+        const orang    = parseFloat(document.getElementById('org-' + d.id)?.value) || 0;
+        const insentif = parseFloat(document.getElementById('ins-' + d.id)?.value) || 0;
+        const subHarian  = orang * insentif * shiftPerHari;
+        const subBulanan = subHarian * hariKerja;
+        grandBln += subBulanan;
+        grandOrg += orang * shiftPerHari;
+        rows += `<tr>
+            <td>${d.nama}</td>
+            <td>${orang * shiftPerHari}</td>
+            <td>Rp ${insentif.toLocaleString('id')}</td>
+            <td>Rp ${subHarian.toLocaleString('id')}</td>
+            <td>Rp ${subBulanan.toLocaleString('id')}</td>
+        </tr>`;
+    });
+
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>Rekap Insentif</title>
+    <style>
+        body{font-family:Arial,sans-serif;padding:30px;color:#333;}
+        h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:10px;}
+        table{width:100%;border-collapse:collapse;margin:20px 0;}
+        th{background:#667eea;color:white;padding:10px;text-align:left;}
+        td{padding:10px;border-bottom:1px solid #eee;}
+        tfoot td{background:#4caf50;color:white;font-weight:bold;}
+        .total-box{background:#4caf50;color:white;padding:20px;border-radius:10px;text-align:center;margin:20px 0;}
+        .total-box .big{font-size:32px;font-weight:bold;color:#ffeb3b;}
+        @media print{button{display:none;}}
+    </style></head><body>
+    <h1>👷 Rekap Insentif Relawan SPPG</h1>
+    <p><strong>SPPG:</strong> ${sppg}</p>
+    <p><strong>Hari Kerja:</strong> ${hariKerja} hari | <strong>Shift/Hari:</strong> ${shiftPerHari}</p>
+    <table>
+        <thead><tr><th>Divisi</th><th>Orang</th><th>Insentif/Hari</th><th>Subtotal/Hari</th><th>Total/Bulan</th></tr></thead>
+        <tbody>${rows}</tbody>
+        <tfoot><tr><td>TOTAL</td><td>${grandOrg}</td><td>—</td><td>—</td><td>Rp ${grandBln.toLocaleString('id')}</td></tr></tfoot>
+    </table>
+    <div class="total-box">
+        <p>TOTAL INSENTIF / BULAN</p>
+        <div class="big">Rp ${grandBln.toLocaleString('id')}</div>
+    </div>
+    <p style="color:#888;font-size:12px;margin-top:20px;">
+        Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator
+    </p>
+    <button onclick="window.print()"
+            style="background:#667eea;color:white;padding:10px 20px;border:none;
+                   border-radius:8px;cursor:pointer;font-size:16px;">
+        🖨️ Print / Save PDF
+    </button>
+    </body></html>`);
+    w.document.close();
+}
+
+// ============================================================
+// REFERENSI SPPG KAB. TANGERANG
+// ============================================================
+function renderSPPGReferensi() {
+    const html = sppgKabTangerang.map(s => `
+        <div class="sppg-list-item">
+            <div>
+                <div style="font-weight:600;">${escapeHtml(s.nama)}</div>
+                <div class="sppg-kecamatan">📍 Kec. ${escapeHtml(s.kecamatan)}</div>
+            </div>
+            <span style="font-size:11px;color:var(--success);font-weight:600;">✅ Aktif</span>
+        </div>`).join('');
+
+    document.getElementById('sppgReferensiList').innerHTML = html;
+}
+
+// ============================================================
+// SHARE / EXPORT (TAB KALKULATOR)
 // ============================================================
 function getLaporanText() {
     const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal = new Date(document.getElementById('tanggal').value).toLocaleDateString('id', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-    });
-    
+    const tanggal  = new Date(document.getElementById('tanggal').value)
+        .toLocaleDateString('id', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
     return `🍚 *LAPORAN KEBUTUHAN BERAS MBG*
 📍 ${namaSSPG}
 📅 ${tanggal}
 
 *PORSI:*
-👶 PK (PAUD): ${lastResult.porsiPK || 0} porsi
+👶 PK (PAUD) : ${lastResult.porsiPK || 0} porsi
 👨 PB (SD/SMP): ${lastResult.porsiPB || 0} porsi
-🍽️ Total: ${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)} porsi
+🍽️ Total      : ${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)} porsi
 
 *KEBUTUHAN BERAS:*
-• Beras PK: ${(lastResult.berasPK || 0).toFixed(2)} kg
-• Beras PB: ${(lastResult.berasPB || 0).toFixed(2)} kg
-• Subtotal: ${(lastResult.subtotal || 0).toFixed(2)} kg
+• Beras PK  : ${(lastResult.berasPK  || 0).toFixed(2)} kg
+• Beras PB  : ${(lastResult.berasPB  || 0).toFixed(2)} kg
+• Subtotal  : ${(lastResult.subtotal || 0).toFixed(2)} kg
 • Buffer ${lastResult.bufferPct || 10}%: ${(lastResult.bufferKg || 0).toFixed(2)} kg
-• *TOTAL: ${lastResult.totalCeil || 0} kg*
+• *TOTAL    : ${lastResult.totalCeil || 0} kg*
 
-♨️ Batch Masak: ${lastResult.batchCount || 0} batch
-⏱️ Estimasi Waktu: ${lastResult.waktuMasak || 0} menit
+♨️ Batch Masak    : ${lastResult.batchCount || 0} batch
+⏱️ Estimasi Waktu : ${lastResult.waktuMasak || 0} menit
 🍚 Nasi Dihasilkan: ${(lastResult.nasiTotal || 0).toFixed(1)} kg
 
-${lastResult.totalBiaya > 0 ? '💰 Estimasi Biaya: Rp ' + Math.round(lastResult.totalBiaya).toLocaleString('id') : ''}
+${lastResult.totalBiaya > 0 ? '💰 Est. Biaya: Rp ' + Math.round(lastResult.totalBiaya).toLocaleString('id') : ''}
 
-_Dibuat dengan MBG Pro Calculator_`;
+_MBG Pro Calculator_`;
 }
 
 function shareWhatsApp() {
-    const text = encodeURIComponent(getLaporanText());
-    window.open('https://wa.me/?text=' + text, '_blank');
+    window.open('https://wa.me/?text=' + encodeURIComponent(getLaporanText()), '_blank');
     closeShare();
 }
 
 function copyClipboard() {
-    const text = getLaporanText();
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-            showToast('✅ Disalin ke clipboard!');
-        });
-    } else {
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        showToast('✅ Disalin ke clipboard!');
-    }
-    closeShare();
+    navigator.clipboard.writeText(getLaporanText())
+        .then(() => { showToast('✅ Disalin ke clipboard!'); closeShare(); })
+        .catch(() => showToast('⚠️ Gagal copy'));
 }
 
 function downloadCSV() {
     const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal = document.getElementById('tanggal').value;
-    
-    let csv = 'LAPORAN KEBUTUHAN BERAS MBG\n';
-    csv += `SPPG,${namaSSPG}\n`;
-    csv += `Tanggal,${tanggal}\n\n`;
+    const tanggal  = document.getElementById('tanggal').value;
+    let csv = `LAPORAN KEBUTUHAN BERAS MBG\nSSPG,${namaSSPG}\nTanggal,${tanggal}\n\n`;
     csv += 'PORSI\n';
     csv += `PK (PAUD),${lastResult.porsiPK || 0}\n`;
     csv += `PB (SD/SMP),${lastResult.porsiPB || 0}\n`;
     csv += `Total,${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)}\n\n`;
     csv += 'KEBUTUHAN BERAS\n';
-    csv += `Beras PK,${(lastResult.berasPK || 0).toFixed(2)} kg\n`;
-    csv += `Beras PB,${(lastResult.berasPB || 0).toFixed(2)} kg\n`;
+    csv += `Beras PK,${(lastResult.berasPK  || 0).toFixed(2)} kg\n`;
+    csv += `Beras PB,${(lastResult.berasPB  || 0).toFixed(2)} kg\n`;
     csv += `Subtotal,${(lastResult.subtotal || 0).toFixed(2)} kg\n`;
-    csv += `Buffer,${(lastResult.bufferKg || 0).toFixed(2)} kg\n`;
+    csv += `Buffer,${(lastResult.bufferKg   || 0).toFixed(2)} kg\n`;
     csv += `TOTAL,${lastResult.totalCeil || 0} kg\n`;
-    
+    csv += `Batch Masak,${lastResult.batchCount || 0}\n`;
+    csv += `Waktu Masak,${lastResult.waktuMasak || 0} menit\n`;
+
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
     a.download = `laporan-mbg-${tanggal}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    
     showToast('✅ CSV berhasil didownload!');
     closeShare();
 }
 
 function printPDF() {
     const namaSSPG = document.getElementById('namaSSPG').value || 'SPPG';
-    const tanggal = new Date(document.getElementById('tanggal').value).toLocaleDateString('id', {
-        day: 'numeric', month: 'long', year: 'numeric'
-    });
-    
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Laporan MBG - ${namaSSPG}</title>
-            <style>
-                body { font-family: Arial, sans-serif; padding: 30px; color: #333; }
-                h1 { color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
-                table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                th { background: #667eea; color: white; padding: 10px; text-align: left; }
-                td { padding: 10px; border-bottom: 1px solid #eee; }
-                .total-box { background: #667eea; color: white; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0; }
-                .total-box .big { font-size: 36px; font-weight: bold; }
-                @media print { button { display: none; } }
-            </style>
-        </head>
-        <body>
-            <h1>🍚 Laporan Kebutuhan Beras MBG</h1>
-            <p><strong>SPPG:</strong> ${namaSSPG}</p>
-            <p><strong>Tanggal:</strong> ${tanggal}</p>
-            
-            <table>
-                <tr><th colspan="2">DATA PORSI</th></tr>
-                <tr><td>PK (PAUD)</td><td><strong>${lastResult.porsiPK || 0} porsi</strong></td></tr>
-                <tr><td>PB (SD/SMP)</td><td><strong>${lastResult.porsiPB || 0} porsi</strong></td></tr>
-                <tr><td>Total Porsi</td><td><strong>${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)} porsi</strong></td></tr>
-            </table>
-            
-            <table>
-                <tr><th colspan="2">KEBUTUHAN BERAS</th></tr>
-                <tr><td>Beras PK</td><td>${(lastResult.berasPK || 0).toFixed(2)} kg</td></tr>
-                <tr><td>Beras PB</td><td>${(lastResult.berasPB || 0).toFixed(2)} kg</td></tr>
-                <tr><td>Subtotal</td><td>${(lastResult.subtotal || 0).toFixed(2)} kg</td></tr>
-                <tr><td>Buffer ${lastResult.bufferPct || 10}%</td><td>${(lastResult.bufferKg || 0).toFixed(2)} kg</td></tr>
-                <tr><td>Batch Masak</td><td>${lastResult.batchCount || 0} batch</td></tr>
-                <tr><td>Estimasi Waktu</td><td>${lastResult.waktuMasak || 0} menit</td></tr>
-            </table>
-            
-            <div class="total-box">
-                <p>TOTAL KEBUTUHAN BERAS</p>
-                <div class="big">${lastResult.totalCeil || 0} kg</div>
-            </div>
-            
-            ${lastResult.totalBiaya > 0 ? `<p><strong>Estimasi Biaya: Rp ${Math.round(lastResult.totalBiaya).toLocaleString('id')}</strong></p>` : ''}
-            
-            <p style="color: #888; font-size: 12px; margin-top: 30px;">Dibuat dengan MBG Pro Calculator | ${new Date().toLocaleString('id')}</p>
-            
-            <button onclick="window.print()" style="background: #667eea; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 10px;">🖨️ Print / Save PDF</button>
-        </body>
-        </html>
-    `);
-    printWindow.document.close();
-    closeShare();
-}
+    const tanggal  = new Date(document.getElementById('tanggal').value)
+        .toLocaleDateString('id', { day:'numeric', month:'long', year:'numeric' });
 
-function shareRiwayat(id) {
-    const r = riwayatData.find(x => x.id === id);
-    if (!r) return;
-    
-    const text = encodeURIComponent(`🍚 *LAPORAN MBG*\n📍 ${r.namaSSPG}\n📅 ${r.tanggal}\n\n👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB}\n🍽️ Total: ${r.totalPorsi} porsi\n✅ Beras: *${r.totalBeras} kg*\n♨️ Batch: ${r.batchCount}`);
-    window.open('https://wa.me/?text=' + text, '_blank');
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head>
+    <title>Laporan MBG - ${namaSSPG}</title>
+    <style>
+        body{font-family:Arial,sans-serif;padding:30px;color:#333;}
+        h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:10px;}
+        table{width:100%;border-collapse:collapse;margin:20px 0;}
+        th{background:#667eea;color:white;padding:10px;text-align:left;}
+        td{padding:10px;border-bottom:1px solid #eee;}
+        .total-box{background:#667eea;color:white;padding:20px;border-radius:10px;text-align:center;margin:20px 0;}
+        .total-box .big{font-size:36px;font-weight:bold;}
+        @media print{button{display:none;}}
+    </style></head><body>
+    <h1>🍚 Laporan Kebutuhan Beras MBG</h1>
+    <p><strong>SPPG:</strong> ${namaSSPG} &nbsp;|&nbsp; <strong>Tanggal:</strong> ${tanggal}</p>
+    <table>
+        <tr><th colspan="2">DATA PORSI</th></tr>
+        <tr><td>PK (PAUD)</td><td><strong>${lastResult.porsiPK || 0} porsi</strong></td></tr>
+        <tr><td>PB (SD/SMP)</td><td><strong>${lastResult.porsiPB || 0} porsi</strong></td></tr>
+        <tr><td>Total Porsi</td><td><strong>${(lastResult.porsiPK || 0) + (lastResult.porsiPB || 0)} porsi</strong></td></tr>
+    </table>
+    <table>
+        <tr><th colspan="2">KEBUTUHAN BERAS</th></tr>
+        <tr><td>Beras PK</td><td>${(lastResult.berasPK  || 0).toFixed(2)} kg</td></tr>
+        <tr><td>Beras PB</td><td>${(lastResult.berasPB  || 0).toFixed(2)} kg</td></tr>
+        <tr><td>Subtotal</td><td>${(lastResult.subtotal || 0).toFixed(2)} kg</td></tr>
+        <tr><td>Buffer ${lastResult.bufferPct || 10}%</td><td>${(lastResult.bufferKg || 0).toFixed(2)} kg</td></tr>
+        <tr><td>Batch Masak</td><td>${lastResult.batchCount || 0} batch</td></tr>
+        <tr><td>Estimasi Waktu</td><td>${lastResult.waktuMasak || 0} menit</td></tr>
+    </table>
+    <div class="total-box">
+        <p>TOTAL KEBUTUHAN BERAS</p>
+        <div class="big">${lastResult.totalCeil || 0} kg</div>
+    </div>
+    ${lastResult.totalBiaya > 0
+        ? `<p><strong>Estimasi Biaya: Rp ${Math.round(lastResult.totalBiaya).toLocaleString('id')}</strong></p>`
+        : ''}
+    <p style="color:#888;font-size:12px;margin-top:30px;">
+        Dibuat: ${new Date().toLocaleString('id')} | MBG Pro Calculator
+    </p>
+    <button onclick="window.print()"
+            style="background:#667eea;color:white;padding:10px 20px;border:none;
+                   border-radius:8px;cursor:pointer;font-size:16px;">
+        🖨️ Print / Save PDF
+    </button>
+    </body></html>`);
+    w.document.close();
+    closeShare();
 }
 
 // ============================================================
 // UI HELPERS
 // ============================================================
-function showShare() { document.getElementById('shareModal').classList.add('show'); }
+function showShare()  { document.getElementById('shareModal').classList.add('show');    }
 function closeShare() { document.getElementById('shareModal').classList.remove('show'); }
 
 function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 function toggleDark() {
     document.body.classList.toggle('dark-mode');
-    const btn = document.querySelector('.dark-toggle');
-    btn.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light' : '🌙 Dark';
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    const isDark = document.body.classList.contains('dark-mode');
+    document.querySelector('.dark-toggle').textContent = isDark ? '☀️ Light' : '🌙 Dark';
+    localStorage.setItem('darkMode', isDark);
 }
 
 function resetForm() {
-    if (confirm('Reset semua input?')) {
+    if (confirm('Reset semua input porsi?')) {
         document.getElementById('porsiPK').value = '';
         document.getElementById('porsiPB').value = '';
-        document.getElementById('buffer').value = 10;
+        document.getElementById('buffer').value  = 10;
         calculate();
         showToast('🔄 Form direset');
     }
 }
 
-// Check dark mode preference
-if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    document.querySelector('.dark-toggle').textContent = '☀️ Light';
+// Sanitize untuk mencegah XSS
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 </script>
 </body>
-</html>
+    </html>
