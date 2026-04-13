@@ -1,1693 +1,839 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator MBG Pro — SPPG Onyam</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --danger: #f44336;
-            --bg: #f0f2f5;
-            --card: #ffffff;
-            --text: #333333;
-            --text-light: #888888;
-            --border: #e0e0e0;
-        }
-
-        .dark-mode {
-            --bg: #1a1a2e;
-            --card: #16213e;
-            --text: #ffffff;
-            --text-light: #aaaaaa;
-            --border: #333355;
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s;
-            padding-bottom: 80px;
-        }
-
-        /* HEADER */
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 20px 20px 10px;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .header h1 { font-size: 18px; }
-        .header p  { font-size: 11px; opacity: 0.8; }
-
-        .dark-toggle {
-            background: rgba(255,255,255,0.2);
-            border: none; color: white;
-            padding: 7px 12px;
-            border-radius: 20px;
-            cursor: pointer; font-size: 13px;
-        }
-
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 5px;
-            padding: 5px 0 8px;
-            scrollbar-width: none;
-        }
-        .tabs::-webkit-scrollbar { display: none; }
-
-        .tab {
-            background: rgba(255,255,255,0.2);
-            border: none; color: white;
-            padding: 7px 13px;
-            border-radius: 20px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-        .tab.active {
-            background: white;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        /* CONTENT */
-        .content {
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* CARD */
-        .card {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 18px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            border: 1px solid var(--border);
-        }
-        .card h2 {
-            font-size: 15px;
-            color: var(--primary);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        .card h3 { font-size: 13px; color: var(--text-light); margin-bottom: 10px; }
-
-        /* INPUT */
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .input-group { margin-bottom: 12px; }
-        .input-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 5px;
-        }
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 9px 11px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            background: var(--card);
-            color: var(--text);
-            transition: border-color 0.2s;
-        }
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        .hint { font-size: 11px; color: var(--text-light); margin-top: 3px; }
-
-        /* BUTTON */
-        .btn {
-            padding: 11px 18px;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .btn:active { transform: scale(0.97); }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; width: 100%;
-            justify-content: center;
-            font-size: 15px; padding: 13px;
-        }
-        .btn-success { background: var(--success); color: white; }
-        .btn-warning { background: var(--warning); color: white; }
-        .btn-danger  { background: var(--danger);  color: white; }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        .btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .btn-sm  { padding: 6px 11px; font-size: 12px; border-radius: 6px; }
-
-        /* RESULT BOX */
-        .result-box {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; border-radius: 15px;
-            padding: 18px; margin-top: 15px;
-        }
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 7px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-            font-size: 13px;
-        }
-        .result-item:last-child { border-bottom: none; }
-        .result-item .label { opacity: 0.9; }
-        .result-item .value { font-weight: bold; }
-        .result-total {
-            background: rgba(255,255,255,0.15);
-            border-radius: 10px;
-            padding: 14px; margin-top: 10px;
-            text-align: center;
-        }
-        .result-total .big-number {
-            font-size: 34px;
-            font-weight: bold;
-            color: #ffeb3b;
-        }
-        .result-total .big-label { font-size: 12px; opacity: 0.9; margin-top: 4px; }
-
-        /* TABLE */
-        .bahan-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-        .bahan-table th {
-            background: var(--primary);
-            color: white;
-            padding: 9px 7px;
-            text-align: left;
-        }
-        .bahan-table td {
-            padding: 9px 7px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-        }
-        .bahan-table tfoot td {
-            background: var(--primary);
-            color: white;
-            font-weight: bold;
-            padding: 9px 7px;
-        }
-        .bahan-table tr:last-child td { border-bottom: none; }
-        .bahan-table tr:nth-child(even) td { background: rgba(102,126,234,0.05); }
-
-        /* STOK */
-        .stok-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--success);
-        }
-        .stok-card.warning { border-left-color: var(--warning); }
-        .stok-card.danger  { border-left-color: var(--danger);  }
-        .stok-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .stok-name   { font-weight: bold; font-size: 14px; }
-        .stok-badge  { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: bold; color: white; }
-        .badge-aman    { background: var(--success); }
-        .badge-warning { background: var(--warning); }
-        .badge-habis   { background: var(--danger);  }
-        .stok-progress { background: var(--border); border-radius: 5px; height: 7px; margin: 7px 0; overflow: hidden; }
-        .stok-bar      { height: 100%; border-radius: 5px; transition: width 0.5s; }
-        .stok-info     { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-light); }
-
-        /* RIWAYAT */
-        .riwayat-card { background: var(--card); border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); }
-        .riwayat-header { display: flex; justify-content: space-between; margin-bottom: 7px; }
-        .riwayat-date   { font-size: 11px; color: var(--text-light); }
-        .riwayat-total  { font-weight: bold; color: var(--primary); font-size: 15px; }
-        .riwayat-detail { font-size: 12px; color: var(--text-light); }
-        .riwayat-actions { display: flex; gap: 5px; margin-top: 8px; }
-
-        /* BIAYA */
-        .biaya-total-box { background: var(--success); color: white; border-radius: 12px; padding: 14px; text-align: center; margin-top: 15px; }
-        .biaya-total-box .amount { font-size: 26px; font-weight: bold; }
-
-        /* TOAST */
-        .toast {
-            position: fixed; bottom: 90px; left: 50%;
-            transform: translateX(-50%);
-            background: #333; color: white;
-            padding: 11px 22px; border-radius: 25px;
-            font-size: 13px; z-index: 1000;
-            opacity: 0; transition: opacity 0.3s;
-            white-space: nowrap; max-width: 90vw;
-        }
-        .toast.show { opacity: 1; }
-
-        /* MODAL */
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; }
-        .modal.show { display: flex; }
-        .modal-content { background: var(--card); width: 100%; border-radius: 20px 20px 0 0; padding: 22px; max-height: 80vh; overflow-y: auto; }
-        .modal-header  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        .modal-title   { font-size: 17px; font-weight: bold; }
-        .btn-close     { background: var(--border); border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 15px; color: var(--text); }
-        .share-option  { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 9px; border: 1px solid var(--border); transition: background 0.2s; }
-        .share-option:active { background: var(--bg); }
-        .share-icon  { font-size: 26px; }
-        .share-label { font-weight: 600; font-size: 14px; }
-        .share-desc  { font-size: 11px; color: var(--text-light); }
-
-        /* MISC */
-        .divider { border: none; border-top: 1px solid var(--border); margin: 13px 0; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-        .stat-card { background: var(--card); border-radius: 12px; padding: 14px; text-align: center; border: 1px solid var(--border); }
-        .stat-icon  { font-size: 22px; margin-bottom: 4px; }
-        .stat-value { font-size: 19px; font-weight: bold; color: var(--primary); }
-        .stat-label { font-size: 10px; color: var(--text-light); margin-top: 2px; }
-        .empty-state { text-align: center; padding: 35px 20px; color: var(--text-light); }
-        .empty-state .icon { font-size: 44px; margin-bottom: 13px; }
-        .empty-state h3    { font-size: 15px; margin-bottom: 7px; color: var(--text); }
-        .empty-state p     { font-size: 13px; }
-        .info-box { background: rgba(102,126,234,0.1); border-radius: 10px; padding: 11px; font-size: 12px; color: var(--text); border-left: 4px solid var(--primary); margin-bottom: 12px; line-height: 1.6; }
-
-        /* INSENTIF */
-        .insentif-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-        .insentif-stat { background: var(--bg); border-radius: 10px; padding: 10px 6px; text-align: center; border: 1px solid var(--border); }
-        .insentif-stat .val { font-size: 16px; font-weight: bold; color: var(--primary); }
-        .insentif-stat .lbl { font-size: 10px; color: var(--text-light); margin-top: 3px; }
-        .divisi-card { background: var(--bg); border-radius: 11px; padding: 13px; margin-bottom: 9px; border: 1px solid var(--border); border-left: 4px solid var(--primary); }
-        .divisi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; flex-wrap: wrap; gap: 4px; }
-        .divisi-name  { font-weight: bold; font-size: 13px; }
-        .divisi-total { font-weight: bold; color: var(--success); font-size: 12px; }
-        .divisi-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
-        .divisi-inputs input { width: 100%; padding: 7px 5px; border: 2px solid var(--border); border-radius: 6px; font-size: 11px; background: var(--card); color: var(--text); text-align: center; }
-        .divisi-inputs input:focus { outline: none; border-color: var(--primary); }
-        .divisi-inputs input[readonly] { background: var(--card); font-weight: bold; color: var(--primary); cursor: default; }
-        .mini-label { font-size: 10px; color: var(--text-light); text-align: center; margin-bottom: 3px; font-weight: 600; }
-        .insentif-grand-total { background: linear-gradient(135deg, #4caf50, #2e7d32); color: white; border-radius: 14px; padding: 18px; text-align: center; margin-top: 14px; }
-        .grand-amount { font-size: 28px; font-weight: bold; color: #ffeb3b; word-break: break-all; }
-        .grand-label  { font-size: 12px; opacity: 0.9; margin-bottom: 7px; }
-        .sync-banner  { background: linear-gradient(135deg, #ff9800, #f57c00); color: white; border-radius: 11px; padding: 13px; margin-bottom: 14px; font-size: 12px; line-height: 1.6; }
-        .sync-banner strong { display: block; margin-bottom: 4px; font-size: 13px; }
-        .sync-dot { display: inline-block; width: 7px; height: 7px; background: #ffeb3b; border-radius: 50%; margin-right: 5px; animation: blink 1.5s infinite; }
-        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-        .sppg-list-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
-        .sppg-list-item:last-child { border-bottom: none; }
-        .sppg-kecamatan { font-size: 10px; color: var(--text-light); margin-top: 2px; }
-
-        /* ===================== ABSENSI STYLES ===================== */
-        .absen-header-bar {
-            background: linear-gradient(135deg, #00897b, #00695c);
-            color: white;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 14px;
-        }
-        .absen-header-bar h2 { color: white; font-size: 16px; margin-bottom: 12px; }
-        .absen-stat-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .absen-stat {
-            background: rgba(255,255,255,0.15);
-            border-radius: 9px;
-            padding: 9px 4px;
-            text-align: center;
-        }
-        .absen-stat .aval { font-size: 20px; font-weight: bold; }
-        .absen-stat .albl { font-size: 9px; opacity: 0.9; margin-top: 2px; }
-
-        .relawan-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin-bottom: 8px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.2s;
-        }
-        .relawan-card.hadir   { border-left: 4px solid #4caf50; }
-        .relawan-card.izin    { border-left: 4px solid #ff9800; }
-        .relawan-card.sakit   { border-left: 4px solid #e91e63; }
-        .relawan-card.alpha   { border-left: 4px solid #f44336; }
-
-        .relawan-no {
-            font-size: 12px;
-            font-weight: bold;
-            color: var(--text-light);
-            min-width: 24px;
-        }
-        .relawan-info { flex: 1; min-width: 0; }
-        .relawan-nama {
-            font-weight: 600;
-            font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .relawan-meta {
-            display: flex;
-            gap: 6px;
-            margin-top: 3px;
-            flex-wrap: wrap;
-        }
-        .badge-divisi {
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 10px;
-            background: rgba(102,126,234,0.15);
-            color: var(--primary);
-            font-weight: 600;
-        }
-        .badge-rekening-ok {
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 10px;
-            background: rgba(76,175,80,0.15);
-            color: #2e7d32;
-            font-weight: 600;
-        }
-        .badge-rekening-no {
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 10px;
-            background: rgba(244,67,54,0.1);
-            color: #c62828;
-            font-weight: 600;
-        }
-
-        .absen-btns {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-        .absen-btn {
-            width: 34px;
-            height: 34px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 15px;
-            cursor: pointer;
-            background: var(--bg);
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .absen-btn:active { transform: scale(0.9); }
-        .absen-btn.active-hadir  { background: #e8f5e9; border-color: #4caf50; }
-        .absen-btn.active-izin   { background: #fff3e0; border-color: #ff9800; }
-        .absen-btn.active-sakit  { background: #fce4ec; border-color: #e91e63; }
-        .absen-btn.active-alpha  { background: #ffebee; border-color: #f44336; }
-
-        .filter-bar {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none;
-            margin-bottom: 12px;
-        }
-        .filter-bar::-webkit-scrollbar { display: none; }
-        .filter-chip {
-            padding: 5px 12px;
-            border-radius: 20px;
-            border: 2px solid var(--border);
-            background: var(--card);
-            color: var(--text-light);
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.15s;
-        }
-        .filter-chip.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .rekening-banner {
-            background: linear-gradient(135deg, #7b1fa2, #4a148c);
-            color: white;
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 14px;
-        }
-        .rekening-banner h3 { font-size: 14px; margin-bottom: 8px; }
-        .rekening-progress-bar {
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
-            height: 10px;
-            margin: 8px 0;
-            overflow: hidden;
-        }
-        .rekening-progress-fill {
-            height: 100%;
-            border-radius: 5px;
-            background: #ffeb3b;
-            transition: width 0.5s;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--card);
-            color: var(--text);
-            margin-bottom: 12px;
-        }
-        .search-box:focus { outline: none; border-color: var(--primary); }
-
-        .absen-legend {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: var(--text-light);
-        }
-        .legend-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBG Pro — SPPG Onyam</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--primary:#667eea;--secondary:#764ba2;--success:#4caf50;--warning:#ff9800;--danger:#f44336;--bg:#f0f2f5;--card:#ffffff;--text:#333333;--text-light:#888888;--border:#e0e0e0;}
+.dark-mode{--bg:#1a1a2e;--card:#16213e;--text:#ffffff;--text-light:#aaaaaa;--border:#333355;}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text);transition:all 0.3s;padding-bottom:80px;}
+.auth-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2);z-index:9999;padding:20px;}
+.auth-card{width:min(400px,100%);background:#fff;border-radius:20px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;}
+.auth-logo{font-size:48px;margin-bottom:12px;}
+.auth-title{font-size:22px;font-weight:bold;color:#333;margin-bottom:6px;}
+.auth-sub{font-size:13px;color:#888;margin-bottom:24px;line-height:1.5;}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#ccc;font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#eee;}
+.auth-msg{margin-top:12px;color:#c62828;font-size:12px;min-height:18px;}
+.header{background:linear-gradient(135deg,var(--primary),var(--secondary));padding:20px 20px 10px;color:white;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.2);}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.header h1{font-size:17px;}
+.header p{font-size:11px;opacity:0.8;}
+.header-right{display:flex;gap:8px;align-items:center;}
+.user-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);object-fit:cover;}
+.user-name{font-size:12px;opacity:0.9;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dark-toggle{background:rgba(255,255,255,0.2);border:none;color:white;padding:7px 11px;border-radius:20px;cursor:pointer;font-size:12px;}
+.tabs{display:flex;overflow-x:auto;gap:5px;padding:5px 0 8px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{background:rgba(255,255,255,0.2);border:none;color:white;padding:7px 13px;border-radius:20px;cursor:pointer;white-space:nowrap;font-size:12px;transition:all 0.2s;}
+.tab.active{background:white;color:var(--primary);font-weight:bold;}
+.content{padding:15px;max-width:600px;margin:0 auto;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.card{background:var(--card);border-radius:15px;padding:18px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,0.08);border:1px solid var(--border);}
+.card h2{font-size:15px;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.card h3{font-size:13px;color:var(--text-light);margin-bottom:10px;}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.input-group{margin-bottom:12px;}
+.input-group label{display:block;font-size:12px;font-weight:600;color:var(--text-light);margin-bottom:5px;}
+.input-group input,.input-group select{width:100%;padding:9px 11px;border:2px solid var(--border);border-radius:8px;font-size:14px;background:var(--card);color:var(--text);transition:border-color 0.2s;}
+.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--primary);}
+.hint{font-size:11px;color:var(--text-light);margin-top:3px;}
+.btn{padding:11px 18px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;width:100%;justify-content:center;font-size:15px;padding:13px;}
+.btn-success{background:var(--success);color:white;}
+.btn-warning{background:var(--warning);color:white;}
+.btn-danger{background:var(--danger);color:white;}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary);}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.btn-sm{padding:6px 11px;font-size:12px;border-radius:6px;}
+.result-box{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border-radius:15px;padding:18px;margin-top:15px;}
+.result-item{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.15);font-size:13px;}
+.result-item:last-child{border-bottom:none;}
+.result-item .label{opacity:0.9;}
+.result-item .value{font-weight:bold;}
+.result-total{background:rgba(255,255,255,0.15);border-radius:10px;padding:14px;margin-top:10px;text-align:center;}
+.result-total .big-number{font-size:34px;font-weight:bold;color:#ffeb3b;}
+.result-total .big-label{font-size:12px;opacity:0.9;margin-top:4px;}
+.bahan-table{width:100%;border-collapse:collapse;font-size:13px;}
+.bahan-table th{background:var(--primary);color:white;padding:9px 7px;text-align:left;}
+.bahan-table td{padding:9px 7px;border-bottom:1px solid var(--border);color:var(--text);}
+.bahan-table tfoot td{background:var(--primary);color:white;font-weight:bold;padding:9px 7px;}
+.bahan-table tr:last-child td{border-bottom:none;}
+.bahan-table tr:nth-child(even) td{background:rgba(102,126,234,0.05);}
+.stok-card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid var(--border);border-left:4px solid var(--success);}
+.stok-card.warning{border-left-color:var(--warning);}
+.stok-card.danger{border-left-color:var(--danger);}
+.stok-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.stok-name{font-weight:bold;font-size:14px;}
+.stok-badge{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:bold;color:white;}
+.badge-aman{background:var(--success);}
+.badge-warning{background:var(--warning);}
+.badge-habis{background:var(--danger);}
+.stok-progress{background:var(--border);border-radius:5px;height:7px;margin:7px 0;overflow:hidden;}
+.stok-bar{height:100%;border-radius:5px;transition:width 0.5s;}
+.stok-info{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);}
+.riwayat-card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid var(--border);}
+.riwayat-header{display:flex;justify-content:space-between;margin-bottom:7px;}
+.riwayat-date{font-size:11px;color:var(--text-light);}
+.riwayat-total{font-weight:bold;color:var(--primary);font-size:15px;}
+.riwayat-detail{font-size:12px;color:var(--text-light);}
+.riwayat-actions{display:flex;gap:5px;margin-top:8px;}
+.biaya-total-box{background:var(--success);color:white;border-radius:12px;padding:14px;text-align:center;margin-top:15px;}
+.biaya-total-box .amount{font-size:26px;font-weight:bold;}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:11px 22px;border-radius:25px;font-size:13px;z-index:1000;opacity:0;transition:opacity 0.3s;white-space:nowrap;max-width:90vw;}
+.toast.show{opacity:1;}
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;}
+.modal.show{display:flex;}
+.modal-content{background:var(--card);width:100%;border-radius:20px 20px 0 0;padding:22px;max-height:80vh;overflow-y:auto;}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.modal-title{font-size:17px;font-weight:bold;}
+.btn-close{background:var(--border);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;color:var(--text);}
+.share-option{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;cursor:pointer;margin-bottom:9px;border:1px solid var(--border);transition:background 0.2s;}
+.share-option:active{background:var(--bg);}
+.share-icon{font-size:26px;}
+.share-label{font-weight:600;font-size:14px;}
+.share-desc{font-size:11px;color:var(--text-light);}
+.divider{border:none;border-top:1px solid var(--border);margin:13px 0;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-card{background:var(--card);border-radius:12px;padding:14px;text-align:center;border:1px solid var(--border);}
+.stat-icon{font-size:22px;margin-bottom:4px;}
+.stat-value{font-size:19px;font-weight:bold;color:var(--primary);}
+.stat-label{font-size:10px;color:var(--text-light);margin-top:2px;}
+.empty-state{text-align:center;padding:35px 20px;color:var(--text-light);}
+.empty-state .icon{font-size:44px;margin-bottom:13px;}
+.empty-state h3{font-size:15px;margin-bottom:7px;color:var(--text);}
+.empty-state p{font-size:13px;}
+.info-box{background:rgba(102,126,234,0.1);border-radius:10px;padding:11px;font-size:12px;color:var(--text);border-left:4px solid var(--primary);margin-bottom:12px;line-height:1.6;}
+.insentif-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+.insentif-stat{background:var(--bg);border-radius:10px;padding:10px 6px;text-align:center;border:1px solid var(--border);}
+.insentif-stat .val{font-size:16px;font-weight:bold;color:var(--primary);}
+.insentif-stat .lbl{font-size:10px;color:var(--text-light);margin-top:3px;}
+.divisi-card{background:var(--bg);border-radius:11px;padding:13px;margin-bottom:9px;border:1px solid var(--border);border-left:4px solid var(--primary);}
+.divisi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;flex-wrap:wrap;gap:4px;}
+.divisi-name{font-weight:bold;font-size:13px;}
+.divisi-total{font-weight:bold;color:var(--success);font-size:12px;}
+.divisi-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;}
+.divisi-inputs input{width:100%;padding:7px 5px;border:2px solid var(--border);border-radius:6px;font-size:11px;background:var(--card);color:var(--text);text-align:center;}
+.divisi-inputs input:focus{outline:none;border-color:var(--primary);}
+.divisi-inputs input[readonly]{font-weight:bold;color:var(--primary);cursor:default;}
+.mini-label{font-size:10px;color:var(--text-light);text-align:center;margin-bottom:3px;font-weight:600;}
+.insentif-grand-total{background:linear-gradient(135deg,#4caf50,#2e7d32);color:white;border-radius:14px;padding:18px;text-align:center;margin-top:14px;}
+.grand-amount{font-size:28px;font-weight:bold;color:#ffeb3b;word-break:break-all;}
+.grand-label{font-size:12px;opacity:0.9;margin-bottom:7px;}
+.sync-banner{background:linear-gradient(135deg,#ff9800,#f57c00);color:white;border-radius:11px;padding:13px;margin-bottom:14px;font-size:12px;line-height:1.6;}
+.sync-banner strong{display:block;margin-bottom:4px;font-size:13px;}
+.sync-dot{display:inline-block;width:7px;height:7px;background:#ffeb3b;border-radius:50%;margin-right:5px;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.absen-header-bar{background:linear-gradient(135deg,#00897b,#00695c);color:white;border-radius:14px;padding:16px;margin-bottom:14px;}
+.absen-header-bar h2{color:white;font-size:16px;margin-bottom:12px;}
+.absen-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+.absen-stat{background:rgba(255,255,255,0.15);border-radius:9px;padding:9px 4px;text-align:center;}
+.absen-stat .aval{font-size:20px;font-weight:bold;}
+.absen-stat .albl{font-size:9px;opacity:0.9;margin-top:2px;}
+.relawan-card{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:all 0.2s;}
+.relawan-card.hadir{border-left:4px solid #4caf50;}
+.relawan-card.izin{border-left:4px solid #ff9800;}
+.relawan-card.sakit{border-left:4px solid #e91e63;}
+.relawan-card.alpha{border-left:4px solid #f44336;}
+.relawan-no{font-size:12px;font-weight:bold;color:var(--text-light);min-width:24px;}
+.relawan-info{flex:1;min-width:0;}
+.relawan-nama{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.relawan-meta{display:flex;gap:6px;margin-top:3px;flex-wrap:wrap;}
+.badge-divisi{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(102,126,234,0.15);color:var(--primary);font-weight:600;}
+.badge-rek-ok{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(76,175,80,0.15);color:#2e7d32;font-weight:600;}
+.badge-rek-no{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(244,67,54,0.1);color:#c62828;font-weight:600;}
+.absen-btns{display:flex;gap:4px;flex-shrink:0;}
+.absen-btn{width:34px;height:34px;border:2px solid var(--border);border-radius:8px;font-size:15px;cursor:pointer;background:var(--bg);transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+.absen-btn:active{transform:scale(0.9);}
+.absen-btn.active-hadir{background:#e8f5e9;border-color:#4caf50;}
+.absen-btn.active-izin{background:#fff3e0;border-color:#ff9800;}
+.absen-btn.active-sakit{background:#fce4ec;border-color:#e91e63;}
+.absen-btn.active-alpha{background:#ffebee;border-color:#f44336;}
+.filter-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:12px;}
+.filter-bar::-webkit-scrollbar{display:none;}
+.filter-chip{padding:5px 12px;border-radius:20px;border:2px solid var(--border);background:var(--card);color:var(--text-light);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.15s;}
+.filter-chip.active{background:var(--primary);border-color:var(--primary);color:white;}
+.rekening-banner{background:linear-gradient(135deg,#7b1fa2,#4a148c);color:white;border-radius:12px;padding:14px;margin-bottom:14px;}
+.rekening-banner h3{font-size:14px;margin-bottom:8px;}
+.rek-progress-bar{background:rgba(255,255,255,0.2);border-radius:5px;height:10px;margin:8px 0;overflow:hidden;}
+.rek-progress-fill{height:100%;border-radius:5px;background:#ffeb3b;transition:width 0.5s;}
+.search-box{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:14px;background:var(--card);color:var(--text);margin-bottom:12px;}
+.search-box:focus{outline:none;border-color:var(--primary);}
+.absen-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-light);}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+.perubahan-banner{background:linear-gradient(135deg,#e91e63,#880e4f);color:white;border-radius:12px;padding:14px;margin-bottom:14px;font-size:12px;line-height:1.7;}
+.perubahan-banner strong{display:block;font-size:14px;margin-bottom:6px;}
+</style>
 </head>
 <body>
 
-<!-- ==================== HEADER ==================== -->
+<div id="authOverlay" class="auth-overlay">
+<div class="auth-card">
+<div class="auth-logo">🍚</div>
+<div class="auth-title">MBG Pro — SPPG Onyam</div>
+<div class="auth-sub">Gunung Kaler, Kab. Tangerang<br>Silakan masuk untuk melanjutkan</div>
+<div id="g_id_onload" data-client_id="ISI_CLIENT_ID_ANDA.apps.googleusercontent.com" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+<div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="signin_with" data-shape="pill" data-logo_alignment="left"></div>
+<div class="auth-divider">atau</div>
+<button class="btn btn-primary" onclick="loginDev()" style="font-size:13px;padding:11px;">🔑 Masuk Tanpa Google (Dev Mode)</button>
+<div class="auth-msg" id="authMsg"></div>
+</div>
+</div>
+
+<div id="appShell" style="display:none;">
 <div class="header">
-    <div class="header-top">
-        <div>
-            <h1>🍚 MBG Pro — SPPG Onyam</h1>
-            <p>Gunung Kaler, Kab. Tangerang</p>
-        </div>
-        <button class="dark-toggle" onclick="toggleDark()">🌙 Dark</button>
-    </div>
-    <div class="tabs">
-        <button class="tab active" onclick="showTab('kalkulator', this)">🧮 Kalkulator</button>
-        <button class="tab" onclick="showTab('bahan', this)">🥗 Bahan</button>
-        <button class="tab" onclick="showTab('biaya', this)">💰 Biaya</button>
-        <button class="tab" onclick="showTab('stok', this)">📦 Stok</button>
-        <button class="tab" onclick="showTab('riwayat', this)">📋 Riwayat</button>
-        <button class="tab" onclick="showTab('insentif', this)">👷 Insentif</button>
-        <button class="tab" onclick="showTab('absensi', this)">📝 Absensi</button>
-    </div>
+<div class="header-top">
+<div><h1>🍚 MBG Pro — SPPG Onyam</h1><p>Gunung Kaler, Kab. Tangerang</p></div>
+<div class="header-right">
+<img id="userAvatar" class="user-avatar" src="" style="display:none;">
+<span id="userName" class="user-name"></span>
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
+<button class="dark-toggle" onclick="logout()" title="Logout">🚪</button>
+</div>
+</div>
+<div class="tabs">
+<button class="tab active" onclick="showTab('kalkulator',this)">🧮 Kalkulator</button>
+<button class="tab" onclick="showTab('bahan',this)">🥗 Bahan</button>
+<button class="tab" onclick="showTab('biaya',this)">💰 Biaya</button>
+<button class="tab" onclick="showTab('stok',this)">📦 Stok</button>
+<button class="tab" onclick="showTab('riwayat',this)">📋 Riwayat</button>
+<button class="tab" onclick="showTab('insentif',this)">👷 Insentif</button>
+<button class="tab" onclick="showTab('absensi',this)">📝 Absensi</button>
+</div>
 </div>
 
 <div class="content">
 
-<!-- ==================== TAB 1: KALKULATOR ==================== -->
 <div id="tab-kalkulator" class="tab-content active">
-    <div class="card">
-        <h2>📍 Informasi SPPG</h2>
-        <div class="input-group">
-            <label>Nama SPPG</label>
-            <input type="text" id="namaSSPG" value="SPPG Onyam Gunung Kaler">
-        </div>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Tanggal</label>
-                <input type="date" id="tanggal">
-            </div>
-            <div class="input-group">
-                <label>Shift</label>
-                <select id="shift">
-                    <option>Pagi</option>
-                    <option>Siang</option>
-                    <option>Sore</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <h2>👶 Porsi Kecil (PK) — PAUD</h2>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Jumlah Porsi</label>
-                <input type="number" id="porsiPK" value="689" min="0" oninput="calculate()">
-            </div>
-            <div class="input-group">
-                <label>Nasi/Porsi (g)</label>
-                <input type="number" id="nasiPK" value="125" min="0" oninput="calculate()">
-            </div>
-        </div>
-        <p class="hint">🍚 125g nasi = ±52g beras mentah (rasio 2.4x)</p>
-    </div>
-    <div class="card">
-        <h2>👨 Porsi Besar (PB) — SD/SMP/Dewasa</h2>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Jumlah Porsi</label>
-                <input type="number" id="porsiPB" value="1461" min="0" oninput="calculate()">
-            </div>
-            <div class="input-group">
-                <label>Nasi/Porsi (g)</label>
-                <input type="number" id="nasiPB" value="150" min="0" oninput="calculate()">
-            </div>
-        </div>
-        <p class="hint">🍚 150g nasi = ±62.5g beras mentah (rasio 2.4x)</p>
-    </div>
-    <div class="card">
-        <h2>⚙️ Pengaturan</h2>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Buffer (%)</label>
-                <input type="number" id="buffer" value="10" min="0" max="30" oninput="calculate()">
-            </div>
-            <div class="input-group">
-                <label>Rasio Steamer</label>
-                <select id="rasioSteamer" onchange="calculate()">
-                    <option value="2.0">2.0x (Real lapangan)</option>
-                    <option value="2.1">2.1x (Moderate)</option>
-                    <option value="2.4" selected>2.4x (Ideal)</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="result-box">
-        <div class="result-item"><span class="label">Total Porsi</span><span class="value" id="r-totalPorsi">0</span></div>
-        <div class="result-item"><span class="label">Beras PK</span><span class="value" id="r-berasPK">0 kg</span></div>
-        <div class="result-item"><span class="label">Beras PB</span><span class="value" id="r-berasPB">0 kg</span></div>
-        <div class="result-item"><span class="label">Subtotal</span><span class="value" id="r-subtotal">0 kg</span></div>
-        <div class="result-item"><span class="label">Buffer</span><span class="value" id="r-buffer">0 kg</span></div>
-        <div class="result-item"><span class="label">Nasi Dihasilkan</span><span class="value" id="r-nasi">0 kg</span></div>
-        <div class="result-total">
-            <div class="big-number" id="r-total">0 kg</div>
-            <div class="big-label">⬆️ TOTAL BERAS DIBUTUHKAN</div>
-        </div>
-    </div>
-    <div class="card" style="margin-top:14px;">
-        <h2>♨️ Info Steamer</h2>
-        <div class="stat-grid">
-            <div class="stat-card">
-                <div class="stat-icon">🍳</div>
-                <div class="stat-value" id="r-batchCount">0</div>
-                <div class="stat-label">Batch Dibutuhkan</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⏱️</div>
-                <div class="stat-value" id="r-waktuMasak">0 mnt</div>
-                <div class="stat-label">Total Waktu Masak</div>
-            </div>
-        </div>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Beras/Tray (kg)</label>
-                <input type="number" id="berasPerTray" value="3" min="1" oninput="calculate()">
-            </div>
-            <div class="input-group">
-                <label>Jumlah Tray</label>
-                <input type="number" id="jumlahTray" value="12" min="1" oninput="calculate()">
-            </div>
-        </div>
-    </div>
-    <div class="btn-row">
-        <button class="btn btn-primary" onclick="simpanRiwayat()">💾 Simpan Riwayat</button>
-    </div>
-    <div class="btn-row">
-        <button class="btn btn-success" style="flex:1" onclick="showShare()">📤 Share / Export</button>
-        <button class="btn btn-warning" style="flex:1" onclick="resetForm()">🔄 Reset</button>
-    </div>
+<div class="card">
+<h2>📍 Informasi SPPG</h2>
+<div class="input-group"><label>Nama SPPG</label><input type="text" id="namaSSPG" value="SPPG Onyam Gunung Kaler"></div>
+<div class="input-row">
+<div class="input-group"><label>Tanggal</label><input type="date" id="tanggal"></div>
+<div class="input-group"><label>Shift</label><select id="shift"><option>Pagi</option><option>Siang</option><option>Sore</option></select></div>
+</div>
+</div>
+<div class="card">
+<h2>👶 Porsi Kecil (PK) — PAUD</h2>
+<div class="input-row">
+<div class="input-group"><label>Jumlah Porsi</label><input type="number" id="porsiPK" value="689" min="0" oninput="calculate()"></div>
+<div class="input-group"><label>Nasi/Porsi (g)</label><input type="number" id="nasiPK" value="125" min="0" oninput="calculate()"></div>
+</div>
+<p class="hint">🍚 125g nasi = ±52g beras mentah (rasio 2.4x)</p>
+</div>
+<div class="card">
+<h2>👨 Porsi Besar (PB) — SD/SMP/Dewasa</h2>
+<div class="input-row">
+<div class="input-group"><label>Jumlah Porsi</label><input type="number" id="porsiPB" value="1461" min="0" oninput="calculate()"></div>
+<div class="input-group"><label>Nasi/Porsi (g)</label><input type="number" id="nasiPB" value="150" min="0" oninput="calculate()"></div>
+</div>
+<p class="hint">🍚 150g nasi = ±62.5g beras mentah (rasio 2.4x)</p>
+</div>
+<div class="card">
+<h2>⚙️ Pengaturan</h2>
+<div class="input-row">
+<div class="input-group"><label>Buffer (%)</label><input type="number" id="buffer" value="10" min="0" max="30" oninput="calculate()"></div>
+<div class="input-group"><label>Rasio Steamer</label><select id="rasioSteamer" onchange="calculate()"><option value="2.0">2.0x (Real lapangan)</option><option value="2.1">2.1x (Moderate)</option><option value="2.4" selected>2.4x (Ideal)</option></select></div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-item"><span class="label">Total Porsi</span><span class="value" id="r-totalPorsi">0</span></div>
+<div class="result-item"><span class="label">Beras PK</span><span class="value" id="r-berasPK">0 kg</span></div>
+<div class="result-item"><span class="label">Beras PB</span><span class="value" id="r-berasPB">0 kg</span></div>
+<div class="result-item"><span class="label">Subtotal</span><span class="value" id="r-subtotal">0 kg</span></div>
+<div class="result-item"><span class="label">Buffer</span><span class="value" id="r-buffer">0 kg</span></div>
+<div class="result-item"><span class="label">Nasi Dihasilkan</span><span class="value" id="r-nasi">0 kg</span></div>
+<div class="result-total"><div class="big-number" id="r-total">0 kg</div><div class="big-label">⬆️ TOTAL BERAS DIBUTUHKAN</div></div>
+</div>
+<div class="card" style="margin-top:14px;">
+<h2>♨️ Info Steamer</h2>
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-icon">🍳</div><div class="stat-value" id="r-batchCount">0</div><div class="stat-label">Batch</div></div>
+<div class="stat-card"><div class="stat-icon">⏱️</div><div class="stat-value" id="r-waktuMasak">0 mnt</div><div class="stat-label">Waktu Masak</div></div>
+</div>
+<div class="input-row">
+<div class="input-group"><label>Beras/Tray (kg)</label><input type="number" id="berasPerTray" value="3" min="1" oninput="calculate()"></div>
+<div class="input-group"><label>Jumlah Tray</label><input type="number" id="jumlahTray" value="12" min="1" oninput="calculate()"></div>
+</div>
+</div>
+<div class="btn-row"><button class="btn btn-primary" onclick="simpanRiwayat()">💾 Simpan Riwayat</button></div>
+<div class="btn-row">
+<button class="btn btn-success" style="flex:1" onclick="showShare()">📤 Share</button>
+<button class="btn btn-warning" style="flex:1" onclick="resetForm()">🔄 Reset</button>
+</div>
 </div>
 
-<!-- ==================== TAB 2: BAHAN ==================== -->
 <div id="tab-bahan" class="tab-content">
-    <div class="card">
-        <h2>🥗 Kebutuhan Bahan Makanan</h2>
-        <p class="hint" style="margin-bottom:12px;">Total porsi otomatis dari Tab Kalkulator.</p>
-        <table class="bahan-table">
-            <thead><tr><th>Bahan</th><th>g/porsi</th><th>Faktor</th><th>Total (kg)</th></tr></thead>
-            <tbody id="bahanTableBody"></tbody>
-        </table>
-    </div>
-    <div class="card">
-        <h2>➕ Tambah Bahan Custom</h2>
-        <div class="input-row">
-            <div class="input-group"><label>Nama Bahan</label><input type="text" id="customBahanName" placeholder="Contoh: Ayam"></div>
-            <div class="input-group"><label>Gram/Porsi</label><input type="number" id="customBahanGram" placeholder="Contoh: 80" min="0"></div>
-        </div>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Faktor Susut</label>
-                <select id="customBahanFaktor">
-                    <option value="1.0">1.0x</option>
-                    <option value="1.1">1.1x</option>
-                    <option value="1.2">1.2x</option>
-                    <option value="1.3">1.3x</option>
-                </select>
-            </div>
-            <div class="input-group"><label>Harga/kg (Rp)</label><input type="number" id="customBahanHarga" placeholder="Opsional" min="0"></div>
-        </div>
-        <button class="btn btn-primary" onclick="tambahBahan()">➕ Tambah Bahan</button>
-    </div>
-    <div class="card">
-        <h2>📊 Ringkasan</h2>
-        <div id="ringkasanBahan">
-            <div class="empty-state"><div class="icon">🥗</div><h3>Belum ada data</h3><p>Isi porsi di tab Kalkulator</p></div>
-        </div>
-    </div>
+<div class="card">
+<h2>🥗 Kebutuhan Bahan</h2>
+<table class="bahan-table"><thead><tr><th>Bahan</th><th>g/porsi</th><th>Faktor</th><th>Total (kg)</th></tr></thead><tbody id="bahanTableBody"></tbody></table>
+</div>
+<div class="card">
+<h2>➕ Tambah Bahan Custom</h2>
+<div class="input-row">
+<div class="input-group"><label>Nama Bahan</label><input type="text" id="customBahanName" placeholder="Contoh: Ayam"></div>
+<div class="input-group"><label>Gram/Porsi</label><input type="number" id="customBahanGram" placeholder="80" min="0"></div>
+</div>
+<div class="input-row">
+<div class="input-group"><label>Faktor Susut</label><select id="customBahanFaktor"><option value="1.0">1.0x</option><option value="1.1">1.1x</option><option value="1.2">1.2x</option><option value="1.3">1.3x</option></select></div>
+<div class="input-group"><label>Harga/kg (Rp)</label><input type="number" id="customBahanHarga" placeholder="Opsional" min="0"></div>
+</div>
+<button class="btn btn-primary" onclick="tambahBahan()">➕ Tambah</button>
+</div>
+<div class="card"><h2>📊 Ringkasan</h2><div id="ringkasanBahan"><div class="empty-state"><div class="icon">🥗</div><h3>Isi porsi di tab Kalkulator</h3></div></div></div>
 </div>
 
-<!-- ==================== TAB 3: BIAYA ==================== -->
 <div id="tab-biaya" class="tab-content">
-    <div class="card">
-        <h2>💰 Kalkulator Biaya</h2>
-        <div class="input-group">
-            <label>Harga Beras per kg (Rp)</label>
-            <input type="number" id="hargaBeras" value="14000" min="0" oninput="hitungBiaya()">
-        </div>
-        <div class="info-box">
-            Kebutuhan Beras: <strong id="b-kebutuhanBeras">0 kg</strong> &nbsp;|&nbsp;
-            Subtotal Beras: <strong id="b-subtotalBeras">Rp 0</strong>
-        </div>
-        <hr class="divider">
-        <h3>🥗 Biaya Bahan Lain</h3>
-        <table class="bahan-table">
-            <thead><tr><th>Bahan</th><th>Qty</th><th>Harga/kg</th><th>Total</th></tr></thead>
-            <tbody id="biayaTableBody"></tbody>
-        </table>
-        <div class="biaya-total-box">
-            <p style="font-size:12px;opacity:0.9;">💰 TOTAL BIAYA</p>
-            <div class="amount" id="biayaTotal">Rp 0</div>
-            <p style="font-size:11px;opacity:0.8;margin-top:4px;">Per porsi: <strong id="biayaPerPorsi">Rp 0</strong></p>
-        </div>
-    </div>
-    <div class="card">
-        <h2>💵 Simulasi Budget</h2>
-        <div class="input-group">
-            <label>Budget Tersedia (Rp)</label>
-            <input type="number" id="budgetTersedia" placeholder="Contoh: 5000000" min="0" oninput="cekBudget()">
-        </div>
-        <div id="budgetResult"></div>
-    </div>
+<div class="card">
+<h2>💰 Kalkulator Biaya</h2>
+<div class="input-group"><label>Harga Beras per kg (Rp)</label><input type="number" id="hargaBeras" value="14000" min="0" oninput="hitungBiaya()"></div>
+<div class="info-box">Kebutuhan Beras: <strong id="b-kebutuhanBeras">0 kg</strong> &nbsp;|&nbsp; Subtotal: <strong id="b-subtotalBeras">Rp 0</strong></div>
+<hr class="divider">
+<h3>🥗 Bahan Lain</h3>
+<table class="bahan-table"><thead><tr><th>Bahan</th><th>Qty</th><th>Harga/kg</th><th>Total</th></tr></thead><tbody id="biayaTableBody"></tbody></table>
+<div class="biaya-total-box"><p style="font-size:12px;opacity:0.9;">💰 TOTAL BIAYA</p><div class="amount" id="biayaTotal">Rp 0</div><p style="font-size:11px;opacity:0.8;margin-top:4px;">Per porsi: <strong id="biayaPerPorsi">Rp 0</strong></p></div>
+</div>
+<div class="card">
+<h2>💵 Simulasi Budget</h2>
+<div class="input-group"><label>Budget Tersedia (Rp)</label><input type="number" id="budgetTersedia" placeholder="Contoh: 5000000" min="0" oninput="cekBudget()"></div>
+<div id="budgetResult"></div>
+</div>
 </div>
 
-<!-- ==================== TAB 4: STOK ==================== -->
 <div id="tab-stok" class="tab-content">
-    <div class="card">
-        <h2>📦 Update Stok</h2>
-        <div class="input-row">
-            <div class="input-group">
-                <label>Nama Bahan</label>
-                <select id="stokBahanSelect">
-                    <option>Beras</option><option>Ayam</option><option>Sayur</option>
-                    <option>Telur</option><option>Tahu</option><option>Tempe</option>
-                    <option>Minyak</option><option>Bawang</option><option>Buah</option>
-                </select>
-            </div>
-            <div class="input-group"><label>Stok (kg)</label><input type="number" id="stokJumlah" placeholder="Masukkan stok" min="0"></div>
-        </div>
-        <div class="input-row">
-            <div class="input-group"><label>Minimum Stok (kg)</label><input type="number" id="stokMinimum" placeholder="Batas warning" min="0"></div>
-            <div class="input-group"><label>Stok Maksimum (kg)</label><input type="number" id="stokMaksimum" placeholder="Kapasitas" min="0"></div>
-        </div>
-        <button class="btn btn-primary" onclick="updateStok()">📦 Update Stok</button>
-    </div>
-    <div id="stokList">
-        <div class="empty-state"><div class="icon">📦</div><h3>Belum ada data stok</h3><p>Tambahkan di atas</p></div>
-    </div>
+<div class="card">
+<h2>📦 Update Stok</h2>
+<div class="input-row">
+<div class="input-group"><label>Nama Bahan</label><select id="stokBahanSelect"><option>Beras</option><option>Ayam</option><option>Sayur</option><option>Telur</option><option>Tahu</option><option>Tempe</option><option>Minyak</option><option>Bawang</option><option>Buah</option></select></div>
+<div class="input-group"><label>Stok (kg)</label><input type="number" id="stokJumlah" placeholder="Jumlah" min="0"></div>
+</div>
+<div class="input-row">
+<div class="input-group"><label>Minimum (kg)</label><input type="number" id="stokMinimum" placeholder="Batas warning" min="0"></div>
+<div class="input-group"><label>Maksimum (kg)</label><input type="number" id="stokMaksimum" placeholder="Kapasitas" min="0"></div>
+</div>
+<button class="btn btn-primary" onclick="updateStok()">📦 Update Stok</button>
+</div>
+<div id="stokList"><div class="empty-state"><div class="icon">📦</div><h3>Belum ada data stok</h3></div></div>
 </div>
 
-<!-- ==================== TAB 5: RIWAYAT ==================== -->
 <div id="tab-riwayat" class="tab-content">
-    <div class="card" style="padding:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-            <h2 style="margin-bottom:0;">📋 Riwayat</h2>
-            <button class="btn btn-danger btn-sm" onclick="hapusSemuaRiwayat()">🗑️ Hapus Semua</button>
-        </div>
-    </div>
-    <div id="riwayatList">
-        <div class="empty-state"><div class="icon">📋</div><h3>Belum ada riwayat</h3><p>Simpan di Tab Kalkulator</p></div>
-    </div>
+<div class="card" style="padding:14px;">
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<h2 style="margin-bottom:0;">📋 Riwayat</h2>
+<button class="btn btn-danger btn-sm" onclick="hapusSemuaRiwayat()">🗑️ Hapus Semua</button>
+</div>
+</div>
+<div id="riwayatList"><div class="empty-state"><div class="icon">📋</div><h3>Belum ada riwayat</h3><p>Simpan di Tab Kalkulator</p></div></div>
 </div>
 
-<!-- ==================== TAB 6: INSENTIF ==================== -->
 <div id="tab-insentif" class="tab-content">
-    <div class="sync-banner">
-        <strong><span class="sync-dot"></span>Status Data BGN — Kab. Tangerang</strong>
-        BGN belum menyediakan API publik. Data diinput manual.<br>
-        Terakhir diperbarui: <span id="syncTime">—</span>
-        <div class="btn-row" style="margin-top:9px;">
-            <button class="btn btn-sm" style="background:rgba(255,255,255,0.25);color:white;font-size:11px;" onclick="syncManual()">🔄 Tandai Diperbarui</button>
-        </div>
-    </div>
-    <div class="card">
-        <h2>📍 Data SPPG Kab. Tangerang</h2>
-        <div class="insentif-summary">
-            <div class="insentif-stat"><div class="val">170</div><div class="lbl">SPPG Aktif</div></div>
-            <div class="insentif-stat"><div class="val" id="stat-totalRelawan">—</div><div class="lbl">Relawan SPPG Ini</div></div>
-            <div class="insentif-stat"><div class="val">61.786</div><div class="lbl">Penerima</div></div>
-        </div>
-        <div class="input-group">
-            <label>Pilih SPPG</label>
-            <select id="insentifSPPG">
-                <option>SPPG Onyam Gunung Kaler</option>
-                <option>Yayasan Latanza — Panongan</option>
-                <option>Yayasan Carity — Cisoka</option>
-                <option>Yayasan Al-Munawir — Pasar Kemis</option>
-                <option>Yayasan Nurul Huda — Balaraja</option>
-                <option>SPPG Lainnya</option>
-            </select>
-        </div>
-        <div class="info-box">📌 Besaran insentif di bawah adalah <strong>contoh</strong> — sesuaikan dengan kebijakan SPPG masing-masing.</div>
-    </div>
-    <div class="card">
-        <h2>⚙️ Pengaturan Periode</h2>
-        <div class="input-row">
-            <div class="input-group"><label>Hari Kerja / Bulan</label><input type="number" id="hariKerja" value="26" min="1" max="31" oninput="hitungInsentif()"></div>
-            <div class="input-group">
-                <label>Jumlah Shift / Hari</label>
-                <select id="shiftPerHari" onchange="hitungInsentif()">
-                    <option value="1">1 Shift</option>
-                    <option value="2">2 Shift</option>
-                    <option value="3" selected>3 Shift</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <h2>👷 Insentif Per Divisi</h2>
-        <p class="hint" style="margin-bottom:13px;">Isi jumlah relawan & insentif harian. Total dihitung otomatis.</p>
-        <div id="divisiList"></div>
-        <div class="insentif-grand-total">
-            <div class="grand-label">💰 TOTAL INSENTIF / BULAN</div>
-            <div class="grand-amount" id="grandTotalInsentif">Rp 0</div>
-            <div style="font-size:11px;opacity:0.8;margin-top:7px;">
-                Per hari: <strong id="grandPerHari">Rp 0</strong> &nbsp;|&nbsp;
-                Total: <strong id="grandTotalRelawan">0</strong> orang
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <h2>📊 Rekap Insentif</h2>
-        <table class="bahan-table">
-            <thead><tr><th>Divisi</th><th>Orang</th><th>/Hari</th><th>/Bulan</th></tr></thead>
-            <tbody id="rekapInsentifBody"></tbody>
-            <tfoot><tr><td>TOTAL</td><td id="rekap-totalOrang">0</td><td id="rekap-totalHarian">0</td><td id="rekap-totalBulanan">0</td></tr></tfoot>
-        </table>
-        <div class="btn-row" style="margin-top:13px;">
-            <button class="btn btn-success" style="flex:1" onclick="shareInsentif()">📤 WA</button>
-            <button class="btn btn-outline"  style="flex:1" onclick="copyInsentif()">📋 Copy</button>
-            <button class="btn btn-warning"  style="flex:1" onclick="downloadInsentifCSV()">📊 CSV</button>
-            <button class="btn btn-primary"  style="flex:1;padding:10px;" onclick="printInsentif()">🖨️ Print</button>
-        </div>
-    </div>
+<div class="sync-banner"><strong><span class="sync-dot"></span>Status Data BGN — Kab. Tangerang</strong>BGN belum menyediakan API publik. Data diinput manual.<br>Terakhir diperbarui: <span id="syncTime">—</span><div class="btn-row" style="margin-top:9px;"><button class="btn btn-sm" style="background:rgba(255,255,255,0.25);color:white;font-size:11px;" onclick="syncManual()">🔄 Tandai Diperbarui</button></div></div>
+<div class="card">
+<h2>📍 SPPG Kab. Tangerang</h2>
+<div class="insentif-summary"><div class="insentif-stat"><div class="val">170</div><div class="lbl">SPPG Aktif</div></div><div class="insentif-stat"><div class="val" id="stat-totalRelawan">—</div><div class="lbl">Relawan</div></div><div class="insentif-stat"><div class="val">61.786</div><div class="lbl">Penerima</div></div></div>
+<div class="info-box">📌 Besaran insentif di bawah adalah <strong>contoh</strong> — sesuaikan dengan kebijakan SPPG.</div>
+</div>
+<div class="card">
+<h2>⚙️ Periode</h2>
+<div class="input-row">
+<div class="input-group"><label>Hari Kerja / Bulan</label><input type="number" id="hariKerja" value="26" min="1" max="31" oninput="hitungInsentif()"></div>
+<div class="input-group"><label>Shift / Hari</label><select id="shiftPerHari" onchange="hitungInsentif()"><option value="1">1 Shift</option><option value="2">2 Shift</option><option value="3" selected>3 Shift</option></select></div>
+</div>
+</div>
+<div class="card">
+<h2>👷 Insentif Per Divisi</h2>
+<div id="divisiList"></div>
+<div class="insentif-grand-total"><div class="grand-label">💰 TOTAL INSENTIF / BULAN</div><div class="grand-amount" id="grandTotalInsentif">Rp 0</div><div style="font-size:11px;opacity:0.8;margin-top:7px;">Per hari: <strong id="grandPerHari">Rp 0</strong> | Total: <strong id="grandTotalRelawan">0</strong> orang</div></div>
+</div>
+<div class="card">
+<h2>📊 Rekap Insentif</h2>
+<table class="bahan-table"><thead><tr><th>Divisi</th><th>Orang</th><th>/Hari</th><th>/Bulan</th></tr></thead><tbody id="rekapInsentifBody"></tbody><tfoot><tr><td>TOTAL</td><td id="rekap-totalOrang">0</td><td id="rekap-totalHarian">0</td><td id="rekap-totalBulanan">0</td></tr></tfoot></table>
+<div class="btn-row" style="margin-top:13px;">
+<button class="btn btn-success" style="flex:1" onclick="shareInsentif()">📤 WA</button>
+<button class="btn btn-outline" style="flex:1" onclick="copyInsentif()">📋 Copy</button>
+<button class="btn btn-warning" style="flex:1" onclick="downloadInsentifCSV()">📊 CSV</button>
+<button class="btn btn-primary" style="flex:1;padding:10px;" onclick="printInsentif()">🖨️ Print</button>
+</div>
+</div>
 </div>
 
-<!-- ==================== TAB 7: ABSENSI ==================== -->
 <div id="tab-absensi" class="tab-content">
-
-    <!-- HEADER STATISTIK -->
-    <div class="absen-header-bar">
-        <h2>📝 Absensi Relawan SPPG Onyam</h2>
-        <div class="input-row" style="margin-bottom:8px;">
-            <div class="input-group" style="margin-bottom:0;">
-                <label style="color:rgba(255,255,255,0.8);">Tanggal Absen</label>
-                <input type="date" id="absenTanggal" style="font-size:13px;padding:8px;">
-            </div>
-            <div class="input-group" style="margin-bottom:0;">
-                <label style="color:rgba(255,255,255,0.8);">Shift</label>
-                <select id="absenShift" style="font-size:13px;padding:8px;">
-                    <option>Pagi</option>
-                    <option>Siang</option>
-                    <option>Sore</option>
-                </select>
-            </div>
-        </div>
-        <div class="absen-stat-grid">
-            <div class="absen-stat">
-                <div class="aval" id="as-total" style="color:#ffeb3b;">50</div>
-                <div class="albl">Total</div>
-            </div>
-            <div class="absen-stat">
-                <div class="aval" id="as-hadir" style="color:#a5d6a7;">0</div>
-                <div class="albl">✅ Hadir</div>
-            </div>
-            <div class="absen-stat">
-                <div class="aval" id="as-izin" style="color:#ffe082;">0</div>
-                <div class="albl">🟡 Izin</div>
-            </div>
-            <div class="absen-stat">
-                <div class="aval" id="as-alpha" style="color:#ef9a9a;">0</div>
-                <div class="albl">❌ Alfa</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- STATUS REKENING -->
-    <div class="rekening-banner">
-        <h3>🏦 Status Pengisian Rekening</h3>
-        <div style="display:flex;justify-content:space-between;font-size:12px;opacity:0.9;">
-            <span>Sudah isi: <strong id="rek-sudah">49</strong> orang</span>
-            <span>Belum: <strong id="rek-belum">1</strong> orang</span>
-        </div>
-        <div class="rekening-progress-bar">
-            <div class="rekening-progress-fill" id="rek-bar" style="width:98%;"></div>
-        </div>
-        <div style="font-size:11px;opacity:0.8;">98% relawan sudah mengisi link rekening</div>
-    </div>
-
-    <!-- KONTROL -->
-    <div class="card" style="padding:14px;">
-        <input type="text" class="search-box" id="searchRelawan"
-               placeholder="🔍 Cari nama relawan..."
-               oninput="filterRelawan()">
-
-        <div class="filter-bar" id="filterBar">
-            <button class="filter-chip active" onclick="setFilter('semua', this)">Semua (50)</button>
-            <button class="filter-chip" onclick="setFilter('Keamanan', this)">🛡️ Keamanan</button>
-            <button class="filter-chip" onclick="setFilter('Persiapan', this)">🔪 Persiapan</button>
-            <button class="filter-chip" onclick="setFilter('Pengolahan', this)">👨‍🍳 Pengolahan</button>
-            <button class="filter-chip" onclick="setFilter('Pemorsian', this)">🍱 Pemorsian</button>
-            <button class="filter-chip" onclick="setFilter('Cuci Ompreng', this)">🧽 Cuci Ompreng</button>
-            <button class="filter-chip" onclick="setFilter('Driver', this)">🚗 Driver</button>
-            <button class="filter-chip" onclick="setFilter('Bersih-Bersih', this)">🧹 Bersih</button>
-            <button class="filter-chip" onclick="setFilter('Akuntan', this)">📒 Akuntan</button>
-            <button class="filter-chip" onclick="setFilter('Ahli Gizi', this)">🩺 Ahli Gizi</button>
-        </div>
-
-        <div class="absen-legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#4caf50;"></div>Hadir</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#ff9800;"></div>Izin</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#e91e63;"></div>Sakit</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#f44336;"></div>Alfa</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#4caf50;opacity:0.3;"></div>✅ Rek</div>
-        </div>
-
-        <div class="btn-row" style="margin-bottom:4px;">
-            <button class="btn btn-success btn-sm" onclick="hadirSemua()">✅ Hadir Semua</button>
-            <button class="btn btn-outline btn-sm" onclick="resetAbsen()">🔄 Reset</button>
-        </div>
-    </div>
-
-    <!-- DAFTAR RELAWAN -->
-    <div id="relawanList"></div>
-
-    <!-- AKSI -->
-    <div class="card">
-        <h2>📤 Export Absensi</h2>
-        <div class="btn-row">
-            <button class="btn btn-success" style="flex:1" onclick="shareAbsensi()">📤 WA</button>
-            <button class="btn btn-outline"  style="flex:1" onclick="copyAbsensi()">📋 Copy</button>
-            <button class="btn btn-warning"  style="flex:1" onclick="downloadAbsenCSV()">📊 CSV</button>
-            <button class="btn btn-primary"  style="flex:1;padding:10px;" onclick="printAbsensi()">🖨️ Print</button>
-        </div>
-        <div class="btn-row" style="margin-top:6px;">
-            <button class="btn btn-primary" onclick="simpanAbsensi()">💾 Simpan Absensi Hari Ini</button>
-        </div>
-    </div>
-
+<div class="perubahan-banner">
+<strong>📢 Perubahan Divisi Terbaru</strong>
+• Sadiyah: Persiapan → Pemorsian<br>
+• Sulkah: Persiapan → Cuci Ompreng<br>
+• Junedi B. Salim: Kenek → Persiapan<br>
+• Sunandar: Pemorsian → Persiapan<br>
+• Aliya: Bergabung di Pemorsian<br>
+• Nari Susanti: Persiapan → Pemorsian
+</div>
+<div class="absen-header-bar">
+<h2>📝 Absensi Relawan SPPG Onyam</h2>
+<div class="input-row" style="margin-bottom:8px;">
+<div class="input-group" style="margin-bottom:0;"><label style="color:rgba(255,255,255,0.8);">Tanggal</label><input type="date" id="absenTanggal" style="font-size:13px;padding:8px;"></div>
+<div class="input-group" style="margin-bottom:0;"><label style="color:rgba(255,255,255,0.8);">Shift</label><select id="absenShift" style="font-size:13px;padding:8px;" onchange="loadAbsensiShift()"><option>Pagi</option><option>Siang</option><option>Sore</option></select></div>
+</div>
+<div class="absen-stat-grid">
+<div class="absen-stat"><div class="aval" id="as-total" style="color:#ffeb3b;">51</div><div class="albl">Total</div></div>
+<div class="absen-stat"><div class="aval" id="as-hadir" style="color:#a5d6a7;">0</div><div class="albl">✅ Hadir</div></div>
+<div class="absen-stat"><div class="aval" id="as-izin" style="color:#ffe082;">0</div><div class="albl">🟡 Izin</div></div>
+<div class="absen-stat"><div class="aval" id="as-alpha" style="color:#ef9a9a;">0</div><div class="albl">❌ Alfa</div></div>
+</div>
+</div>
+<div class="rekening-banner">
+<h3>🏦 Status Rekening</h3>
+<div style="display:flex;justify-content:space-between;font-size:12px;opacity:0.9;"><span>Sudah: <strong id="rek-sudah">49</strong></span><span>Belum: <strong id="rek-belum">2</strong></span></div>
+<div class="rek-progress-bar"><div class="rek-progress-fill" id="rek-bar" style="width:96%;"></div></div>
+<div style="font-size:11px;opacity:0.8;">96% relawan sudah mengisi link rekening</div>
+</div>
+<div class="card" style="padding:14px;">
+<input type="text" class="search-box" id="searchRelawan" placeholder="🔍 Cari nama atau divisi..." oninput="renderRelawanList()">
+<div class="filter-bar" id="filterBar">
+<button class="filter-chip active" onclick="setFilter('semua',this)">Semua</button>
+<button class="filter-chip" onclick="setFilter('Keamanan',this)">🛡️ Keamanan</button>
+<button class="filter-chip" onclick="setFilter('Persiapan',this)">🔪 Persiapan</button>
+<button class="filter-chip" onclick="setFilter('Pengolahan',this)">👨‍🍳 Pengolahan</button>
+<button class="filter-chip" onclick="setFilter('Pemorsian',this)">🍱 Pemorsian</button>
+<button class="filter-chip" onclick="setFilter('Cuci Ompreng',this)">🧽 Ompreng</button>
+<button class="filter-chip" onclick="setFilter('Driver',this)">🚗 Driver</button>
+<button class="filter-chip" onclick="setFilter('Bersih-Bersih',this)">🧹 Bersih</button>
+<button class="filter-chip" onclick="setFilter('Akuntan',this)">📒 Akuntan</button>
+<button class="filter-chip" onclick="setFilter('Ahli Gizi',this)">🩺 Gizi</button>
+</div>
+<div class="absen-legend">
+<div class="legend-item"><div class="legend-dot" style="background:#4caf50;"></div>Hadir</div>
+<div class="legend-item"><div class="legend-dot" style="background:#ff9800;"></div>Izin</div>
+<div class="legend-item"><div class="legend-dot" style="background:#e91e63;"></div>Sakit</div>
+<div class="legend-item"><div class="legend-dot" style="background:#f44336;"></div>Alfa</div>
+</div>
+<div class="btn-row" style="margin-bottom:4px;">
+<button class="btn btn-success btn-sm" onclick="hadirSemua()">✅ Hadir Semua</button>
+<button class="btn btn-outline btn-sm" onclick="resetAbsen()">🔄 Reset</button>
+<button class="btn btn-primary btn-sm" onclick="simpanAbsensi()">💾 Simpan</button>
+</div>
+</div>
+<div id="relawanList"></div>
+<div class="card">
+<h2>📤 Export Absensi</h2>
+<div class="btn-row">
+<button class="btn btn-success" style="flex:1" onclick="shareAbsensi()">📤 WA</button>
+<button class="btn btn-outline" style="flex:1" onclick="copyAbsensi()">📋 Copy</button>
+<button class="btn btn-warning" style="flex:1" onclick="downloadAbsenCSV()">📊 CSV</button>
+<button class="btn btn-primary" style="flex:1;padding:10px;" onclick="printAbsensi()">🖨️ Print</button>
+</div>
+</div>
 </div>
 
-</div><!-- /content -->
+</div>
+</div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- SHARE MODAL -->
 <div class="modal" id="shareModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title">📤 Share &amp; Export</div>
-            <button class="btn-close" onclick="closeShare()">✕</button>
-        </div>
-        <div class="share-option" onclick="shareWhatsApp()"><span class="share-icon">💬</span><div><div class="share-label">WhatsApp</div><div class="share-desc">Kirim laporan beras via WA</div></div></div>
-        <div class="share-option" onclick="copyClipboard()"><span class="share-icon">📋</span><div><div class="share-label">Copy Clipboard</div><div class="share-desc">Paste di mana saja</div></div></div>
-        <div class="share-option" onclick="downloadCSV()"><span class="share-icon">📊</span><div><div class="share-label">Download CSV</div><div class="share-desc">Buka dengan Excel / Google Sheets</div></div></div>
-        <div class="share-option" onclick="printPDF()"><span class="share-icon">🖨️</span><div><div class="share-label">Print / PDF</div><div class="share-desc">Cetak atau simpan PDF</div></div></div>
-    </div>
+<div class="modal-content">
+<div class="modal-header"><div class="modal-title">📤 Share & Export</div><button class="btn-close" onclick="closeShare()">✕</button></div>
+<div class="share-option" onclick="shareWhatsApp()"><span class="share-icon">💬</span><div><div class="share-label">WhatsApp</div><div class="share-desc">Kirim laporan beras</div></div></div>
+<div class="share-option" onclick="copyClipboard()"><span class="share-icon">📋</span><div><div class="share-label">Copy Clipboard</div><div class="share-desc">Paste di mana saja</div></div></div>
+<div class="share-option" onclick="downloadCSV()"><span class="share-icon">📊</span><div><div class="share-label">Download CSV</div><div class="share-desc">Excel / Google Sheets</div></div></div>
+<div class="share-option" onclick="printPDF()"><span class="share-icon">🖨️</span><div><div class="share-label">Print / PDF</div><div class="share-desc">Cetak atau simpan PDF</div></div></div>
+</div>
 </div>
 
-<!-- ==================== JAVASCRIPT ==================== -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-// ============================================================
-// DATA UTAMA — RELAWAN SPPG ONYAM GUNUNG KALER
-// ============================================================
-const dataRelawan = [
-    { no:1,  nama:'Satian',                      divisi:'Keamanan',     rekening:true  },
-    { no:2,  nama:'Sabika Amanah',               divisi:'Persiapan',    rekening:true  },
-    { no:3,  nama:'Karinah',                     divisi:'Persiapan',    rekening:true  },
-    { no:4,  nama:'Agus Yahri',                  divisi:'Pengolahan',   rekening:true  },
-    { no:5,  nama:'Siti Rokhmah',                divisi:'Persiapan',    rekening:true  },
-    { no:6,  nama:'Nari Susanti',                divisi:'Persiapan',    rekening:true  },
-    { no:7,  nama:'Yulianti',                    divisi:'Cuci Ompreng', rekening:true  },
-    { no:8,  nama:'Marsonah',                    divisi:'Pengolahan',   rekening:true  },
-    { no:9,  nama:'Jelita Amelia',               divisi:'Persiapan',    rekening:true  },
-    { no:10, nama:'Nurul Komariyah',             divisi:'Cuci Ompreng', rekening:true  },
-    { no:11, nama:'Nining Yuniawati',            divisi:'Cuci Ompreng', rekening:true  },
-    { no:12, nama:'Siti Soleha',                 divisi:'Persiapan',    rekening:true  },
-    { no:13, nama:'Mursinah',                    divisi:'Pengolahan',   rekening:true  },
-    { no:14, nama:'Sulkah',                      divisi:'Persiapan',    rekening:true  },
-    { no:15, nama:'Lisa',                        divisi:'Pengolahan',   rekening:true  },
-    { no:16, nama:'Maryati',                     divisi:'Pemorsian',    rekening:true  },
-    { no:17, nama:'Siti Nur Alyanti',            divisi:'Pemorsian',    rekening:true  },
-    { no:18, nama:'Nurasiyah',                   divisi:'Pengolahan',   rekening:true  },
-    { no:19, nama:'Toyibah',                     divisi:'Pengolahan',   rekening:true  },
-    { no:20, nama:'Sadiyah',                     divisi:'Persiapan',    rekening:true  },
-    { no:21, nama:'Jahro Chatur Ningsih',        divisi:'Persiapan',    rekening:true  },
-    { no:22, nama:'Nanang Wahyudin',             divisi:'Pemorsian',    rekening:true  },
-    { no:23, nama:'Suherni',                     divisi:'Cuci Ompreng', rekening:true  },
-    { no:24, nama:'Rustam',                      divisi:'Driver',       rekening:true  },
-    { no:25, nama:'Zakiyah Safara',              divisi:'Pemorsian',    rekening:true  },
-    { no:26, nama:'Muhamad Sahroni',             divisi:'Keamanan',     rekening:true  },
-    { no:27, nama:'Suntiyah',                    divisi:'Pengolahan',   rekening:true  },
-    { no:28, nama:'Sunandar',                    divisi:'Pemorsian',    rekening:true  },
-    { no:29, nama:'Kamsin',                      divisi:'Cuci Ompreng', rekening:true  },
-    { no:30, nama:'Nopitasari',                  divisi:'Pengolahan',   rekening:true  },
-    { no:31, nama:'Arkani',                      divisi:'Cuci Ompreng', rekening:true  },
-    { no:32, nama:'Daman Huri',                  divisi:'Bersih-Bersih',rekening:true  },
-    { no:33, nama:'Agisni',                      divisi:'Pemorsian',    rekening:true  },
-    { no:34, nama:'Hapip',                       divisi:'Cuci Ompreng', rekening:true  },
-    { no:35, nama:'Dede Sumarna',                divisi:'Pemorsian',    rekening:true  },
-    { no:36, nama:'Rosita',                      divisi:'Cuci Ompreng', rekening:true  },
-    { no:37, nama:'Jamad',                       divisi:'Driver',       rekening:true  },
-    { no:38, nama:'Kalwani',                     divisi:'Persiapan',    rekening:true  },
-    { no:39, nama:'Muhamad Al Fadli',            divisi:'Persiapan',    rekening:true  },
-    { no:40, nama:'Muhammad Irfan Alfiansyah',   divisi:'Pemorsian',    rekening:true  },
-    { no:41, nama:'Suganda',                     divisi:'Pemorsian',    rekening:true  },
-    { no:42, nama:'Rohman',                      divisi:'Cuci Ompreng', rekening:true  },
-    { no:43, nama:'Titi Navila Dewi',            divisi:'Akuntan',      rekening:false },
-    { no:44, nama:'Ciliwung',                    divisi:'Pengolahan',   rekening:true  },
-    { no:45, nama:'Muhamad Tohir',               divisi:'Pengolahan',   rekening:true  },
-    { no:46, nama:'Muhammad Rahman',             divisi:'Driver',       rekening:true  },
-    { no:47, nama:'Junedi B. Salim',             divisi:'Kenek',        rekening:true  },
-    { no:48, nama:'Jenal',                       divisi:'Aslap',        rekening:false },
-    { no:49, nama:'Ahli Gizi',                   divisi:'Ahli Gizi',    rekening:false },
-    { no:50, nama:'Ka SPPG',                     divisi:'Ka SPPG',      rekening:false },
+const AUTH_KEY='mbg_auth_v1';
+const ALLOWED_EMAILS=[];
+
+const dataRelawan=[
+{no:1,nama:'Satian',divisi:'Keamanan',rekening:true},
+{no:2,nama:'Sabika Amanah',divisi:'Persiapan',rekening:true},
+{no:3,nama:'Karinah',divisi:'Persiapan',rekening:true},
+{no:4,nama:'Agus Yahri',divisi:'Pengolahan',rekening:true},
+{no:5,nama:'Siti Rokhmah',divisi:'Persiapan',rekening:true},
+{no:6,nama:'Nari Susanti',divisi:'Pemorsian',rekening:true},
+{no:7,nama:'Yulianti',divisi:'Cuci Ompreng',rekening:true},
+{no:8,nama:'Marsonah',divisi:'Pengolahan',rekening:true},
+{no:9,nama:'Jelita Amelia',divisi:'Persiapan',rekening:true},
+{no:10,nama:'Nurul Komariyah',divisi:'Cuci Ompreng',rekening:true},
+{no:11,nama:'Nining Yuniawati',divisi:'Cuci Ompreng',rekening:true},
+{no:12,nama:'Siti Soleha',divisi:'Persiapan',rekening:true},
+{no:13,nama:'Mursinah',divisi:'Pengolahan',rekening:true},
+{no:14,nama:'Sulkah',divisi:'Cuci Ompreng',rekening:true},
+{no:15,nama:'Lisa',divisi:'Pengolahan',rekening:true},
+{no:16,nama:'Maryati',divisi:'Pemorsian',rekening:true},
+{no:17,nama:'Siti Nur Alyanti',divisi:'Pemorsian',rekening:true},
+{no:18,nama:'Nurasiyah',divisi:'Pengolahan',rekening:true},
+{no:19,nama:'Toyibah',divisi:'Pengolahan',rekening:true},
+{no:20,nama:'Sadiyah',divisi:'Pemorsian',rekening:true},
+{no:21,nama:'Jahro Chatur Ningsih',divisi:'Persiapan',rekening:true},
+{no:22,nama:'Nanang Wahyudin',divisi:'Pemorsian',rekening:true},
+{no:23,nama:'Suherni',divisi:'Cuci Ompreng',rekening:true},
+{no:24,nama:'Rustam',divisi:'Driver',rekening:true},
+{no:25,nama:'Zakiyah Safara',divisi:'Pemorsian',rekening:true},
+{no:26,nama:'Muhamad Sahroni',divisi:'Keamanan',rekening:true},
+{no:27,nama:'Suntiyah',divisi:'Pengolahan',rekening:true},
+{no:28,nama:'Sunandar',divisi:'Persiapan',rekening:true},
+{no:29,nama:'Kamsin',divisi:'Cuci Ompreng',rekening:true},
+{no:30,nama:'Nopitasari',divisi:'Pengolahan',rekening:true},
+{no:31,nama:'Arkani',divisi:'Cuci Ompreng',rekening:true},
+{no:32,nama:'Daman Huri',divisi:'Bersih-Bersih',rekening:true},
+{no:33,nama:'Agisni',divisi:'Pemorsian',rekening:true},
+{no:34,nama:'Hapip',divisi:'Cuci Ompreng',rekening:true},
+{no:35,nama:'Dede Sumarna',divisi:'Pemorsian',rekening:true},
+{no:36,nama:'Rosita',divisi:'Cuci Ompreng',rekening:true},
+{no:37,nama:'Jamad',divisi:'Driver',rekening:true},
+{no:38,nama:'Kalwani',divisi:'Persiapan',rekening:true},
+{no:39,nama:'Muhamad Al Fadli',divisi:'Persiapan',rekening:true},
+{no:40,nama:'Muhammad Irfan Alfiansyah',divisi:'Pemorsian',rekening:true},
+{no:41,nama:'Suganda',divisi:'Pemorsian',rekening:true},
+{no:42,nama:'Rohman',divisi:'Cuci Ompreng',rekening:true},
+{no:43,nama:'Titi Navila Dewi',divisi:'Akuntan',rekening:false},
+{no:44,nama:'Ciliwung',divisi:'Pengolahan',rekening:true},
+{no:45,nama:'Muhamad Tohir',divisi:'Pengolahan',rekening:true},
+{no:46,nama:'Muhammad Rahman',divisi:'Driver',rekening:true},
+{no:47,nama:'Junedi B. Salim',divisi:'Persiapan',rekening:true},
+{no:48,nama:'Jenal',divisi:'Aslap',rekening:false},
+{no:49,nama:'Aliya',divisi:'Pemorsian',rekening:false},
+{no:50,nama:'Ahli Gizi',divisi:'Ahli Gizi',rekening:false},
+{no:51,nama:'Ka SPPG',divisi:'Ka SPPG',rekening:false},
 ];
 
-// ============================================================
-// STATE & STORAGE
-// ============================================================
-let lastResult   = {};
-let customBahans = JSON.parse(localStorage.getItem('customBahans'))  || [];
-let stokData     = JSON.parse(localStorage.getItem('stokData'))      || {};
-let riwayatData  = JSON.parse(localStorage.getItem('riwayatData'))   || [];
-let insentifData = JSON.parse(localStorage.getItem('insentifData'))  || {};
-let absensiDB    = JSON.parse(localStorage.getItem('absensiDB'))     || {};
+let lastResult={},customBahans=JSON.parse(localStorage.getItem('customBahans'))||[],stokData=JSON.parse(localStorage.getItem('stokData'))||{},riwayatData=JSON.parse(localStorage.getItem('riwayatData'))||[],insentifData=JSON.parse(localStorage.getItem('insentifData'))||{},absensiDB=JSON.parse(localStorage.getItem('absensiDB'))||{},absenStatus={},filterAktif='semua';
 
-// Status absen aktif (sesi ini)
-let absenStatus = {}; // { no: 'hadir'|'izin'|'sakit'|'alpha' }
-let filterAktif = 'semua';
-
-const defaultBahans = [
-    { nama:'🐔 Ayam',   gram:80,  faktor:1.1, harga:38000 },
-    { nama:'🥚 Telur',  gram:50,  faktor:1.0, harga:25000 },
-    { nama:'🥬 Sayur',  gram:100, faktor:0.8, harga:8000  },
-    { nama:'🍌 Buah',   gram:100, faktor:1.0, harga:12000 },
-    { nama:'🫘 Tahu',   gram:60,  faktor:1.0, harga:10000 },
-    { nama:'🟫 Tempe',  gram:50,  faktor:1.0, harga:12000 },
-    { nama:'🫙 Minyak', gram:10,  faktor:1.0, harga:18000 },
+const defaultBahans=[
+{nama:'🐔 Ayam',gram:80,faktor:1.1,harga:38000},
+{nama:'🥚 Telur',gram:50,faktor:1.0,harga:25000},
+{nama:'🥬 Sayur',gram:100,faktor:0.8,harga:8000},
+{nama:'🍌 Buah',gram:100,faktor:1.0,harga:12000},
+{nama:'🫘 Tahu',gram:60,faktor:1.0,harga:10000},
+{nama:'🟫 Tempe',gram:50,faktor:1.0,harga:12000},
+{nama:'🫙 Minyak',gram:10,faktor:1.0,harga:18000},
 ];
 
-const divisiRelawan = [
-    { id:'kepala',     nama:'👨‍💼 Ka SPPG',       defaultOrang:1,  defaultInsentif:150000 },
-    { id:'akuntan',    nama:'📒 Akuntan',         defaultOrang:1,  defaultInsentif:100000 },
-    { id:'ahligizi',   nama:'🩺 Ahli Gizi',       defaultOrang:1,  defaultInsentif:120000 },
-    { id:'persiapan',  nama:'🔪 Persiapan',       defaultOrang:11, defaultInsentif:75000  },
-    { id:'pengolahan', nama:'👨‍🍳 Pengolahan',     defaultOrang:11, defaultInsentif:90000  },
-    { id:'pemorsian',  nama:'🍱 Pemorsian',       defaultOrang:9,  defaultInsentif:75000  },
-    { id:'cuciompr',   nama:'🧽 Cuci Ompreng',    defaultOrang:8,  defaultInsentif:70000  },
-    { id:'driver',     nama:'🚗 Driver',          defaultOrang:3,  defaultInsentif:100000 },
-    { id:'bersih',     nama:'🧹 Bersih-Bersih',   defaultOrang:1,  defaultInsentif:70000  },
-    { id:'keamanan',   nama:'🛡️ Keamanan',        defaultOrang:2,  defaultInsentif:80000  },
-    { id:'aslap',      nama:'⚡ Aslap',            defaultOrang:1,  defaultInsentif:75000  },
-    { id:'kenek',      nama:'🚚 Kenek',           defaultOrang:1,  defaultInsentif:75000  },
+const divisiRelawan=[
+{id:'kasppg',nama:'👨‍💼 Ka SPPG',defaultOrang:1,defaultInsentif:150000},
+{id:'akuntan',nama:'📒 Akuntan',defaultOrang:1,defaultInsentif:100000},
+{id:'ahligizi',nama:'🩺 Ahli Gizi',defaultOrang:1,defaultInsentif:120000},
+{id:'persiapan',nama:'🔪 Persiapan',defaultOrang:10,defaultInsentif:75000},
+{id:'pengolahan',nama:'👨‍🍳 Pengolahan',defaultOrang:11,defaultInsentif:90000},
+{id:'pemorsian',nama:'🍱 Pemorsian',defaultOrang:10,defaultInsentif:75000},
+{id:'cuciompr',nama:'🧽 Cuci Ompreng',defaultOrang:10,defaultInsentif:70000},
+{id:'driver',nama:'🚗 Driver',defaultOrang:3,defaultInsentif:100000},
+{id:'bersih',nama:'🧹 Bersih-Bersih',defaultOrang:1,defaultInsentif:70000},
+{id:'keamanan',nama:'🛡️ Keamanan',defaultOrang:2,defaultInsentif:80000},
+{id:'aslap',nama:'⚡ Aslap',defaultOrang:1,defaultInsentif:75000},
 ];
 
-// ============================================================
-// INIT
-// ============================================================
-window.onload = function () {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('tanggal').value    = today;
-    document.getElementById('absenTanggal').value = today;
+function parseJwt(jwt){const b=jwt.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')));}
 
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '☀️ Light';
-    }
+function handleCredentialResponse(r){
+try{
+const p=parseJwt(r.credential),email=(p.email||'').toLowerCase();
+if(ALLOWED_EMAILS.length&&!ALLOWED_EMAILS.includes(email)){document.getElementById('authMsg').textContent='Akun tidak terdaftar. Hubungi admin.';return;}
+localStorage.setItem(AUTH_KEY,JSON.stringify({email:p.email,name:p.name,picture:p.picture,exp:p.exp}));
+applyAuthState();
+}catch(e){document.getElementById('authMsg').textContent='Login gagal. Coba ulang.';}
+}
 
-    // Load saved absen for today
-    const key = today + '_Pagi';
-    if (absensiDB[key]) absenStatus = absensiDB[key];
+function loginDev(){
+localStorage.setItem(AUTH_KEY,JSON.stringify({email:'dev@sppgonyam.local',name:'Dev Mode',picture:'',exp:Math.floor(Date.now()/1000)+86400}));
+applyAuthState();
+}
 
-    calculate();
-    renderStok();
-    renderRiwayat();
-    renderRelawanList();
-    updateAbsenStats();
+function applyAuthState(){
+const raw=localStorage.getItem(AUTH_KEY),s=raw?JSON.parse(raw):null,ok=s&&s.exp&&(Date.now()/1000)<s.exp;
+document.getElementById('authOverlay').style.display=ok?'none':'flex';
+document.getElementById('appShell').style.display=ok?'block':'none';
+if(ok&&s.name){
+document.getElementById('userName').textContent=s.name;
+if(s.picture){const av=document.getElementById('userAvatar');av.src=s.picture;av.style.display='block';}
+}
+}
+
+function logout(){
+localStorage.removeItem(AUTH_KEY);
+if(window.google?.accounts?.id)google.accounts.id.disableAutoSelect();
+applyAuthState();
+}
+
+window.onload=function(){
+const today=new Date().toISOString().split('T')[0];
+document.getElementById('tanggal').value=today;
+document.getElementById('absenTanggal').value=today;
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark-mode');document.querySelector('.dark-toggle').textContent='☀️';}
+applyAuthState();
+calculate();renderStok();renderRiwayat();
+document.getElementById('absenTanggal').addEventListener('change',loadAbsensiShift);
+document.getElementById('absenShift').addEventListener('change',loadAbsensiShift);
 };
 
-// ============================================================
-// TAB NAVIGATION
-// ============================================================
-function showTab(tabName, btn) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-' + tabName).classList.add('active');
-    btn.classList.add('active');
-
-    if (tabName === 'bahan')    renderBahanTable();
-    if (tabName === 'biaya')  { hitungBiaya(); renderBiayaTable(); }
-    if (tabName === 'insentif') initDivisiList();
-    if (tabName === 'absensi')  renderRelawanList();
+function showTab(n,btn){
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.getElementById('tab-'+n).classList.add('active');btn.classList.add('active');
+if(n==='bahan')renderBahanTable();
+if(n==='biaya'){hitungBiaya();renderBiayaTable();}
+if(n==='insentif')initDivisiList();
+if(n==='absensi'){loadAbsensiShift();renderRelawanList();}
 }
 
-// ============================================================
-// FEATURE 1 — KALKULATOR BERAS
-// ============================================================
-function calculate() {
-    const porsiPK      = Math.max(0, parseFloat(document.getElementById('porsiPK').value)      || 0);
-    const porsiPB      = Math.max(0, parseFloat(document.getElementById('porsiPB').value)      || 0);
-    const nasiPK       = Math.max(0, parseFloat(document.getElementById('nasiPK').value)       || 125);
-    const nasiPB       = Math.max(0, parseFloat(document.getElementById('nasiPB').value)       || 150);
-    const bufferPct    = Math.max(0, parseFloat(document.getElementById('buffer').value)        || 10);
-    const rasio        = parseFloat(document.getElementById('rasioSteamer').value)              || 2.4;
-    const berasPerTray = Math.max(1, parseFloat(document.getElementById('berasPerTray').value) || 3);
-    const jumlahTray   = Math.max(1, parseFloat(document.getElementById('jumlahTray').value)   || 12);
-
-    const berasPK   = (porsiPK * (nasiPK / rasio)) / 1000;
-    const berasPB   = (porsiPB * (nasiPB / rasio)) / 1000;
-    const subtotal  = berasPK + berasPB;
-    const bufferKg  = subtotal * (bufferPct / 100);
-    const total     = subtotal + bufferKg;
-    const totalCeil = Math.ceil(total);
-    const nasiTotal = total * rasio;
-    const berasPerSteamer = berasPerTray * jumlahTray;
-    const batchCount  = berasPerSteamer > 0 ? Math.ceil(totalCeil / berasPerSteamer) : 0;
-    const waktuMasak  = batchCount * 45;
-
-    document.getElementById('r-totalPorsi').textContent = (porsiPK+porsiPB).toLocaleString('id') + ' porsi';
-    document.getElementById('r-berasPK').textContent    = berasPK.toFixed(2)   + ' kg';
-    document.getElementById('r-berasPB').textContent    = berasPB.toFixed(2)   + ' kg';
-    document.getElementById('r-subtotal').textContent   = subtotal.toFixed(2)  + ' kg';
-    document.getElementById('r-buffer').textContent     = bufferKg.toFixed(2)  + ' kg';
-    document.getElementById('r-nasi').textContent       = nasiTotal.toFixed(1) + ' kg';
-    document.getElementById('r-total').textContent      = totalCeil + ' kg';
-    document.getElementById('r-batchCount').textContent = batchCount;
-    document.getElementById('r-waktuMasak').textContent = waktuMasak + ' mnt';
-    document.getElementById('b-kebutuhanBeras').textContent = totalCeil + ' kg';
-
-    lastResult = { porsiPK, porsiPB, nasiPK, nasiPB, berasPK, berasPB, subtotal, bufferKg, total, totalCeil, nasiTotal, batchCount, waktuMasak, rasio, bufferPct };
-    hitungBiaya();
+function calculate(){
+const pK=Math.max(0,parseFloat(document.getElementById('porsiPK').value)||0),pB=Math.max(0,parseFloat(document.getElementById('porsiPB').value)||0),nK=Math.max(0,parseFloat(document.getElementById('nasiPK').value)||125),nB=Math.max(0,parseFloat(document.getElementById('nasiPB').value)||150),buf=Math.max(0,parseFloat(document.getElementById('buffer').value)||10),r=parseFloat(document.getElementById('rasioSteamer').value)||2.4,bPT=Math.max(1,parseFloat(document.getElementById('berasPerTray').value)||3),jT=Math.max(1,parseFloat(document.getElementById('jumlahTray').value)||12);
+const bK=(pK*(nK/r))/1000,bB=(pB*(nB/r))/1000,sub=bK+bB,bufKg=sub*(buf/100),tot=sub+bufKg,totC=Math.ceil(tot),nasi=tot*r,bPS=bPT*jT,batch=bPS>0?Math.ceil(totC/bPS):0,wkt=batch*45;
+document.getElementById('r-totalPorsi').textContent=(pK+pB).toLocaleString('id')+' porsi';
+document.getElementById('r-berasPK').textContent=bK.toFixed(2)+' kg';
+document.getElementById('r-berasPB').textContent=bB.toFixed(2)+' kg';
+document.getElementById('r-subtotal').textContent=sub.toFixed(2)+' kg';
+document.getElementById('r-buffer').textContent=bufKg.toFixed(2)+' kg';
+document.getElementById('r-nasi').textContent=nasi.toFixed(1)+' kg';
+document.getElementById('r-total').textContent=totC+' kg';
+document.getElementById('r-batchCount').textContent=batch;
+document.getElementById('r-waktuMasak').textContent=wkt+' mnt';
+document.getElementById('b-kebutuhanBeras').textContent=totC+' kg';
+lastResult={porsiPK:pK,porsiPB:pB,nasiPK:nK,nasiPB:nB,berasPK:bK,berasPB:bB,subtotal:sub,bufferKg:bufKg,total:tot,totalCeil:totC,nasiTotal:nasi,batchCount:batch,waktuMasak:wkt,rasio:r,bufferPct:buf};
+hitungBiaya();
 }
 
-// ============================================================
-// FEATURE 2 — BAHAN
-// ============================================================
-function getAllBahans()  { return [...defaultBahans, ...customBahans]; }
-function getTotalPorsi() { return (parseFloat(document.getElementById('porsiPK').value)||0) + (parseFloat(document.getElementById('porsiPB').value)||0); }
+function getAllBahans(){return[...defaultBahans,...customBahans];}
+function getTotalPorsi(){return(parseFloat(document.getElementById('porsiPK').value)||0)+(parseFloat(document.getElementById('porsiPB').value)||0);}
 
-function renderBahanTable() {
-    const total = getTotalPorsi();
-    document.getElementById('bahanTableBody').innerHTML = getAllBahans().map(b => `
-        <tr>
-            <td>${escapeHtml(b.nama)}</td>
-            <td>${b.gram}g</td>
-            <td>${b.faktor}x</td>
-            <td><strong>${(total * b.gram * b.faktor / 1000).toFixed(2)} kg</strong></td>
-        </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada data</td></tr>';
-
-    document.getElementById('ringkasanBahan').innerHTML = getAllBahans().map(b => `
-        <div class="result-item" style="color:var(--text);">
-            <span>${escapeHtml(b.nama)}</span>
-            <span><strong>${(total * b.gram * b.faktor / 1000).toFixed(2)} kg</strong></span>
-        </div>`).join('') || '<p style="color:var(--text-light);text-align:center;padding:18px;">Isi porsi dulu di tab Kalkulator</p>';
+function renderBahanTable(){
+const t=getTotalPorsi(),all=getAllBahans();
+document.getElementById('bahanTableBody').innerHTML=all.map(b=>`<tr><td>${eh(b.nama)}</td><td>${b.gram}g</td><td>${b.faktor}x</td><td><strong>${(t*b.gram*b.faktor/1000).toFixed(2)} kg</strong></td></tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada data</td></tr>';
+document.getElementById('ringkasanBahan').innerHTML=all.map(b=>`<div class="result-item" style="color:var(--text);"><span>${eh(b.nama)}</span><span><strong>${(t*b.gram*b.faktor/1000).toFixed(2)} kg</strong></span></div>`).join('')||'<p style="color:var(--text-light);text-align:center;padding:18px;">Isi porsi di tab Kalkulator</p>';
 }
 
-function tambahBahan() {
-    const nama   = document.getElementById('customBahanName').value.trim();
-    const gram   = parseFloat(document.getElementById('customBahanGram').value);
-    const faktor = parseFloat(document.getElementById('customBahanFaktor').value);
-    const harga  = parseFloat(document.getElementById('customBahanHarga').value) || 0;
-    if (!nama)       { showToast('⚠️ Nama tidak boleh kosong!'); return; }
-    if (!gram||gram<=0) { showToast('⚠️ Gram harus lebih dari 0!'); return; }
-    customBahans.push({ nama:'🥘 '+nama, gram, faktor, harga });
-    localStorage.setItem('customBahans', JSON.stringify(customBahans));
-    document.getElementById('customBahanName').value = '';
-    document.getElementById('customBahanGram').value = '';
-    document.getElementById('customBahanHarga').value = '';
-    renderBahanTable(); renderBiayaTable();
-    showToast('✅ Bahan ' + nama + ' ditambahkan!');
+function tambahBahan(){
+const n=document.getElementById('customBahanName').value.trim(),g=parseFloat(document.getElementById('customBahanGram').value),f=parseFloat(document.getElementById('customBahanFaktor').value),h=parseFloat(document.getElementById('customBahanHarga').value)||0;
+if(!n){showToast('⚠️ Nama tidak boleh kosong!');return;}
+if(!g||g<=0){showToast('⚠️ Gram harus lebih dari 0!');return;}
+customBahans.push({nama:'🥘 '+n,gram:g,faktor:f,harga:h});
+localStorage.setItem('customBahans',JSON.stringify(customBahans));
+document.getElementById('customBahanName').value=document.getElementById('customBahanGram').value=document.getElementById('customBahanHarga').value='';
+renderBahanTable();renderBiayaTable();showToast('✅ Bahan '+n+' ditambahkan!');
 }
 
-// ============================================================
-// FEATURE 3 — BIAYA
-// ============================================================
-function renderBiayaTable() {
-    const total = getTotalPorsi();
-    document.getElementById('biayaTableBody').innerHTML = getAllBahans().map((b,i) => {
-        const qty = (total * b.gram * b.faktor / 1000).toFixed(2);
-        return `<tr>
-            <td>${escapeHtml(b.nama)}</td>
-            <td>${qty}</td>
-            <td><input type="number" min="0"
-                style="width:85px;padding:4px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:11px;"
-                value="${b.harga||0}" onchange="updateHargaBahan(${i},this.value)"></td>
-            <td>Rp ${Math.round(qty*(b.harga||0)).toLocaleString('id')}</td>
-        </tr>`;
-    }).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada bahan</td></tr>';
-    hitungBiaya();
+function renderBiayaTable(){
+const t=getTotalPorsi(),all=getAllBahans();
+document.getElementById('biayaTableBody').innerHTML=all.map((b,i)=>{const q=(t*b.gram*b.faktor/1000).toFixed(2);return`<tr><td>${eh(b.nama)}</td><td>${q}</td><td><input type="number" min="0" style="width:85px;padding:4px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:11px;" value="${b.harga||0}" onchange="updateHargaBahan(${i},this.value)"></td><td>Rp ${Math.round(q*(b.harga||0)).toLocaleString('id')}</td></tr>`;}).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--text-light);">Belum ada bahan</td></tr>';
+hitungBiaya();
 }
 
-function updateHargaBahan(i, v) {
-    v = Math.max(0, parseFloat(v)||0);
-    if (i < defaultBahans.length) defaultBahans[i].harga = v;
-    else { customBahans[i-defaultBahans.length].harga = v; localStorage.setItem('customBahans', JSON.stringify(customBahans)); }
-    hitungBiaya();
+function updateHargaBahan(i,v){
+v=Math.max(0,parseFloat(v)||0);
+if(i<defaultBahans.length)defaultBahans[i].harga=v;
+else{customBahans[i-defaultBahans.length].harga=v;localStorage.setItem('customBahans',JSON.stringify(customBahans));}
+hitungBiaya();
 }
 
-function hitungBiaya() {
-    const total      = getTotalPorsi();
-    const hargaBeras = Math.max(0, parseFloat(document.getElementById('hargaBeras').value)||0);
-    const totBeras   = lastResult.totalCeil || 0;
-    let totalBiaya   = totBeras * hargaBeras;
-    document.getElementById('b-subtotalBeras').textContent = 'Rp ' + Math.round(totBeras*hargaBeras).toLocaleString('id');
-    getAllBahans().forEach(b => totalBiaya += total * b.gram * b.faktor / 1000 * (b.harga||0));
-    const perPorsi = total > 0 ? totalBiaya/total : 0;
-    document.getElementById('biayaTotal').textContent    = 'Rp ' + Math.round(totalBiaya).toLocaleString('id');
-    document.getElementById('biayaPerPorsi').textContent = 'Rp ' + Math.round(perPorsi).toLocaleString('id');
-    lastResult.totalBiaya = totalBiaya;
-    lastResult.biayaPerPorsi = perPorsi;
+function hitungBiaya(){
+const t=getTotalPorsi(),hB=Math.max(0,parseFloat(document.getElementById('hargaBeras').value)||0),tB=lastResult.totalCeil||0;
+let tot=tB*hB;
+document.getElementById('b-subtotalBeras').textContent='Rp '+Math.round(tB*hB).toLocaleString('id');
+getAllBahans().forEach(b=>tot+=t*b.gram*b.faktor/1000*(b.harga||0));
+const pp=t>0?tot/t:0;
+document.getElementById('biayaTotal').textContent='Rp '+Math.round(tot).toLocaleString('id');
+document.getElementById('biayaPerPorsi').textContent='Rp '+Math.round(pp).toLocaleString('id');
+lastResult.totalBiaya=tot;lastResult.biayaPerPorsi=pp;
 }
 
-function cekBudget() {
-    const budget  = Math.max(0, parseFloat(document.getElementById('budgetTersedia').value)||0);
-    const selisih = budget - (lastResult.totalBiaya||0);
-    const ok      = selisih >= 0;
-    document.getElementById('budgetResult').innerHTML = `
-        <div style="background:${ok?'#e8f5e9':'#ffebee'};border-radius:10px;padding:13px;border-left:4px solid ${ok?'#4caf50':'#f44336'};margin-top:9px;">
-            <p style="color:${ok?'#2e7d32':'#c62828'};font-weight:bold;">${ok?'✅ Budget CUKUP!':'❌ Budget KURANG!'}</p>
-            <p style="color:${ok?'#2e7d32':'#c62828'};">${ok?'Sisa':'Kekurangan'}: <strong>Rp ${Math.round(Math.abs(selisih)).toLocaleString('id')}</strong></p>
-        </div>`;
+function cekBudget(){
+const b=Math.max(0,parseFloat(document.getElementById('budgetTersedia').value)||0),s=b-(lastResult.totalBiaya||0),ok=s>=0;
+document.getElementById('budgetResult').innerHTML=`<div style="background:${ok?'#e8f5e9':'#ffebee'};border-radius:10px;padding:13px;border-left:4px solid ${ok?'#4caf50':'#f44336'};margin-top:9px;"><p style="color:${ok?'#2e7d32':'#c62828'};font-weight:bold;">${ok?'✅ Budget CUKUP!':'❌ Budget KURANG!'}</p><p style="color:${ok?'#2e7d32':'#c62828'};">${ok?'Sisa':'Kekurangan'}: <strong>Rp ${Math.round(Math.abs(s)).toLocaleString('id')}</strong></p></div>`;
 }
 
-// ============================================================
-// FEATURE 4 — STOK
-// ============================================================
-function updateStok() {
-    const nama    = document.getElementById('stokBahanSelect').value;
-    const jumlah  = parseFloat(document.getElementById('stokJumlah').value);
-    const minimum = Math.max(0, parseFloat(document.getElementById('stokMinimum').value)||10);
-    const maksimum= Math.max(1, parseFloat(document.getElementById('stokMaksimum').value)||100);
-    if (isNaN(jumlah)||jumlah<0) { showToast('⚠️ Jumlah stok tidak valid!'); return; }
-    stokData[nama] = { jumlah, minimum, maksimum, updatedAt: new Date().toLocaleString('id') };
-    localStorage.setItem('stokData', JSON.stringify(stokData));
-    renderStok();
-    showToast('✅ Stok ' + nama + ' diupdate!');
-    document.getElementById('stokJumlah').value = document.getElementById('stokMinimum').value = document.getElementById('stokMaksimum').value = '';
+function updateStok(){
+const n=document.getElementById('stokBahanSelect').value,j=parseFloat(document.getElementById('stokJumlah').value),m=Math.max(0,parseFloat(document.getElementById('stokMinimum').value)||10),x=Math.max(1,parseFloat(document.getElementById('stokMaksimum').value)||100);
+if(isNaN(j)||j<0){showToast('⚠️ Jumlah stok tidak valid!');return;}
+stokData[n]={jumlah:j,minimum:m,maksimum:x,updatedAt:new Date().toLocaleString('id')};
+localStorage.setItem('stokData',JSON.stringify(stokData));
+renderStok();showToast('✅ Stok '+n+' diupdate!');
+document.getElementById('stokJumlah').value=document.getElementById('stokMinimum').value=document.getElementById('stokMaksimum').value='';
 }
 
-function renderStok() {
-    const keys = Object.keys(stokData);
-    if (!keys.length) { document.getElementById('stokList').innerHTML = '<div class="empty-state"><div class="icon">📦</div><h3>Belum ada data stok</h3><p>Tambahkan di atas</p></div>'; return; }
-    document.getElementById('stokList').innerHTML = keys.map(nama => {
-        const s = stokData[nama];
-        const pct   = Math.min(100, s.maksimum>0?(s.jumlah/s.maksimum)*100:0);
-        const isH   = s.jumlah<=0, isW = !isH && s.jumlah<=s.minimum;
-        const color = isH?'#f44336':isW?'#ff9800':'#4caf50';
-        return `<div class="stok-card ${isH?'danger':isW?'warning':''}">
-            <div class="stok-header">
-                <span class="stok-name">📦 ${escapeHtml(nama)}</span>
-                <span class="stok-badge ${isH?'badge-habis':isW?'badge-warning':'badge-aman'}">${isH?'❌ Habis':isW?'⚠️ Hampir Habis':'✅ Aman'}</span>
-            </div>
-            <div class="stok-progress"><div class="stok-bar" style="width:${pct}%;background:${color};"></div></div>
-            <div class="stok-info"><span>Stok: <strong>${s.jumlah} kg</strong></span><span>Min: ${s.minimum} kg</span><span>Max: ${s.maksimum} kg</span></div>
-            <div style="font-size:10px;color:var(--text-light);margin-top:7px;">🕐 ${s.updatedAt}</div>
-            <div class="btn-row" style="margin-top:7px;">
-                <button class="btn btn-danger btn-sm" data-nama="${escapeHtml(nama)}" onclick="hapusStok(this)">🗑️ Hapus</button>
-            </div>
-        </div>`;
-    }).join('');
+function renderStok(){
+const keys=Object.keys(stokData);
+if(!keys.length){document.getElementById('stokList').innerHTML='<div class="empty-state"><div class="icon">📦</div><h3>Belum ada data stok</h3></div>';return;}
+document.getElementById('stokList').innerHTML=keys.map(n=>{const s=stokData[n],p=Math.min(100,s.maksimum>0?(s.jumlah/s.maksimum)*100:0),isH=s.jumlah<=0,isW=!isH&&s.jumlah<=s.minimum,c=isH?'#f44336':isW?'#ff9800':'#4caf50';return`<div class="stok-card ${isH?'danger':isW?'warning':''}"><div class="stok-header"><span class="stok-name">📦 ${eh(n)}</span><span class="stok-badge ${isH?'badge-habis':isW?'badge-warning':'badge-aman'}">${isH?'❌ Habis':isW?'⚠️ Hampir Habis':'✅ Aman'}</span></div><div class="stok-progress"><div class="stok-bar" style="width:${p}%;background:${c};"></div></div><div class="stok-info"><span>Stok: <strong>${s.jumlah} kg</strong></span><span>Min: ${s.minimum} kg</span><span>Max: ${s.maksimum} kg</span></div><div style="font-size:10px;color:var(--text-light);margin-top:7px;">🕐 ${s.updatedAt}</div><div class="btn-row" style="margin-top:7px;"><button class="btn btn-danger btn-sm" data-nama="${eh(n)}" onclick="hapusStok(this)">🗑️ Hapus</button></div></div>`;}).join('');
 }
 
-function hapusStok(btn) {
-    const nama = btn.getAttribute('data-nama');
-    if (confirm('Hapus stok '+nama+'?')) { delete stokData[nama]; localStorage.setItem('stokData', JSON.stringify(stokData)); renderStok(); showToast('🗑️ Stok '+nama+' dihapus'); }
+function hapusStok(btn){const n=btn.getAttribute('data-nama');if(confirm('Hapus stok '+n+'?')){delete stokData[n];localStorage.setItem('stokData',JSON.stringify(stokData));renderStok();showToast('🗑️ Stok '+n+' dihapus');}}
+
+function simpanRiwayat(){
+riwayatData.unshift({id:Date.now(),namaSSPG:document.getElementById('namaSSPG').value||'SPPG',tanggal:document.getElementById('tanggal').value,shift:document.getElementById('shift').value,porsiPK:lastResult.porsiPK||0,porsiPB:lastResult.porsiPB||0,totalPorsi:(lastResult.porsiPK||0)+(lastResult.porsiPB||0),totalBeras:lastResult.totalCeil||0,totalBiaya:lastResult.totalBiaya||0,batchCount:lastResult.batchCount||0,createdAt:new Date().toLocaleString('id')});
+if(riwayatData.length>50)riwayatData.pop();
+localStorage.setItem('riwayatData',JSON.stringify(riwayatData));renderRiwayat();showToast('✅ Riwayat disimpan!');
 }
 
-// ============================================================
-// FEATURE 5 — RIWAYAT
-// ============================================================
-function simpanRiwayat() {
-    riwayatData.unshift({ id:Date.now(), namaSSPG:document.getElementById('namaSSPG').value||'SPPG', tanggal:document.getElementById('tanggal').value, shift:document.getElementById('shift').value, porsiPK:lastResult.porsiPK||0, porsiPB:lastResult.porsiPB||0, totalPorsi:(lastResult.porsiPK||0)+(lastResult.porsiPB||0), totalBeras:lastResult.totalCeil||0, totalBiaya:lastResult.totalBiaya||0, batchCount:lastResult.batchCount||0, createdAt:new Date().toLocaleString('id') });
-    if (riwayatData.length>50) riwayatData.pop();
-    localStorage.setItem('riwayatData', JSON.stringify(riwayatData));
-    renderRiwayat(); showToast('✅ Riwayat disimpan!');
+function renderRiwayat(){
+if(!riwayatData.length){document.getElementById('riwayatList').innerHTML='<div class="empty-state"><div class="icon">📋</div><h3>Belum ada riwayat</h3><p>Simpan di Tab Kalkulator</p></div>';return;}
+document.getElementById('riwayatList').innerHTML=riwayatData.map(r=>{const d=r.tanggal?new Date(r.tanggal).toLocaleDateString('id',{day:'numeric',month:'long',year:'numeric'}):'—';return`<div class="riwayat-card"><div class="riwayat-header"><div><div style="font-weight:bold;font-size:14px;">${eh(r.namaSSPG)}</div><div class="riwayat-date">📅 ${d} | ${r.shift}</div></div><div class="riwayat-total">${r.totalBeras} kg</div></div><div class="riwayat-detail">👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB} | 🍽️ ${r.totalPorsi} porsi | ♨️ ${r.batchCount} batch${r.totalBiaya>0?'<br>💰 Rp '+Math.round(r.totalBiaya).toLocaleString('id'):''}</div><div class="riwayat-actions"><button class="btn btn-outline btn-sm" data-id="${r.id}" onclick="muatRiwayat(this)">📥 Muat</button><button class="btn btn-success btn-sm" data-id="${r.id}" onclick="shareRiwayat(this)">📤 WA</button><button class="btn btn-danger btn-sm" data-id="${r.id}" onclick="hapusRiwayat(this)">🗑️ Hapus</button></div></div>`;}).join('');
 }
 
-function renderRiwayat() {
-    if (!riwayatData.length) { document.getElementById('riwayatList').innerHTML='<div class="empty-state"><div class="icon">📋</div><h3>Belum ada riwayat</h3><p>Simpan di Tab Kalkulator</p></div>'; return; }
-    document.getElementById('riwayatList').innerHTML = riwayatData.map(r => {
-        const date = r.tanggal ? new Date(r.tanggal).toLocaleDateString('id',{day:'numeric',month:'long',year:'numeric'}) : '—';
-        return `<div class="riwayat-card">
-            <div class="riwayat-header">
-                <div><div style="font-weight:bold;font-size:14px;">${escapeHtml(r.namaSSPG)}</div><div class="riwayat-date">📅 ${date} | ${r.shift}</div></div>
-                <div class="riwayat-total">${r.totalBeras} kg</div>
-            </div>
-            <div class="riwayat-detail">👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB} | 🍽️ ${r.totalPorsi} porsi | ♨️ ${r.batchCount} batch${r.totalBiaya>0?'<br>💰 Rp '+Math.round(r.totalBiaya).toLocaleString('id'):''}</div>
-            <div class="riwayat-actions">
-                <button class="btn btn-outline btn-sm" data-id="${r.id}" onclick="muatRiwayat(this)">📥 Muat</button>
-                <button class="btn btn-success btn-sm" data-id="${r.id}" onclick="shareRiwayat(this)">📤 WA</button>
-                <button class="btn btn-danger btn-sm"  data-id="${r.id}" onclick="hapusRiwayat(this)">🗑️ Hapus</button>
-            </div>
-        </div>`;
-    }).join('');
+function muatRiwayat(btn){const r=riwayatData.find(x=>x.id===parseInt(btn.getAttribute('data-id')));if(!r)return;document.getElementById('namaSSPG').value=r.namaSSPG;document.getElementById('tanggal').value=r.tanggal;document.getElementById('porsiPK').value=r.porsiPK;document.getElementById('porsiPB').value=r.porsiPB;calculate();document.querySelectorAll('.tab')[0].click();showToast('✅ Data dimuat!');}
+function hapusRiwayat(btn){const id=parseInt(btn.getAttribute('data-id'));if(confirm('Hapus riwayat ini?')){riwayatData=riwayatData.filter(x=>x.id!==id);localStorage.setItem('riwayatData',JSON.stringify(riwayatData));renderRiwayat();showToast('🗑️ Dihapus');}}
+function hapusSemuaRiwayat(){if(confirm('Hapus SEMUA riwayat?')){riwayatData=[];localStorage.setItem('riwayatData',JSON.stringify(riwayatData));renderRiwayat();showToast('🗑️ Semua riwayat dihapus');}}
+function shareRiwayat(btn){const r=riwayatData.find(x=>x.id===parseInt(btn.getAttribute('data-id')));if(!r)return;window.open('https://wa.me/?text='+encodeURIComponent(`🍚 *LAPORAN MBG*\n📍 ${r.namaSSPG}\n📅 ${r.tanggal}\n👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB}\n🍽️ Total: ${r.totalPorsi} porsi\n✅ Beras: *${r.totalBeras} kg*\n♨️ Batch: ${r.batchCount}`),'_blank');}
+
+function initDivisiList(){
+document.getElementById('divisiList').innerHTML=divisiRelawan.map(d=>{const s=insentifData[d.id]||{},o=s.orang??d.defaultOrang,i=s.insentif??d.defaultInsentif;return`<div class="divisi-card"><div class="divisi-header"><span class="divisi-name">${d.nama}</span><span class="divisi-total" id="divtotal-${d.id}">Rp 0/bln</span></div><div class="divisi-inputs"><div><div class="mini-label">Jml Orang</div><input type="number" id="org-${d.id}" value="${o}" min="0" oninput="hitungInsentif()"></div><div><div class="mini-label">Insentif/Hari</div><input type="number" id="ins-${d.id}" value="${i}" min="0" oninput="hitungInsentif()"></div><div><div class="mini-label">Subtotal/Hari</div><input type="text" id="sub-${d.id}" readonly></div></div></div>`;}).join('');
+hitungInsentif();
+document.getElementById('syncTime').textContent=localStorage.getItem('lastSync')||'—';
 }
 
-function muatRiwayat(btn) {
-    const r = riwayatData.find(x => x.id===parseInt(btn.getAttribute('data-id')));
-    if (!r) return;
-    document.getElementById('namaSSPG').value=r.namaSSPG; document.getElementById('tanggal').value=r.tanggal;
-    document.getElementById('porsiPK').value=r.porsiPK; document.getElementById('porsiPB').value=r.porsiPB;
-    calculate(); document.querySelectorAll('.tab')[0].click(); showToast('✅ Data dimuat!');
-}
-
-function hapusRiwayat(btn) {
-    const id = parseInt(btn.getAttribute('data-id'));
-    if (confirm('Hapus riwayat ini?')) { riwayatData=riwayatData.filter(x=>x.id!==id); localStorage.setItem('riwayatData',JSON.stringify(riwayatData)); renderRiwayat(); showToast('🗑️ Dihapus'); }
-}
-
-function hapusSemuaRiwayat() {
-    if (confirm('Hapus SEMUA riwayat?')) { riwayatData=[]; localStorage.setItem('riwayatData',JSON.stringify(riwayatData)); renderRiwayat(); showToast('🗑️ Semua riwayat dihapus'); }
-}
-
-function shareRiwayat(btn) {
-    const r = riwayatData.find(x => x.id===parseInt(btn.getAttribute('data-id')));
-    if (!r) return;
-    window.open('https://wa.me/?text='+encodeURIComponent(`🍚 *LAPORAN MBG*\n📍 ${r.namaSSPG}\n📅 ${r.tanggal}\n👶 PK: ${r.porsiPK} | 👨 PB: ${r.porsiPB}\n🍽️ Total: ${r.totalPorsi} porsi\n✅ Beras: *${r.totalBeras} kg*\n♨️ Batch: ${r.batchCount}`),'_blank');
-}
-
-// ============================================================
-// FEATURE 6 — INSENTIF
-// ============================================================
-function initDivisiList() {
-    document.getElementById('divisiList').innerHTML = divisiRelawan.map(d => {
-        const s=insentifData[d.id]||{}, o=s.orang??d.defaultOrang, i=s.insentif??d.defaultInsentif;
-        return `<div class="divisi-card">
-            <div class="divisi-header">
-                <span class="divisi-name">${d.nama}</span>
-                <span class="divisi-total" id="divtotal-${d.id}">Rp 0/bln</span>
-            </div>
-            <div class="divisi-inputs">
-                <div><div class="mini-label">Jml Orang</div><input type="number" id="org-${d.id}" value="${o}" min="0" oninput="hitungInsentif()"></div>
-                <div><div class="mini-label">Insentif/Hari</div><input type="number" id="ins-${d.id}" value="${i}" min="0" oninput="hitungInsentif()"></div>
-                <div><div class="mini-label">Subtotal/Hari</div><input type="text" id="sub-${d.id}" readonly></div>
-            </div>
-        </div>`;
-    }).join('');
-    hitungInsentif();
-    const saved = localStorage.getItem('lastSync');
-    document.getElementById('syncTime').textContent = saved || '—';
-}
-
-function hitungInsentif() {
-    const hari  = Math.max(1, parseFloat(document.getElementById('hariKerja').value)||26);
-    const shift = Math.max(1, parseFloat(document.getElementById('shiftPerHari').value)||1);
-    let gHarian=0, gOrang=0, html='';
-    divisiRelawan.forEach(d => {
-        const o = Math.max(0, parseFloat(document.getElementById('org-'+d.id)?.value)||0);
-        const i = Math.max(0, parseFloat(document.getElementById('ins-'+d.id)?.value)||0);
-        const subH = o*i*shift, subB = subH*hari;
-        const se = document.getElementById('sub-'+d.id); if(se) se.value='Rp '+subH.toLocaleString('id');
-        const de = document.getElementById('divtotal-'+d.id); if(de) de.textContent='Rp '+subB.toLocaleString('id')+'/bln';
-        gHarian+=subH; gOrang+=o*shift;
-        insentifData[d.id]={orang:o,insentif:i};
-        html+=`<tr><td>${d.nama}</td><td>${o*shift}</td><td>Rp ${subH.toLocaleString('id')}</td><td>Rp ${subB.toLocaleString('id')}</td></tr>`;
-    });
-    const gBln = gHarian*hari;
-    document.getElementById('grandTotalInsentif').textContent = 'Rp '+gBln.toLocaleString('id');
-    document.getElementById('grandPerHari').textContent = 'Rp '+gHarian.toLocaleString('id');
-    document.getElementById('grandTotalRelawan').textContent = gOrang;
-    document.getElementById('stat-totalRelawan').textContent = gOrang;
-    document.getElementById('rekapInsentifBody').innerHTML = html;
-    document.getElementById('rekap-totalOrang').textContent = gOrang;
-    document.getElementById('rekap-totalHarian').textContent = 'Rp '+gHarian.toLocaleString('id');
-    document.getElementById('rekap-totalBulanan').textContent = 'Rp '+gBln.toLocaleString('id');
-    localStorage.setItem('insentifData', JSON.stringify(insentifData));
-}
-
-function syncManual() {
-    const now = new Date().toLocaleString('id');
-    localStorage.setItem('lastSync', now);
-    document.getElementById('syncTime').textContent = now;
-    showToast('✅ Waktu diperbarui: '+now);
-}
-
-function getInsentifText() {
-    const sppg=document.getElementById('insentifSPPG').value||'SPPG Onyam';
-    const hari=document.getElementById('hariKerja').value||26;
-    const shift=parseFloat(document.getElementById('shiftPerHari').value)||1;
-    let txt=`👷 *REKAP INSENTIF RELAWAN*\n📍 ${sppg}\n\n`, tO=0, tB=0;
-    divisiRelawan.forEach(d => {
-        const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0;
-        const i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0;
-        const b=o*i*shift*hari; tO+=o*shift; tB+=b;
-        if(o>0) txt+=`${d.nama}: ${o*shift} org × Rp ${i.toLocaleString('id')}/hari = Rp ${b.toLocaleString('id')}/bln\n`;
-    });
-    txt+=`\n👥 Total: ${tO} orang | 📅 ${hari} hari\n💰 *Total/bln: Rp ${tB.toLocaleString('id')}*\n\n_MBG Pro Calculator_`;
-    return txt;
-}
-
-function shareInsentif()      { window.open('https://wa.me/?text='+encodeURIComponent(getInsentifText()),'_blank'); }
-function copyInsentif()       { navigator.clipboard.writeText(getInsentifText()).then(()=>showToast('✅ Disalin!')); }
-function downloadInsentifCSV(){ 
-    const hari=document.getElementById('hariKerja').value||26, shift=parseFloat(document.getElementById('shiftPerHari').value)||1;
-    let csv='Divisi,Jumlah Orang,Insentif/Hari,Subtotal/Hari,Total/Bulan\n';
-    divisiRelawan.forEach(d=>{
-        const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0, i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0;
-        const sh=o*i*shift; csv+=`"${d.nama}",${o*shift},${i},${sh},${sh*hari}\n`;
-    });
-    const b=new Blob([csv],{type:'text/csv;charset=utf-8;'}), u=URL.createObjectURL(b), a=document.createElement('a');
-    a.href=u; a.download='rekap-insentif.csv'; a.click(); URL.revokeObjectURL(u);
-    showToast('✅ CSV didownload!');
-}
-
-function printInsentif() {
-    const sppg=document.getElementById('insentifSPPG').value||'SPPG Onyam';
-    const hari=document.getElementById('hariKerja').value||26, shift=parseFloat(document.getElementById('shiftPerHari').value)||1;
-    let rows='', gB=0, gO=0;
-    divisiRelawan.forEach(d=>{
-        const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0, i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0;
-        const sh=o*i*shift, bl=sh*hari; gB+=bl; gO+=o*shift;
-        rows+=`<tr><td>${d.nama}</td><td>${o*shift}</td><td>Rp ${i.toLocaleString('id')}</td><td>Rp ${sh.toLocaleString('id')}</td><td>Rp ${bl.toLocaleString('id')}</td></tr>`;
-    });
-    const w=window.open('','_blank');
-    w.document.write(`<!DOCTYPE html><html><head><title>Rekap Insentif</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#667eea;}table{width:100%;border-collapse:collapse;margin:15px 0;}th{background:#667eea;color:white;padding:9px;}td{padding:9px;border-bottom:1px solid #eee;}tfoot td{background:#4caf50;color:white;font-weight:bold;}.total{background:#4caf50;color:white;padding:18px;border-radius:10px;text-align:center;margin:18px 0;}.total .big{font-size:30px;font-weight:bold;color:#ffeb3b;}@media print{button{display:none;}}</style></head><body><h1>👷 Rekap Insentif — ${sppg}</h1><p>Hari Kerja: ${hari} hari | Shift/Hari: ${shift}</p><table><thead><tr><th>Divisi</th><th>Orang</th><th>Insentif/Hari</th><th>Subtotal/Hari</th><th>Total/Bulan</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>TOTAL</td><td>${gO}</td><td>—</td><td>—</td><td>Rp ${gB.toLocaleString('id')}</td></tr></tfoot></table><div class="total"><p>TOTAL INSENTIF / BULAN</p><div class="big">Rp ${gB.toLocaleString('id')}</div></div><p style="color:#888;font-size:11px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator</p><button onclick="window.print()" style="background:#667eea;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-size:15px;">🖨️ Print / PDF</button></body></html>`);
-    w.document.close();
-}
-
-// ============================================================
-// FEATURE 7 — ABSENSI RELAWAN
-// ============================================================
-function getAbsenKey() {
-    const tgl   = document.getElementById('absenTanggal').value || new Date().toISOString().split('T')[0];
-    const shift = document.getElementById('absenShift').value   || 'Pagi';
-    return tgl + '_' + shift;
-}
-
-function setAbsen(no, status) {
-    const key = getAbsenKey();
-    if (!absensiDB[key]) absensiDB[key] = {};
-
-    // Toggle off jika klik status yang sama
-    if (absenStatus[no] === status) {
-        delete absenStatus[no];
-        delete absensiDB[key][no];
-    } else {
-        absenStatus[no]      = status;
-        absensiDB[key][no]   = status;
-    }
-
-    // Update card tampilan
-    const card = document.getElementById('card-relawan-' + no);
-    if (card) {
-        card.className = 'relawan-card ' + (absenStatus[no] || '');
-    }
-
-    // Update tombol aktif
-    ['hadir','izin','sakit','alpha'].forEach(s => {
-        const btn = document.getElementById('abtn-' + no + '-' + s);
-        if (btn) {
-            btn.className = 'absen-btn ' + (absenStatus[no] === s ? 'active-'+s : '');
-        }
-    });
-
-    updateAbsenStats();
-}
-
-function updateAbsenStats() {
-    const hadir = Object.values(absenStatus).filter(v=>v==='hadir').length;
-    const izin  = Object.values(absenStatus).filter(v=>v==='izin').length;
-    const sakit = Object.values(absenStatus).filter(v=>v==='sakit').length;
-    const alpha = Object.values(absenStatus).filter(v=>v==='alpha').length;
-
-    document.getElementById('as-hadir').textContent = hadir;
-    document.getElementById('as-izin').textContent  = izin;
-    document.getElementById('as-alpha').textContent = alpha + sakit;
-}
-
-function renderRelawanList() {
-    const key = getAbsenKey();
-    if (absensiDB[key]) absenStatus = { ...absensiDB[key] };
-
-    const search = (document.getElementById('searchRelawan')?.value || '').toLowerCase();
-    const filtered = dataRelawan.filter(r => {
-        const matchFilter = filterAktif === 'semua' || r.divisi === filterAktif;
-        const matchSearch = r.nama.toLowerCase().includes(search) || r.divisi.toLowerCase().includes(search);
-        return matchFilter && matchSearch;
-    });
-
-    document.getElementById('relawanList').innerHTML = filtered.map(r => {
-        const status = absenStatus[r.no] || '';
-        return `
-        <div class="relawan-card ${status}" id="card-relawan-${r.no}">
-            <div class="relawan-no">${r.no}</div>
-            <div class="relawan-info">
-                <div class="relawan-nama">${escapeHtml(r.nama)}</div>
-                <div class="relawan-meta">
-                    <span class="badge-divisi">${escapeHtml(r.divisi)}</span>
-                    <span class="${r.rekening ? 'badge-rekening-ok' : 'badge-rekening-no'}">
-                        ${r.rekening ? '🏦 Rek ✓' : '🏦 Belum'}
-                    </span>
-                </div>
-            </div>
-            <div class="absen-btns">
-                <button class="absen-btn ${status==='hadir'?'active-hadir':''}" id="abtn-${r.no}-hadir"
-                        onclick="setAbsen(${r.no},'hadir')" title="Hadir">✅</button>
-                <button class="absen-btn ${status==='izin'?'active-izin':''}"  id="abtn-${r.no}-izin"
-                        onclick="setAbsen(${r.no},'izin')"  title="Izin">🟡</button>
-                <button class="absen-btn ${status==='sakit'?'active-sakit':''}" id="abtn-${r.no}-sakit"
-                        onclick="setAbsen(${r.no},'sakit')" title="Sakit">🩺</button>
-                <button class="absen-btn ${status==='alpha'?'active-alpha':''}" id="abtn-${r.no}-alpha"
-                        onclick="setAbsen(${r.no},'alpha')" title="Alpha">❌</button>
-            </div>
-        </div>`;
-    }).join('');
-}
-
-function setFilter(divisi, el) {
-    filterAktif = divisi;
-    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    renderRelawanList();
-}
-
-function filterRelawan() { renderRelawanList(); }
-
-function hadirSemua() {
-    dataRelawan.forEach(r => { absenStatus[r.no] = 'hadir'; });
-    renderRelawanList();
-    updateAbsenStats();
-    showToast('✅ Semua relawan ditandai Hadir!');
-}
-
-function resetAbsen() {
-    if (confirm('Reset semua absensi hari ini?')) {
-        absenStatus = {};
-        renderRelawanList();
-        updateAbsenStats();
-        showToast('🔄 Absensi direset');
-    }
-}
-
-function simpanAbsensi() {
-    const key = getAbsenKey();
-    absensiDB[key] = { ...absenStatus };
-    localStorage.setItem('absensiDB', JSON.stringify(absensiDB));
-    const hadir = Object.values(absenStatus).filter(v=>v==='hadir').length;
-    showToast(`💾 Absensi disimpan! ${hadir} orang hadir`);
-}
-
-function getAbsensiText() {
-    const tgl   = document.getElementById('absenTanggal').value;
-    const shift = document.getElementById('absenShift').value;
-    const tglFmt = new Date(tgl).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-    const hadir = dataRelawan.filter(r => absenStatus[r.no]==='hadir');
-    const izin  = dataRelawan.filter(r => absenStatus[r.no]==='izin');
-    const sakit = dataRelawan.filter(r => absenStatus[r.no]==='sakit');
-    const alpha = dataRelawan.filter(r => absenStatus[r.no]==='alpha');
-    const blm   = dataRelawan.filter(r => !absenStatus[r.no]);
-
-    let txt = `📝 *ABSENSI RELAWAN SPPG ONYAM*\n📍 Gunung Kaler, Kab. Tangerang\n📅 ${tglFmt} | Shift ${shift}\n\n`;
-    txt += `📊 *REKAP:*\n✅ Hadir : ${hadir.length} orang\n🟡 Izin  : ${izin.length} orang\n🩺 Sakit : ${sakit.length} orang\n❌ Alpha : ${alpha.length} orang\n⬜ Belum : ${blm.length} orang\n📌 Total : 50 orang\n\n`;
-
-    if (hadir.length) txt += `*✅ HADIR (${hadir.length}):*\n` + hadir.map((r,i) => `${i+1}. ${r.nama} [${r.divisi}]`).join('\n') + '\n\n';
-    if (izin.length)  txt += `*🟡 IZIN (${izin.length}):*\n`  + izin.map((r,i)  => `${i+1}. ${r.nama}`).join('\n') + '\n\n';
-    if (sakit.length) txt += `*🩺 SAKIT (${sakit.length}):*\n` + sakit.map((r,i) => `${i+1}. ${r.nama}`).join('\n') + '\n\n';
-    if (alpha.length) txt += `*❌ ALPHA (${alpha.length}):*\n` + alpha.map((r,i) => `${i+1}. ${r.nama}`).join('\n') + '\n\n';
-
-    txt += `_MBG Pro Calculator — SPPG Onyam_`;
-    return txt;
-}
-
-function shareAbsensi() { window.open('https://wa.me/?text='+encodeURIComponent(getAbsensiText()),'_blank'); }
-function copyAbsensi()  { navigator.clipboard.writeText(getAbsensiText()).then(()=>showToast('✅ Absensi disalin!')); }
-
-function downloadAbsenCSV() {
-    const tgl   = document.getElementById('absenTanggal').value;
-    const shift = document.getElementById('absenShift').value;
-    let csv = `ABSENSI RELAWAN SPPG ONYAM\nTanggal,${tgl}\nShift,${shift}\n\nNo,Nama,Divisi,Status,Rekening\n`;
-    dataRelawan.forEach(r => {
-        const st = absenStatus[r.no] || 'Belum Absen';
-        const stLabel = st==='hadir'?'Hadir':st==='izin'?'Izin':st==='sakit'?'Sakit':st==='alpha'?'Alpha':'Belum Absen';
-        csv += `${r.no},"${r.nama}","${r.divisi}",${stLabel},${r.rekening?'Sudah':'Belum'}\n`;
-    });
-    const b=new Blob([csv],{type:'text/csv;charset=utf-8;'}), u=URL.createObjectURL(b), a=document.createElement('a');
-    a.href=u; a.download=`absensi-onyam-${tgl}-${shift}.csv`; a.click(); URL.revokeObjectURL(u);
-    showToast('✅ CSV absensi didownload!');
-}
-
-function printAbsensi() {
-    const tgl   = document.getElementById('absenTanggal').value;
-    const shift = document.getElementById('absenShift').value;
-    const tglFmt = new Date(tgl).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-    const statusLabel = s => s==='hadir'?'<span style="color:#2e7d32;font-weight:bold;">✅ Hadir</span>':s==='izin'?'<span style="color:#e65100;">🟡 Izin</span>':s==='sakit'?'<span style="color:#880e4f;">🩺 Sakit</span>':s==='alpha'?'<span style="color:#c62828;">❌ Alpha</span>':'<span style="color:#888;">⬜ —</span>';
-
-    const hadir = dataRelawan.filter(r=>absenStatus[r.no]==='hadir').length;
-    const tidakHadir = 50 - hadir;
-
-    let rows = dataRelawan.map(r => `<tr><td>${r.no}</td><td>${r.nama}</td><td>${r.divisi}</td><td>${statusLabel(absenStatus[r.no])}</td><td style="color:${r.rekening?'#2e7d32':'#c62828'}">${r.rekening?'✅ Sudah':'❌ Belum'}</td></tr>`).join('');
-
-    const w=window.open('','_blank');
-    w.document.write(`<!DOCTYPE html><html><head><title>Absensi SPPG Onyam</title><style>body{font-family:Arial,sans-serif;padding:25px;font-size:13px;}h1{color:#00897b;border-bottom:2px solid #00897b;padding-bottom:8px;}table{width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;}th{background:#00897b;color:white;padding:8px 6px;text-align:left;}td{padding:8px 6px;border-bottom:1px solid #eee;}tr:nth-child(even)td{background:#f5f5f5;}.summary{display:flex;gap:15px;margin:12px 0;flex-wrap:wrap;}.s-box{background:#f0f4ff;border-radius:8px;padding:10px 15px;text-align:center;}.s-box .sv{font-size:22px;font-weight:bold;color:#667eea;}.s-box .sl{font-size:11px;color:#888;}@media print{button{display:none;}}</style></head><body>
-    <h1>📝 Absensi Relawan SPPG Onyam</h1>
-    <p><strong>📍 Kp. Sambidoyong, Desa Onyam, Gunung Kaler, Kab. Tangerang</strong></p>
-    <p>📅 ${tglFmt} | Shift: ${shift}</p>
-    <div class="summary">
-        <div class="s-box"><div class="sv">50</div><div class="sl">Total</div></div>
-        <div class="s-box"><div class="sv" style="color:#2e7d32">${hadir}</div><div class="sl">✅ Hadir</div></div>
-        <div class="s-box"><div class="sv" style="color:#c62828">${tidakHadir}</div><div class="sl">❌ Tidak</div></div>
-        <div class="s-box"><div class="sv" style="color:#7b1fa2">${dataRelawan.filter(r=>r.rekening).length}</div><div class="sl">🏦 Rek ✓</div></div>
-    </div>
-    <table><thead><tr><th>#</th><th>Nama</th><th>Divisi</th><th>Status</th><th>Rekening</th></tr></thead><tbody>${rows}</tbody></table>
-    <p style="color:#888;font-size:11px;margin-top:15px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator</p>
-    <button onclick="window.print()" style="background:#00897b;color:white;padding:9px 20px;border:none;border-radius:8px;cursor:pointer;font-size:14px;margin-top:8px;">🖨️ Print / PDF</button>
-    </body></html>`);
-    w.document.close();
-}
-
-// Listener perubahan tanggal/shift absen — reload data tersimpan
-document.addEventListener('DOMContentLoaded', () => {
-    ['absenTanggal','absenShift'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('change', () => {
-            const key = getAbsenKey();
-            absenStatus = absensiDB[key] ? { ...absensiDB[key] } : {};
-            renderRelawanList();
-            updateAbsenStats();
-        });
-    });
+function hitungInsentif(){
+const h=Math.max(1,parseFloat(document.getElementById('hariKerja').value)||26),sh=Math.max(1,parseFloat(document.getElementById('shiftPerHari').value)||1);
+let gH=0,gO=0,html='';
+divisiRelawan.forEach(d=>{
+const o=Math.max(0,parseFloat(document.getElementById('org-'+d.id)?.value)||0),i=Math.max(0,parseFloat(document.getElementById('ins-'+d.id)?.value)||0),sH=o*i*sh,sB=sH*h;
+const se=document.getElementById('sub-'+d.id);if(se)se.value='Rp '+sH.toLocaleString('id');
+const de=document.getElementById('divtotal-'+d.id);if(de)de.textContent='Rp '+sB.toLocaleString('id')+'/bln';
+gH+=sH;gO+=o*sh;insentifData[d.id]={orang:o,insentif:i};
+html+=`<tr><td>${d.nama}</td><td>${o*sh}</td><td>Rp ${sH.toLocaleString('id')}</td><td>Rp ${sB.toLocaleString('id')}</td></tr>`;
 });
-
-// ============================================================
-// SHARE / EXPORT (KALKULATOR)
-// ============================================================
-function getLaporanText() {
-    const namaSSPG = document.getElementById('namaSSPG').value||'SPPG';
-    const tgl      = new Date(document.getElementById('tanggal').value).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    return `🍚 *LAPORAN KEBUTUHAN BERAS MBG*\n📍 ${namaSSPG}\n📅 ${tgl}\n\n*PORSI:*\n👶 PK (PAUD) : ${lastResult.porsiPK||0} porsi\n👨 PB (SD/SMP): ${lastResult.porsiPB||0} porsi\n🍽️ Total      : ${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)} porsi\n\n*KEBUTUHAN BERAS:*\n• Beras PK  : ${(lastResult.berasPK||0).toFixed(2)} kg\n• Beras PB  : ${(lastResult.berasPB||0).toFixed(2)} kg\n• Subtotal  : ${(lastResult.subtotal||0).toFixed(2)} kg\n• Buffer ${lastResult.bufferPct||10}%: ${(lastResult.bufferKg||0).toFixed(2)} kg\n• *TOTAL    : ${lastResult.totalCeil||0} kg*\n\n♨️ Batch: ${lastResult.batchCount||0} | ⏱️ ${lastResult.waktuMasak||0} mnt\n🍚 Nasi: ${(lastResult.nasiTotal||0).toFixed(1)} kg\n${lastResult.totalBiaya>0?'\n💰 Est. Biaya: Rp '+Math.round(lastResult.totalBiaya).toLocaleString('id'):''}\n\n_MBG Pro Calculator — SPPG Onyam_`;
+const gB=gH*h;
+document.getElementById('grandTotalInsentif').textContent='Rp '+gB.toLocaleString('id');
+document.getElementById('grandPerHari').textContent='Rp '+gH.toLocaleString('id');
+document.getElementById('grandTotalRelawan').textContent=gO;
+document.getElementById('stat-totalRelawan').textContent=gO;
+document.getElementById('rekapInsentifBody').innerHTML=html;
+document.getElementById('rekap-totalOrang').textContent=gO;
+document.getElementById('rekap-totalHarian').textContent='Rp '+gH.toLocaleString('id');
+document.getElementById('rekap-totalBulanan').textContent='Rp '+gB.toLocaleString('id');
+localStorage.setItem('insentifData',JSON.stringify(insentifData));
 }
 
-function shareWhatsApp() { window.open('https://wa.me/?text='+encodeURIComponent(getLaporanText()),'_blank'); closeShare(); }
-function copyClipboard()  { navigator.clipboard.writeText(getLaporanText()).then(()=>{ showToast('✅ Disalin!'); closeShare(); }); }
+function syncManual(){const n=new Date().toLocaleString('id');localStorage.setItem('lastSync',n);document.getElementById('syncTime').textContent=n;showToast('✅ Diperbarui: '+n);}
 
-function downloadCSV() {
-    const tgl = document.getElementById('tanggal').value;
-    let csv=`LAPORAN MBG\nSSPG,${document.getElementById('namaSSPG').value||'SPPG'}\nTanggal,${tgl}\n\nPorsi PK,${lastResult.porsiPK||0}\nPorsi PB,${lastResult.porsiPB||0}\nTotal Porsi,${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)}\n\nBeras PK,${(lastResult.berasPK||0).toFixed(2)} kg\nBeras PB,${(lastResult.berasPB||0).toFixed(2)} kg\nSubtotal,${(lastResult.subtotal||0).toFixed(2)} kg\nBuffer,${(lastResult.bufferKg||0).toFixed(2)} kg\nTOTAL,${lastResult.totalCeil||0} kg\nBatch,${lastResult.batchCount||0}\nWaktu,${lastResult.waktuMasak||0} menit\n`;
-    const b=new Blob([csv],{type:'text/csv;charset=utf-8;'}), u=URL.createObjectURL(b), a=document.createElement('a');
-    a.href=u; a.download=`laporan-mbg-${tgl}.csv`; a.click(); URL.revokeObjectURL(u);
-    showToast('✅ CSV didownload!'); closeShare();
+function getInsentifText(){
+const sp=document.getElementById('insentifSPPG')?.value||'SPPG Onyam',h=document.getElementById('hariKerja').value||26,sh=parseFloat(document.getElementById('shiftPerHari').value)||1;
+let t=`👷 *REKAP INSENTIF RELAWAN*\n📍 ${sp}\n\n`,tO=0,tB=0;
+divisiRelawan.forEach(d=>{const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0,i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0,b=o*i*sh*h;tO+=o*sh;tB+=b;if(o>0)t+=`${d.nama}: ${o*sh} org × Rp ${i.toLocaleString('id')}/hari = Rp ${b.toLocaleString('id')}/bln\n`;});
+t+=`\n👥 Total: ${tO} orang | 📅 ${h} hari\n💰 *Total/bln: Rp ${tB.toLocaleString('id')}*\n\n_MBG Pro Calculator_`;return t;
 }
 
-function printPDF() {
-    const tgl   = new Date(document.getElementById('tanggal').value).toLocaleDateString('id',{day:'numeric',month:'long',year:'numeric'});
-    const sppg  = document.getElementById('namaSSPG').value||'SPPG';
-    const w = window.open('','_blank');
-    w.document.write(`<!DOCTYPE html><html><head><title>Laporan MBG</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:9px;}table{width:100%;border-collapse:collapse;margin:15px 0;}th{background:#667eea;color:white;padding:9px;text-align:left;}td{padding:9px;border-bottom:1px solid #eee;}.tb{background:#667eea;color:white;padding:18px;border-radius:10px;text-align:center;margin:18px 0;}.tb .big{font-size:34px;font-weight:bold;color:#ffeb3b;}@media print{button{display:none;}}</style></head><body><h1>🍚 Laporan Beras MBG</h1><p><strong>SPPG:</strong> ${sppg} &nbsp;|&nbsp; <strong>Tanggal:</strong> ${tgl}</p><table><tr><th colspan="2">PORSI</th></tr><tr><td>PK (PAUD)</td><td>${lastResult.porsiPK||0}</td></tr><tr><td>PB (SD/SMP)</td><td>${lastResult.porsiPB||0}</td></tr><tr><td>Total</td><td>${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)}</td></tr></table><table><tr><th colspan="2">KEBUTUHAN BERAS</th></tr><tr><td>Beras PK</td><td>${(lastResult.berasPK||0).toFixed(2)} kg</td></tr><tr><td>Beras PB</td><td>${(lastResult.berasPB||0).toFixed(2)} kg</td></tr><tr><td>Subtotal</td><td>${(lastResult.subtotal||0).toFixed(2)} kg</td></tr><tr><td>Buffer ${lastResult.bufferPct||10}%</td><td>${(lastResult.bufferKg||0).toFixed(2)} kg</td></tr><tr><td>Batch</td><td>${lastResult.batchCount||0}</td></tr><tr><td>Waktu</td><td>${lastResult.waktuMasak||0} menit</td></tr></table><div class="tb"><p>TOTAL BERAS</p><div class="big">${lastResult.totalCeil||0} kg</div></div>${lastResult.totalBiaya>0?`<p><strong>Estimasi Biaya: Rp ${Math.round(lastResult.totalBiaya).toLocaleString('id')}</strong></p>`:''}<p style="color:#888;font-size:11px;margin-top:20px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro Calculator</p><button onclick="window.print()" style="background:#667eea;color:white;padding:9px 18px;border:none;border-radius:8px;cursor:pointer;font-size:14px;">🖨️ Print / PDF</button></body></html>`);
-    w.document.close(); closeShare();
+function shareInsentif(){window.open('https://wa.me/?text='+encodeURIComponent(getInsentifText()),'_blank');}
+function copyInsentif(){navigator.clipboard.writeText(getInsentifText()).then(()=>showToast('✅ Disalin!'));}
+
+function downloadInsentifCSV(){
+const h=document.getElementById('hariKerja').value||26,sh=parseFloat(document.getElementById('shiftPerHari').value)||1;
+let c='Divisi,Jumlah Orang,Insentif/Hari,Subtotal/Hari,Total/Bulan\n';
+divisiRelawan.forEach(d=>{const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0,i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0,sH=o*i*sh;c+=`"${d.nama}",${o*sh},${i},${sH},${sH*h}\n`;});
+dl(c,'rekap-insentif.csv');showToast('✅ CSV didownload!');
 }
 
-// ============================================================
-// UI HELPERS
-// ============================================================
-function showShare()  { document.getElementById('shareModal').classList.add('show');    }
-function closeShare() { document.getElementById('shareModal').classList.remove('show'); }
-
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+function printInsentif(){
+const sp=document.getElementById('insentifSPPG')?.value||'SPPG Onyam',h=document.getElementById('hariKerja').value||26,sh=parseFloat(document.getElementById('shiftPerHari').value)||1;
+let rows='',gB=0,gO=0;
+divisiRelawan.forEach(d=>{const o=parseFloat(document.getElementById('org-'+d.id)?.value)||0,i=parseFloat(document.getElementById('ins-'+d.id)?.value)||0,sH=o*i*sh,bl=sH*h;gB+=bl;gO+=o*sh;rows+=`<tr><td>${d.nama}</td><td>${o*sh}</td><td>Rp ${i.toLocaleString('id')}</td><td>Rp ${sH.toLocaleString('id')}</td><td>Rp ${bl.toLocaleString('id')}</td></tr>`;});
+const w=window.open('','_blank');
+w.document.write(`<!DOCTYPE html><html><head><title>Rekap Insentif</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#667eea;}table{width:100%;border-collapse:collapse;margin:15px 0;}th{background:#667eea;color:white;padding:9px;}td{padding:9px;border-bottom:1px solid #eee;}tfoot td{background:#4caf50;color:white;font-weight:bold;}.tb{background:#4caf50;color:white;padding:18px;border-radius:10px;text-align:center;margin:18px 0;}.tb .big{font-size:30px;font-weight:bold;color:#ffeb3b;}@media print{button{display:none;}}</style></head><body><h1>👷 Rekap Insentif — ${sp}</h1><p>Hari Kerja: ${h} | Shift/Hari: ${sh}</p><table><thead><tr><th>Divisi</th><th>Orang</th><th>Insentif/Hari</th><th>Subtotal/Hari</th><th>Total/Bulan</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>TOTAL</td><td>${gO}</td><td>—</td><td>—</td><td>Rp ${gB.toLocaleString('id')}</td></tr></tfoot></table><div class="tb"><p>TOTAL INSENTIF/BULAN</p><div class="big">Rp ${gB.toLocaleString('id')}</div></div><p style="color:#888;font-size:11px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro</p><button onclick="window.print()" style="background:#667eea;color:white;padding:9px 18px;border:none;border-radius:8px;cursor:pointer;">🖨️ Print</button></body></html>`);
+w.document.close();
 }
 
-function toggleDark() {
-    document.body.classList.toggle('dark-mode');
-    const d = document.body.classList.contains('dark-mode');
-    document.querySelector('.dark-toggle').textContent = d ? '☀️ Light' : '🌙 Dark';
-    localStorage.setItem('darkMode', d);
+function getAbsenKey(){return(document.getElementById('absenTanggal').value||new Date().toISOString().split('T')[0])+'_'+(document.getElementById('absenShift').value||'Pagi');}
+
+function loadAbsensiShift(){const k=getAbsenKey();absenStatus=absensiDB[k]?{...absensiDB[k]}:{};renderRelawanList();updateAbsenStats();}
+
+function setAbsen(no,status){
+const k=getAbsenKey();
+if(!absensiDB[k])absensiDB[k]={};
+if(absenStatus[no]===status){delete absenStatus[no];delete absensiDB[k][no];}
+else{absenStatus[no]=status;absensiDB[k][no]=status;}
+const card=document.getElementById('card-relawan-'+no);
+if(card)card.className='relawan-card '+(absenStatus[no]||'');
+['hadir','izin','sakit','alpha'].forEach(s=>{const b=document.getElementById('abtn-'+no+'-'+s);if(b)b.className='absen-btn '+(absenStatus[no]===s?'active-'+s:'');});
+updateAbsenStats();
 }
 
-function resetForm() {
-    if (confirm('Reset input porsi?')) {
-        document.getElementById('porsiPK').value=''; document.getElementById('porsiPB').value=''; document.getElementById('buffer').value=10;
-        calculate(); showToast('🔄 Form direset');
-    }
+function updateAbsenStats(){
+const h=Object.values(absenStatus).filter(v=>v==='hadir').length,i=Object.values(absenStatus).filter(v=>v==='izin').length,s=Object.values(absenStatus).filter(v=>v==='sakit').length,a=Object.values(absenStatus).filter(v=>v==='alpha').length;
+document.getElementById('as-hadir').textContent=h;
+document.getElementById('as-izin').textContent=i;
+document.getElementById('as-alpha').textContent=a+s;
 }
 
-function escapeHtml(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+function renderRelawanList(){
+const search=(document.getElementById('searchRelawan')?.value||'').toLowerCase();
+const filtered=dataRelawan.filter(r=>(filterAktif==='semua'||r.divisi===filterAktif)&&(r.nama.toLowerCase().includes(search)||r.divisi.toLowerCase().includes(search)));
+document.getElementById('relawanList').innerHTML=filtered.map(r=>{const st=absenStatus[r.no]||'';return`<div class="relawan-card ${st}" id="card-relawan-${r.no}"><div class="relawan-no">${r.no}</div><div class="relawan-info"><div class="relawan-nama">${eh(r.nama)}</div><div class="relawan-meta"><span class="badge-divisi">${eh(r.divisi)}</span><span class="${r.rekening?'badge-rek-ok':'badge-rek-no'}">${r.rekening?'🏦 Rek ✓':'🏦 Belum'}</span></div></div><div class="absen-btns"><button class="absen-btn ${st==='hadir'?'active-hadir':''}" id="abtn-${r.no}-hadir" onclick="setAbsen(${r.no},'hadir')" title="Hadir">✅</button><button class="absen-btn ${st==='izin'?'active-izin':''}" id="abtn-${r.no}-izin" onclick="setAbsen(${r.no},'izin')" title="Izin">🟡</button><button class="absen-btn ${st==='sakit'?'active-sakit':''}" id="abtn-${r.no}-sakit" onclick="setAbsen(${r.no},'sakit')" title="Sakit">🩺</button><button class="absen-btn ${st==='alpha'?'active-alpha':''}" id="abtn-${r.no}-alpha" onclick="setAbsen(${r.no},'alpha')" title="Alpha">❌</button></div></div>`;}).join('');
 }
+
+function setFilter(d,el){filterAktif=d;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRelawanList();}
+
+function hadirSemua(){dataRelawan.forEach(r=>{absenStatus[r.no]='hadir';});renderRelawanList();updateAbsenStats();showToast('✅ Semua ditandai Hadir!');}
+function resetAbsen(){if(confirm('Reset absensi hari ini?')){absenStatus={};renderRelawanList();updateAbsenStats();showToast('🔄 Absensi direset');}}
+
+function simpanAbsensi(){
+const k=getAbsenKey();absensiDB[k]={...absenStatus};
+localStorage.setItem('absensiDB',JSON.stringify(absensiDB));
+const h=Object.values(absenStatus).filter(v=>v==='hadir').length;
+showToast(`💾 Disimpan! ${h} orang hadir`);
+}
+
+function getAbsensiText(){
+const tgl=document.getElementById('absenTanggal').value,sh=document.getElementById('absenShift').value,tF=new Date(tgl).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+const hadir=dataRelawan.filter(r=>absenStatus[r.no]==='hadir'),izin=dataRelawan.filter(r=>absenStatus[r.no]==='izin'),sakit=dataRelawan.filter(r=>absenStatus[r.no]==='sakit'),alpha=dataRelawan.filter(r=>absenStatus[r.no]==='alpha');
+let t=`📝 *ABSENSI SPPG ONYAM*\n📍 Gunung Kaler, Kab. Tangerang\n📅 ${tF} | Shift ${sh}\n\n📊 *REKAP:*\n✅ Hadir : ${hadir.length}\n🟡 Izin  : ${izin.length}\n🩺 Sakit : ${sakit.length}\n❌ Alpha : ${alpha.length}\n📌 Total : ${dataRelawan.length}\n\n`;
+if(hadir.length)t+=`*✅ HADIR (${hadir.length}):*\n`+hadir.map((r,i)=>`${i+1}. ${r.nama} [${r.divisi}]`).join('\n')+'\n\n';
+if(izin.length)t+=`*🟡 IZIN:*\n`+izin.map((r,i)=>`${i+1}. ${r.nama}`).join('\n')+'\n\n';
+if(sakit.length)t+=`*🩺 SAKIT:*\n`+sakit.map((r,i)=>`${i+1}. ${r.nama}`).join('\n')+'\n\n';
+if(alpha.length)t+=`*❌ ALPHA:*\n`+alpha.map((r,i)=>`${i+1}. ${r.nama}`).join('\n')+'\n\n';
+return t+`_MBG Pro Calculator — SPPG Onyam_`;
+}
+
+function shareAbsensi(){window.open('https://wa.me/?text='+encodeURIComponent(getAbsensiText()),'_blank');}
+function copyAbsensi(){navigator.clipboard.writeText(getAbsensiText()).then(()=>showToast('✅ Absensi disalin!'));}
+
+function downloadAbsenCSV(){
+const tgl=document.getElementById('absenTanggal').value,sh=document.getElementById('absenShift').value;
+let c=`ABSENSI SPPG ONYAM\nTanggal,${tgl}\nShift,${sh}\n\nNo,Nama,Divisi,Status,Rekening\n`;
+dataRelawan.forEach(r=>{const st=absenStatus[r.no]||'';const sl=st==='hadir'?'Hadir':st==='izin'?'Izin':st==='sakit'?'Sakit':st==='alpha'?'Alpha':'Belum Absen';c+=`${r.no},"${r.nama}","${r.divisi}",${sl},${r.rekening?'Sudah':'Belum'}\n`;});
+dl(c,`absensi-onyam-${tgl}-${sh}.csv`);showToast('✅ CSV didownload!');
+}
+
+function printAbsensi(){
+const tgl=document.getElementById('absenTanggal').value,sh=document.getElementById('absenShift').value,tF=new Date(tgl).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+const sL=s=>s==='hadir'?'<span style="color:#2e7d32;font-weight:bold;">✅ Hadir</span>':s==='izin'?'<span style="color:#e65100;">🟡 Izin</span>':s==='sakit'?'<span style="color:#880e4f;">🩺 Sakit</span>':s==='alpha'?'<span style="color:#c62828;">❌ Alpha</span>':'<span style="color:#888;">—</span>';
+const rows=dataRelawan.map(r=>`<tr><td>${r.no}</td><td>${r.nama}</td><td>${r.divisi}</td><td>${sL(absenStatus[r.no])}</td><td style="color:${r.rekening?'#2e7d32':'#c62828'}">${r.rekening?'✅':'❌'}</td></tr>`).join('');
+const hadir=dataRelawan.filter(r=>absenStatus[r.no]==='hadir').length;
+const w=window.open('','_blank');
+w.document.write(`<!DOCTYPE html><html><head><title>Absensi SPPG Onyam</title><style>body{font-family:Arial,sans-serif;padding:25px;font-size:13px;}h1{color:#00897b;border-bottom:2px solid #00897b;padding-bottom:8px;}table{width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;}th{background:#00897b;color:white;padding:8px;text-align:left;}td{padding:8px;border-bottom:1px solid #eee;}tr:nth-child(even)td{background:#f5f5f5;}.sum{display:flex;gap:12px;margin:12px 0;flex-wrap:wrap;}.sb{background:#f0f4ff;border-radius:8px;padding:10px 14px;text-align:center;}.sv{font-size:20px;font-weight:bold;color:#667eea;}.sl{font-size:11px;color:#888;}@media print{button{display:none;}}</style></head><body><h1>📝 Absensi Relawan SPPG Onyam</h1><p><strong>📍 Kp. Sambidoyong, Desa Onyam, Gunung Kaler, Kab. Tangerang</strong></p><p>📅 ${tF} | Shift: ${sh}</p><div class="sum"><div class="sb"><div class="sv">${dataRelawan.length}</div><div class="sl">Total</div></div><div class="sb"><div class="sv" style="color:#2e7d32">${hadir}</div><div class="sl">✅ Hadir</div></div><div class="sb"><div class="sv" style="color:#c62828">${dataRelawan.length-hadir}</div><div class="sl">Tidak</div></div></div><table><thead><tr><th>#</th><th>Nama</th><th>Divisi</th><th>Status</th><th>Rek</th></tr></thead><tbody>${rows}</tbody></table><p style="color:#888;font-size:11px;margin-top:15px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro</p><button onclick="window.print()" style="background:#00897b;color:white;padding:9px 18px;border:none;border-radius:8px;cursor:pointer;">🖨️ Print</button></body></html>`);
+w.document.close();
+}
+
+function getLaporanText(){
+const n=document.getElementById('namaSSPG').value||'SPPG',t=new Date(document.getElementById('tanggal').value).toLocaleDateString('id',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+return`🍚 *LAPORAN KEBUTUHAN BERAS MBG*\n📍 ${n}\n📅 ${t}\n\n*PORSI:*\n👶 PK (PAUD) : ${lastResult.porsiPK||0} porsi\n👨 PB (SD/SMP): ${lastResult.porsiPB||0} porsi\n🍽️ Total      : ${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)} porsi\n\n*KEBUTUHAN BERAS:*\n• Beras PK  : ${(lastResult.berasPK||0).toFixed(2)} kg\n• Beras PB  : ${(lastResult.berasPB||0).toFixed(2)} kg\n• Subtotal  : ${(lastResult.subtotal||0).toFixed(2)} kg\n• Buffer ${lastResult.bufferPct||10}%: ${(lastResult.bufferKg||0).toFixed(2)} kg\n• *TOTAL    : ${lastResult.totalCeil||0} kg*\n\n♨️ Batch: ${lastResult.batchCount||0} | ⏱️ ${lastResult.waktuMasak||0} mnt\n${lastResult.totalBiaya>0?'💰 Est. Biaya: Rp '+Math.round(lastResult.totalBiaya).toLocaleString('id'):''}\n\n_MBG Pro Calculator — SPPG Onyam_`;
+}
+
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(getLaporanText()),'_blank');closeShare();}
+function copyClipboard(){navigator.clipboard.writeText(getLaporanText()).then(()=>{showToast('✅ Disalin!');closeShare();});}
+
+function downloadCSV(){
+const tgl=document.getElementById('tanggal').value;
+let c=`LAPORAN MBG\nSSPG,${document.getElementById('namaSSPG').value||'SPPG'}\nTanggal,${tgl}\n\nPorsi PK,${lastResult.porsiPK||0}\nPorsi PB,${lastResult.porsiPB||0}\nTotal Porsi,${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)}\n\nBeras PK,${(lastResult.berasPK||0).toFixed(2)} kg\nBeras PB,${(lastResult.berasPB||0).toFixed(2)} kg\nSubtotal,${(lastResult.subtotal||0).toFixed(2)} kg\nBuffer,${(lastResult.bufferKg||0).toFixed(2)} kg\nTOTAL,${lastResult.totalCeil||0} kg\nBatch,${lastResult.batchCount||0}\nWaktu,${lastResult.waktuMasak||0} menit\n`;
+dl(c,`laporan-mbg-${tgl}.csv`);showToast('✅ CSV didownload!');closeShare();
+}
+
+function printPDF(){
+const tgl=new Date(document.getElementById('tanggal').value).toLocaleDateString('id',{day:'numeric',month:'long',year:'numeric'}),sp=document.getElementById('namaSSPG').value||'SPPG';
+const w=window.open('','_blank');
+w.document.write(`<!DOCTYPE html><html><head><title>Laporan MBG</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#667eea;border-bottom:2px solid #667eea;padding-bottom:9px;}table{width:100%;border-collapse:collapse;margin:15px 0;}th{background:#667eea;color:white;padding:9px;text-align:left;}td{padding:9px;border-bottom:1px solid #eee;}.tb{background:#667eea;color:white;padding:18px;border-radius:10px;text-align:center;margin:18px 0;}.tb .big{font-size:34px;font-weight:bold;color:#ffeb3b;}@media print{button{display:none;}}</style></head><body><h1>🍚 Laporan Beras MBG</h1><p><strong>SPPG:</strong> ${sp} | <strong>Tanggal:</strong> ${tgl}</p><table><tr><th colspan="2">PORSI</th></tr><tr><td>PK (PAUD)</td><td>${lastResult.porsiPK||0}</td></tr><tr><td>PB (SD/SMP)</td><td>${lastResult.porsiPB||0}</td></tr><tr><td>Total</td><td>${(lastResult.porsiPK||0)+(lastResult.porsiPB||0)}</td></tr></table><table><tr><th colspan="2">KEBUTUHAN BERAS</th></tr><tr><td>Beras PK</td><td>${(lastResult.berasPK||0).toFixed(2)} kg</td></tr><tr><td>Beras PB</td><td>${(lastResult.berasPB||0).toFixed(2)} kg</td></tr><tr><td>Subtotal</td><td>${(lastResult.subtotal||0).toFixed(2)} kg</td></tr><tr><td>Buffer ${lastResult.bufferPct||10}%</td><td>${(lastResult.bufferKg||0).toFixed(2)} kg</td></tr><tr><td>Batch</td><td>${lastResult.batchCount||0}</td></tr><tr><td>Waktu</td><td>${lastResult.waktuMasak||0} menit</td></tr></table><div class="tb"><p>TOTAL BERAS</p><div class="big">${lastResult.totalCeil||0} kg</div></div>${lastResult.totalBiaya>0?`<p><strong>Est. Biaya: Rp ${Math.round(lastResult.totalBiaya).toLocaleString('id')}</strong></p>`:''}<p style="color:#888;font-size:11px;margin-top:20px;">Dicetak: ${new Date().toLocaleString('id')} | MBG Pro</p><button onclick="window.print()" style="background:#667eea;color:white;padding:9px 18px;border:none;border-radius:8px;cursor:pointer;">🖨️ Print</button></body></html>`);
+w.document.close();closeShare();
+}
+
+function dl(content,filename){const b=new Blob([content],{type:'text/csv;charset=utf-8;'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=filename;a.click();URL.revokeObjectURL(u);}
+function showShare(){document.getElementById('shareModal').classList.add('show');}
+function closeShare(){document.getElementById('shareModal').classList.remove('show');}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function toggleDark(){document.body.classList.toggle('dark-mode');const d=document.body.classList.contains('dark-mode');document.querySelector('.dark-toggle').textContent=d?'☀️':'🌙';localStorage.setItem('darkMode',d);}
+function resetForm(){if(confirm('Reset input porsi?')){document.getElementById('porsiPK').value='';document.getElementById('porsiPB').value='';document.getElementById('buffer').value=10;calculate();showToast('🔄 Form direset');}}
+function eh(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
 </script>
 </body>
 </html>
